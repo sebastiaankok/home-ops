@@ -134,6 +134,29 @@ With this setup, Neovim behaves consistently across all NixOS hosts, and updates
 
 ---
 
+## 📦 Backups
+
+This homelab uses **Velero** and **Kopia** to protect both Kubernetes resources and persistent data.
+
+### Velero (Kubernetes resources)
+- Velero handles cluster-level backups for namespaces, deployments, ConfigMaps, and Secrets.
+- Backups can be restored via:
+```bash
+velero restore create --from-backup <backup>
+```
+
+### Kopia (object storage)
+Kopia connects to object storage (e.g., Backblaze B2) to snapshot PVs and local storage used by apps like media servers, databases, and home automation.
+```bash
+kopia repository connect s3 \
+  --bucket <bucket> \
+  --region eu-central-003 \
+  --endpoint s3.eu-central-003.backblazeb2.com \
+  --prefix kopia/<namespace>/
+```
+
+---
+
 ## ✅ Conventions & Notes
 
 - Each app directory contains an ArgoCD Application manifest (or a Helm chart reference) and environment-specific overlays if needed.
