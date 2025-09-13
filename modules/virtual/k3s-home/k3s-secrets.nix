@@ -23,5 +23,11 @@
     secrets."k3s-home/immich-secrets.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/ingress-jellyfin.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
+    secrets."k3s-home/ingress-jellyseerr.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
