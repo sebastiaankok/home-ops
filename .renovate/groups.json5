@@ -1,0 +1,33 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Actions Runner Controller Group",
+      groupName: "actions-runner-controller",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      "groupName": "downloads apps",
+      "matchManagers": ["argocd", "helm-values", "kubernetes"],
+      "matchPaths": ["k8s/k3s-home/argocd/downloads/**"]
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      "groupName": "system apps",
+      "matchManagers": ["argocd", "helm-values", "kubernetes"],
+      "matchPaths": ["k8s/k3s-home/argocd/system/**"]
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    }
+  ],
+}

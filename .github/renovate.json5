@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "ignorePaths": ["^archive/**"],
-  "repositories": ["sebastiaankok/k8s-homelab"],
+  "repositories": ["sebastiaankok/home-ops"],
   "prHourlyLimit": 15,
   "extends": ["mergeConfidence:all-badges"],
   "argocd": {
