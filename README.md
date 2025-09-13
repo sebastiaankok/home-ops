@@ -148,6 +148,9 @@ velero restore create --from-backup <backup>
 ### Kopia (object storage)
 Kopia connects to object storage (e.g., Backblaze B2) to snapshot PVs and local storage used by apps like media servers, databases, and home automation.
 ```bash
+
+export AWS_ACCESS_KEY_ID="" AWS_ACCESS_KEY_SECRET="" KOPIA_PASSWORD=""
+
 kopia repository connect s3 \
   --bucket <bucket> \
   --region eu-central-003 \
