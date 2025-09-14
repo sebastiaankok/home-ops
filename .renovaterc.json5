@@ -15,7 +15,7 @@
     '**/resources/**',
   ],
   nix: {
-    enabled: true,
+    enabled: false,
     managerFilePatterns: [
       '/(^|/)flake\\.lock$/',
     ],

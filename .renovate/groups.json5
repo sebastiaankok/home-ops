@@ -11,11 +11,5 @@
       },
       minimumGroupSize: 2,
     },
-    {
-      "description": "Group all Nix flake inputs together",
-      "groupName": "nix flakes",
-      "matchManagers": ["nix"],
-      "matchPaths": ["flake.lock"],
-    }
   ],
 }
