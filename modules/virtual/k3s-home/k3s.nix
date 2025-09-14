@@ -9,7 +9,7 @@
 
   services.k3s = {
     enable = true;
-    #package = pkgs.k3s_1_33;
+    package = pkgs-unstable.k3s_1_33;
     role = "server";
     gracefulNodeShutdown.enable = true;
 
