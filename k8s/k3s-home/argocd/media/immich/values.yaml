@@ -113,6 +113,7 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
     hosts:
       - host: immich.otohgunga.nl
         paths:
