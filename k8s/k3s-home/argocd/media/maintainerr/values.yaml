@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  maintainerr:
+    pod:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+      annotations:
+        backup.velero.io/backup-volumes: config
+        backup.velero.io/backup-volumes-excludes: media,tmpfs
+    containers:
+      app:
+        image:
+          repository: ghcr.io/jorenn92/maintainerr
+          tag: 2.19.0
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 5
+        resources:
+          requests:
+            cpu: 5m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+service:
+  app:
+    ports:
+      http:
+        port: &port 6246
+
+persistence:
+  data:
+    existingClaim: local-media-pvc
+    globalMounts:
+      - path: /data/library
+
+ingress:
+  app:
+    enabled: true
+    className: ingress-nginx-media
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: maintainerr.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: maintainerr-https-tls
+        hosts:
+          - maintainerr.otohgunga.nl
