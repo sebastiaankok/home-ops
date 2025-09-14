@@ -46,7 +46,7 @@ persistence:
 ingress:
   app:
     enabled: true
-    className: ingress-nginx-media
+    className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
