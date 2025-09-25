@@ -30,11 +30,8 @@ This repository contains my **GitOps-driven homelab** powered by:
 ### ✅ Conventions & Notes
 - Keep cluster-level bootstrap manifests (ArgoCD installation, Secrets, Cilium installation) at [nixos-microvm](https://github.com/sebastiaankok/home-ops/tree/main/modules/virtual/k3s-home).
 - ArgoCD controller (apps-of-apps pattern) deploys chart and includes required values file using multi-source
-- Prefer immutable image tags in apps; use Renovate to propose updates.
-- Use Nix flakes for reproducible host configs; keep flake inputs committed to the repo.
 - Secret management via `sops-nix`
 - MicroVM support for lightweight VMs directly in Nix
-- Home Manager for consistent user environments
 - Nixvim-powered Neovim with LSP, treesitter, telescope, and more
 
 With this setup, both my **infrastructure** and my **developer experience** live in a **single, version-controlled repo**.
@@ -45,7 +42,7 @@ With this setup, both my **infrastructure** and my **developer experience** live
 
 Beyond Kubernetes, this repo also manages my **NixOS machines** with flakes, ensuring everything is reproducible:
 
-- **Server (i5-13600)** → runs the k3s cluster, microVMs, and ArgoCD apps
+- **Server (i5-13600)** → runs k3s from a microVM and uses ArgoCD to deploy applications
 - **Laptop (i5-7300U)** → development machine with workstation profile (Home Manager + Nixvim)
 - **Raspberry Pi 4 (ser2net)** → low power device for exposing USB devices on the network
 
