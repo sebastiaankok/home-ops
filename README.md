@@ -29,7 +29,7 @@ This repository contains my **GitOps-driven homelab** powered by:
 
 ### ✅ Conventions & Notes
 - Keep cluster-level bootstrap manifests (ArgoCD installation, Secrets, Cilium installation) at [nixos-microvm](https://github.com/sebastiaankok/home-ops/tree/main/modules/virtual/k3s-home).
-- ArgoCD controller (apps-of-apps pattern) deploys chart and includes required values file using multi-source
+- ArgoCD controller (apps-of-apps pattern) deploys chart and includes required values
 - Secret management via `sops-nix`
 - MicroVM support for lightweight VMs directly in Nix
 - Nixvim-powered Neovim with LSP, treesitter, telescope, and more
