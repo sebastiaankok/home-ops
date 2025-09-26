@@ -54,6 +54,8 @@
                 yaml = {
                   schemas = {
                     kubernetes = "{service,deployment,configmap,secret,pod,ingress,role,rolebinding,clusterrole,clusterrolebinding}*.yaml";
+                    "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json" = "/*application.yaml";
+                    "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/applicationset_v1alpha1.json" = "/*applicationset.yaml";
                     "http://json.schemastore.org/github-workflow" = ".github/workflows/*";
                     "http://json.schemastore.org/github-action" = ".github/action.{yml,yaml}";
                     "http://json.schemastore.org/ansible-stable-2.9" = "roles/tasks/*.{yml,yaml}";
