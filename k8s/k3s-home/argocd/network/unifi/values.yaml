@@ -1,0 +1,86 @@
+controllers:
+  unifi:
+    containers:
+      app:
+        image:
+          repository: jacobalberty/unifi
+          tag: v9.4.19@sha256:ef032346e2ebdcadaadeb27e38be55f97e6b5ed6cea333d5d82ae9b58ae4068b
+          pullPolicy: IfNotPresent
+        env:
+          TZ: "Europe/Amsterdam"
+          RUNAS_UID0: "false"
+          UNIFI_UID: "1007"
+          UNIFI_GID: "1007"
+          UNIFI_STDOUT: "true"
+          JVM_INIT_HEAP_SIZE:
+          JVM_MAX_HEAP_SIZE: 1024M
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 50m
+          limits:
+            memory: 1600Mi
+service:
+  app:
+    controller: unifi
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    loadBalancerIP: 10.10.21.70
+    ports:
+      http:
+        port: 8443
+        protocol: HTTPS
+      controller:
+        enabled: true
+        port: 8080
+        protocol: TCP
+      portal-http:
+        enabled: false
+        port: 8880
+        protocol: HTTP
+      portal-https:
+        enabled: false
+        port: 8843
+        protocol: HTTPS
+      speedtest:
+        enabled: true
+        port: 6789
+        protocol: TCP
+      stun:
+        enabled: true
+        port: 3478
+        protocol: UDP
+      syslog:
+        enabled: true
+        port: 5514
+        protocol: UDP
+      discovery:
+        enabled: true
+        port: 10001
+        protocol: UDP
+
+persistence:
+  data:
+    existingClaim: local-unifi-pvc
+    globalMounts:
+      - path: /unifi
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    hosts:
+      - host: unifi.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: unifi-https-tls
+        hosts:
+          - unifi.otohgunga.nl
+
