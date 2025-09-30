@@ -1,70 +1,70 @@
-apiVersion: v1
-data:
-  kamstrup_meter.py: "#!/usr/bin/python\n#\n# ----------------------------------------------------------------------------\n#
-    \"THE BEER-WARE LICENSE\" (Revision 42):\n# <phk@FreeBSD.ORG> wrote this file.
-    \ As long as you retain this notice you\n# can do whatever you want with this
-    stuff. If we meet some day, and you think\n# this stuff is worth it, you can buy
-    me a beer in return.   Poul-Henning Kamp\n# ----------------------------------------------------------------------------\n#\n#
-    Modified by Frank Reijn and Paul Bonnemaijers for Kamstrup Multical 402\n# Modified
-    by Matthijs Visser, refactored and simplified code\n\nimport serial\nimport math\nimport
-    sys\nimport datetime\nimport json\nimport urllib.request\nimport logging\nimport
-    time\nfrom logging.handlers import TimedRotatingFileHandler\n\nlog = logging.getLogger(\"log\")\nlog.setLevel(logging.INFO)\n\nkamstrup_402_params
-    = {\n\t\"energy\"\t    : 0x3C,\n\t\"power\"         : 0x50,\n\t\"temp1\"         :
-    0x56,\n\t\"temp2\"         : 0x57,\n\t\"tempdiff\"      : 0x59,\n\t\"flow\"          :
-    0x4A,\n\t\"volume\"        : 0x44,\n\t\"minflow_m\"     : 0x8D,\n\t\"maxflow_m\"
-    \    : 0x8B,\n\t\"minflowDate_m\" : 0x8C,\n\t\"maxflowDate_m\" : 0x8A,\n\t\"minpower_m\"
-    \   : 0x91,\n\t\"maxpower_m\"    : 0x8F,\n\t\"avgtemp1_m\"    : 0x95,\n\t\"avgtemp2_m\"
-    \   : 0x96,\n\t\"minpowerdate_m\": 0x90,\n\t\"maxpowerdate_m\": 0x8E,\n\t\"minflow_y\"
-    \    : 0x7E,\n\t\"maxflow_y\"     : 0x7C,\n\t\"minflowdate_y\" : 0x7D,\n\t\"maxflowdate_y\"
-    : 0x7B,\n\t\"minpower_y\"    : 0x82,\n\t\"maxpower_y\"    : 0x80,\n\t\"avgtemp1_y\"
-    \   : 0x92,\n\t\"avgtemp2_y\"    : 0x93,\n\t\"minpowerdate_y\": 0x81,\n\t\"maxpowerdate_y\":
-    0x7F,\n\t\"temp1xm3\"      : 0x61,\n\t\"temp2xm3\"      : 0x6E,\n\t\"infoevent\"
-    \    : 0x71,\n\t\"hourcounter\"   : 0x3EC,\n}\n\n# Kamstrup uses the \"true\"
-    CCITT CRC-16\ndef crc_1021(message):\n\tpoly = 0x1021\n\treg = 0x0000\n\tfor byte
-    in message:\n\t\tmask = 0x80\n\t\twhile (mask > 0):\n\t\t\treg <<= 1\n\t\t\tif
-    byte & mask:\n\t\t\t\treg |= 1\n\t\t\tmask >>= 1\n\t\t\tif reg & 0x10000:\n\t\t\t\treg
-    &= 0xffff\n\t\t\t\treg ^= poly\n\treturn reg\n\n# Byte values which must be escaped
-    before transmission\nescapes = {\n\t0x06: True,\n\t0x0d: True,\n\t0x1b: True,\n\t0x40:
-    True,\n\t0x80: True,\n}\n\nclass kamstrup(object):\n\n\tdef __init__ (self, port,
-    parameters):\n\t\tself.serial_port = port\n\t\tself.parameters = parameters\n\n\t\ttry:\n\t\t\tself.serial
-    = serial.serial_for_url(\n                url=self.serial_port,\n\t\t\t\tbaudrate
-    = 1200,\n\t\t\t\tparity = serial.PARITY_NONE,\n\t\t\t\tstopbits = serial.STOPBITS_TWO,\n\t\t\t\tbytesize
-    = serial.EIGHTBITS,\n\t\t\t\ttimeout = 2.0)\n\t\texcept serial.SerialException
-    as e:\n\t\t\tlog.exception(e)\n\n\tdef run (self):\n\t\tvalues = {}\n\t\tif self.serial.is_open:\n\t\t\tself.close()\n\n\t\tif
-    self.open():\n\t\t\tfor parameter in self.parameters:\n\t\t\t\tvalue = self.readparameter(int(str(kamstrup_402_params[parameter]),
-    0))\n\t\t\t\tif value is not None:\n\t\t\t\t\tvalues[parameter] = value\n\t\t\tself.close()\n\t\treturn
-    values\n\n\tdef open (self):\n\t\ttry:\n\t\t\tself.serial.open()\n\t\t\tlog.debug('Opened
-    serial port')\n\t\t\treturn True\n\t\texcept (ValueError, Exception) as e:\n\t\t\tlog.error(e)\n\t\t\treturn
-    False\n\n\tdef close (self):\n\t\tself.serial.close()\n\t\tlog.debug('Closed serial
-    port')\n\t\t\n\tdef rd (self):\n\t\treceivedByte = self.serial.read(size=1)\n\t\tif
-    len(receivedByte) == 0:\n\t\t\tlog.debug(\"Rx timeout\")\n\t\t\treturn None\n\t\tbyte
-    = bytearray(receivedByte)[0]\n\t\treturn byte\n\n\tdef send (self, prefix, msg):\n\t\tmessage
-    = bytearray(msg)\n\t\tcommand = bytearray()\n\t\t\n\t\tmessage.append(0)\n\t\tmessage.append(0)\n\t\t\n\t\tchecksum
-    = crc_1021(message)\n\t\t\n\t\tmessage[-2] = checksum >> 8\n\t\tmessage[-1] =
-    checksum & 0xff\n\t\t\n\t\tcommand.append(prefix)\n\t\tfor byte in message:\n\t\t\tif
-    byte in escapes:\n\t\t\t\tcommand.append(0x1b)\n\t\t\t\tcommand.append(byte ^
-    0xff)\n\t\t\telse:\n\t\t\t\tcommand.append(byte)\n\t\tcommand.append(0x0d)\n\t\ttry:\n\t\t\tself.serial.write(command)\n\t\texcept
-    serial.SerialTimeoutException as e:\n\t\t\tlog.exception(e.message)\n\n\tdef recv
-    (self):\n\t\treceivedMessage = bytearray()\n\t\tfilteredMessage = bytearray()\n\n\t\twhile
-    True:\n\t\t\treceivedByte = self.rd()\n\t\t\tif receivedByte == None:\n\t\t\t\treturn
-    None\n\t\t\tif receivedByte == 0x40:\n\t\t\t\treceivedMessage = bytearray()\n\t\t\treceivedMessage.append(receivedByte)\n\t\t\tif
-    receivedByte == 0x0d:\n\t\t\t\tbreak\n\t\t\n\t\ti = 1;\n\t\twhile i < len(receivedMessage)
-    - 1:\n\t\t\tif receivedMessage[i] == 0x1b:\n\t\t\t\tvalue = receivedMessage[i
-    + 1] ^ 0xff\n\t\t\t\tif value not in escapes:\n\t\t\t\t\tlog.warning(\"Missing
-    Escape %02x\" % value)\n\t\t\t\tfilteredMessage.append(value)\n\t\t\t\ti += 2\n\t\t\telse:\n\t\t\t\tfilteredMessage.append(receivedMessage[i])\n\t\t\t\ti
-    += 1\n\n\t\tif crc_1021(filteredMessage):\n\t\t\tlog.error(\"CRC error\")\n\t\t\treturn
-    None\n\n\t\treturn filteredMessage[:-2]\n\n\tdef readparameter (self, parameter):\n\t\tself.send(0x80,
-    (0x3f, 0x10, 0x01, parameter >> 8, parameter & 0xff))\n\t\treceivedMessage = self.recv()\n\n\t\tif
-    (receivedMessage == None):\n\t\t\tlog.warning('No response from meter')\n\t\t\treturn
-    None\n\t\telif ((receivedMessage[0] != 0x3f) or\n\t\t\t(receivedMessage[1] !=
-    0x10) or\n\t\t\t(receivedMessage[2] != parameter >> 8) or\n\t\t\t(receivedMessage[3]
-    != parameter & 0xff)):\n\t\t\tlog.warning('Message is invalid')\n\t\t\treturn
-    None\n\n\t\t# Decode the mantissa\n\t\tvalue = 0\n\t\tfor i in range(0, receivedMessage[5]):\n\t\t\tvalue
-    <<= 8\n\t\t\tvalue |= receivedMessage[i + 7]\n\n\t\t# Decode the exponent\n\t\ti
-    = receivedMessage[6] & 0x3f\n\t\tif receivedMessage[6] & 0x40:\n\t\t\ti = -i\n\t\ti
-    = math.pow(10,i)\n\t\tif receivedMessage[6] & 0x80:\n\t\t\ti = -i\n\t\tvalue *=
-    i\n\t\treturn float(value)\n"
-kind: ConfigMap
-metadata:
-  name: kamstrup-hack
-  namespace: home-automation
+# apiVersion: v1
+# data:
+#   kamstrup_meter.py: "#!/usr/bin/python\n#\n# ----------------------------------------------------------------------------\n#
+#     \"THE BEER-WARE LICENSE\" (Revision 42):\n# <phk@FreeBSD.ORG> wrote this file.
+#     \ As long as you retain this notice you\n# can do whatever you want with this
+#     stuff. If we meet some day, and you think\n# this stuff is worth it, you can buy
+#     me a beer in return.   Poul-Henning Kamp\n# ----------------------------------------------------------------------------\n#\n#
+#     Modified by Frank Reijn and Paul Bonnemaijers for Kamstrup Multical 402\n# Modified
+#     by Matthijs Visser, refactored and simplified code\n\nimport serial\nimport math\nimport
+#     sys\nimport datetime\nimport json\nimport urllib.request\nimport logging\nimport
+#     time\nfrom logging.handlers import TimedRotatingFileHandler\n\nlog = logging.getLogger(\"log\")\nlog.setLevel(logging.INFO)\n\nkamstrup_402_params
+#     = {\n\t\"energy\"\t    : 0x3C,\n\t\"power\"         : 0x50,\n\t\"temp1\"         :
+#     0x56,\n\t\"temp2\"         : 0x57,\n\t\"tempdiff\"      : 0x59,\n\t\"flow\"          :
+#     0x4A,\n\t\"volume\"        : 0x44,\n\t\"minflow_m\"     : 0x8D,\n\t\"maxflow_m\"
+#     \    : 0x8B,\n\t\"minflowDate_m\" : 0x8C,\n\t\"maxflowDate_m\" : 0x8A,\n\t\"minpower_m\"
+#     \   : 0x91,\n\t\"maxpower_m\"    : 0x8F,\n\t\"avgtemp1_m\"    : 0x95,\n\t\"avgtemp2_m\"
+#     \   : 0x96,\n\t\"minpowerdate_m\": 0x90,\n\t\"maxpowerdate_m\": 0x8E,\n\t\"minflow_y\"
+#     \    : 0x7E,\n\t\"maxflow_y\"     : 0x7C,\n\t\"minflowdate_y\" : 0x7D,\n\t\"maxflowdate_y\"
+#     : 0x7B,\n\t\"minpower_y\"    : 0x82,\n\t\"maxpower_y\"    : 0x80,\n\t\"avgtemp1_y\"
+#     \   : 0x92,\n\t\"avgtemp2_y\"    : 0x93,\n\t\"minpowerdate_y\": 0x81,\n\t\"maxpowerdate_y\":
+#     0x7F,\n\t\"temp1xm3\"      : 0x61,\n\t\"temp2xm3\"      : 0x6E,\n\t\"infoevent\"
+#     \    : 0x71,\n\t\"hourcounter\"   : 0x3EC,\n}\n\n# Kamstrup uses the \"true\"
+#     CCITT CRC-16\ndef crc_1021(message):\n\tpoly = 0x1021\n\treg = 0x0000\n\tfor byte
+#     in message:\n\t\tmask = 0x80\n\t\twhile (mask > 0):\n\t\t\treg <<= 1\n\t\t\tif
+#     byte & mask:\n\t\t\t\treg |= 1\n\t\t\tmask >>= 1\n\t\t\tif reg & 0x10000:\n\t\t\t\treg
+#     &= 0xffff\n\t\t\t\treg ^= poly\n\treturn reg\n\n# Byte values which must be escaped
+#     before transmission\nescapes = {\n\t0x06: True,\n\t0x0d: True,\n\t0x1b: True,\n\t0x40:
+#     True,\n\t0x80: True,\n}\n\nclass kamstrup(object):\n\n\tdef __init__ (self, port,
+#     parameters):\n\t\tself.serial_port = port\n\t\tself.parameters = parameters\n\n\t\ttry:\n\t\t\tself.serial
+#     = serial.serial_for_url(\n                url=self.serial_port,\n\t\t\t\tbaudrate
+#     = 1200,\n\t\t\t\tparity = serial.PARITY_NONE,\n\t\t\t\tstopbits = serial.STOPBITS_TWO,\n\t\t\t\tbytesize
+#     = serial.EIGHTBITS,\n\t\t\t\ttimeout = 2.0)\n\t\texcept serial.SerialException
+#     as e:\n\t\t\tlog.exception(e)\n\n\tdef run (self):\n\t\tvalues = {}\n\t\tif self.serial.is_open:\n\t\t\tself.close()\n\n\t\tif
+#     self.open():\n\t\t\tfor parameter in self.parameters:\n\t\t\t\tvalue = self.readparameter(int(str(kamstrup_402_params[parameter]),
+#     0))\n\t\t\t\tif value is not None:\n\t\t\t\t\tvalues[parameter] = value\n\t\t\tself.close()\n\t\treturn
+#     values\n\n\tdef open (self):\n\t\ttry:\n\t\t\tself.serial.open()\n\t\t\tlog.debug('Opened
+#     serial port')\n\t\t\treturn True\n\t\texcept (ValueError, Exception) as e:\n\t\t\tlog.error(e)\n\t\t\treturn
+#     False\n\n\tdef close (self):\n\t\tself.serial.close()\n\t\tlog.debug('Closed serial
+#     port')\n\t\t\n\tdef rd (self):\n\t\treceivedByte = self.serial.read(size=1)\n\t\tif
+#     len(receivedByte) == 0:\n\t\t\tlog.debug(\"Rx timeout\")\n\t\t\treturn None\n\t\tbyte
+#     = bytearray(receivedByte)[0]\n\t\treturn byte\n\n\tdef send (self, prefix, msg):\n\t\tmessage
+#     = bytearray(msg)\n\t\tcommand = bytearray()\n\t\t\n\t\tmessage.append(0)\n\t\tmessage.append(0)\n\t\t\n\t\tchecksum
+#     = crc_1021(message)\n\t\t\n\t\tmessage[-2] = checksum >> 8\n\t\tmessage[-1] =
+#     checksum & 0xff\n\t\t\n\t\tcommand.append(prefix)\n\t\tfor byte in message:\n\t\t\tif
+#     byte in escapes:\n\t\t\t\tcommand.append(0x1b)\n\t\t\t\tcommand.append(byte ^
+#     0xff)\n\t\t\telse:\n\t\t\t\tcommand.append(byte)\n\t\tcommand.append(0x0d)\n\t\ttry:\n\t\t\tself.serial.write(command)\n\t\texcept
+#     serial.SerialTimeoutException as e:\n\t\t\tlog.exception(e.message)\n\n\tdef recv
+#     (self):\n\t\treceivedMessage = bytearray()\n\t\tfilteredMessage = bytearray()\n\n\t\twhile
+#     True:\n\t\t\treceivedByte = self.rd()\n\t\t\tif receivedByte == None:\n\t\t\t\treturn
+#     None\n\t\t\tif receivedByte == 0x40:\n\t\t\t\treceivedMessage = bytearray()\n\t\t\treceivedMessage.append(receivedByte)\n\t\t\tif
+#     receivedByte == 0x0d:\n\t\t\t\tbreak\n\t\t\n\t\ti = 1;\n\t\twhile i < len(receivedMessage)
+#     - 1:\n\t\t\tif receivedMessage[i] == 0x1b:\n\t\t\t\tvalue = receivedMessage[i
+#     + 1] ^ 0xff\n\t\t\t\tif value not in escapes:\n\t\t\t\t\tlog.warning(\"Missing
+#     Escape %02x\" % value)\n\t\t\t\tfilteredMessage.append(value)\n\t\t\t\ti += 2\n\t\t\telse:\n\t\t\t\tfilteredMessage.append(receivedMessage[i])\n\t\t\t\ti
+#     += 1\n\n\t\tif crc_1021(filteredMessage):\n\t\t\tlog.error(\"CRC error\")\n\t\t\treturn
+#     None\n\n\t\treturn filteredMessage[:-2]\n\n\tdef readparameter (self, parameter):\n\t\tself.send(0x80,
+#     (0x3f, 0x10, 0x01, parameter >> 8, parameter & 0xff))\n\t\treceivedMessage = self.recv()\n\n\t\tif
+#     (receivedMessage == None):\n\t\t\tlog.warning('No response from meter')\n\t\t\treturn
+#     None\n\t\telif ((receivedMessage[0] != 0x3f) or\n\t\t\t(receivedMessage[1] !=
+#     0x10) or\n\t\t\t(receivedMessage[2] != parameter >> 8) or\n\t\t\t(receivedMessage[3]
+#     != parameter & 0xff)):\n\t\t\tlog.warning('Message is invalid')\n\t\t\treturn
+#     None\n\n\t\t# Decode the mantissa\n\t\tvalue = 0\n\t\tfor i in range(0, receivedMessage[5]):\n\t\t\tvalue
+#     <<= 8\n\t\t\tvalue |= receivedMessage[i + 7]\n\n\t\t# Decode the exponent\n\t\ti
+#     = receivedMessage[6] & 0x3f\n\t\tif receivedMessage[6] & 0x40:\n\t\t\ti = -i\n\t\ti
+#     = math.pow(10,i)\n\t\tif receivedMessage[6] & 0x80:\n\t\t\ti = -i\n\t\tvalue *=
+#     i\n\t\treturn float(value)\n"
+# kind: ConfigMap
+# metadata:
+#   name: kamstrup-hack
+#   namespace: home-automation
