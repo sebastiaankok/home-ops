@@ -46,12 +46,12 @@ persistence:
       - path: /opt/kamstrup/serial
 
   # -- Temporarily hack until code fixed
-  hack:
-    enabled: true
-    type: configMap
-    name: kamstrup-hack
-    advancedMounts:
-      kamstrup-mqtt:
-        app:
-          - path: /opt/kamstrup/kamstrup_meter.py
-            subPath: kamstrup_meter.py
+  # hack:
+  #   enabled: true
+  #   type: configMap
+  #   name: kamstrup-hack
+  #   advancedMounts:
+  #     kamstrup-mqtt:
+  #       app:
+  #         - path: /opt/kamstrup/kamstrup_meter.py
+  #           subPath: kamstrup_meter.py
