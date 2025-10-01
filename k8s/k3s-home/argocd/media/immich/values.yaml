@@ -59,7 +59,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-machine-learning
-          tag: v1.144.1
+          tag: v2.0.0
         envFrom:
           - secretRef:
               name: immich-secret
