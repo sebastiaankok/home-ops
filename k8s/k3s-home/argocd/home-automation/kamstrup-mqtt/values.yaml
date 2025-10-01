@@ -5,7 +5,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
-          tag: 39b55ec46b32e035bb6701616800f645064b7b9a
+          tag: aee0caf7fab340dd167be3b3c71a7574b45257b2
         securityContext:
           runAsUser: 1003
           runAsGroup: 1003
