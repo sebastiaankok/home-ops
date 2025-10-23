@@ -25,7 +25,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: cloudnative-pg
       repoURL: 'https://cloudnative-pg.io/charts/'
-      targetRevision: 0.26.0
+      targetRevision: 0.26.1
       helm:
         releaseName: "cnpg-operator"
         #valueFiles:
