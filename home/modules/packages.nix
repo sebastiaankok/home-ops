@@ -83,5 +83,6 @@
     ## gui
     moonlight-qt
     signal-desktop
+    obsidian
   ];
 }
