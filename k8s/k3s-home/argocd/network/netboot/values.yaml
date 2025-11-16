@@ -57,6 +57,8 @@ ingress:
 persistence:
   config:
     existingClaim: local-netboot-pvc
+  assets:
+    existingClaim: local-netboot-assets-pvc
   tmpfs:
     type: emptyDir
     globalMounts:
