@@ -13,13 +13,13 @@ controllers:
           limits:
             memory: 250M
         securityContext:
-          runAsUser: 1007
-          runAsGroup: 1007
-          # allowPrivilegeEscalation: false
-          # readOnlyRootFilesystem: true
-          # capabilities:
-          #   drop:
-          #     - ALL
+          # runAsUser: 1007
+          # runAsGroup: 1007
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
 
 service:
   app:
