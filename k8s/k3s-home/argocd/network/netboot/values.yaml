@@ -13,8 +13,8 @@ controllers:
           limits:
             memory: 250M
         securityContext:
-          runAsUser: 65534
-          runAsGroup: 65534
+          runAsUser: 1007
+          runAsGroup: 1007
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities:
