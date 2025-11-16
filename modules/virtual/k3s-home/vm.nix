@@ -54,5 +54,11 @@
       tag = "library";
       proto = "virtiofs";
     }
+    {
+      source = "/dev/dri/renderD128";
+      mountPoint = "/dev/dri/renderD128";
+      tag = "library";
+      proto = "virtiofs";
+    }
   ];
 }
