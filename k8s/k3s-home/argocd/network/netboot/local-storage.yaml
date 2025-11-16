@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-netboot-pv
+  namespace: network
+  labels:
+    app.kubernetes.io/name: home-assistant
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-netboot
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/home-assistant"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-netboot-pvc
+  namespace: network
+  labels:
+    app.kubernetes.io/name: home-assistant
+spec:
+  storageClassName: local-netboot
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  netboot:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/netbootxyz/netbootxyz
+          tag: 0.7.6-nbxyz4
+        resources:
+          requests:
+            cpu: 5m
+            memory: 10M
+          limits:
+            memory: 250M
+        securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+service:
+  app:
+    controller: netboot
+    type: LoadBalancer
+    loadBalancerIP: 10.10.21.99
+    externalTrafficPolicy: Local
+    ports:
+      control:
+        port: 3000
+      tftp:
+        port: 69
+        protocol: UDP
+      http:
+        port: 80
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: netboot.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: control
+    tls:
+      - secretName: netboot-https-tls
+        hosts:
+          - netboot.otohgunga.nl
+
+persistence:
+  config:
+    existingClaim: local-netboot-pvc
+  tmpfs:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+        subPath: tmp
