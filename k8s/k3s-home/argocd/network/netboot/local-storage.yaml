@@ -4,7 +4,7 @@ metadata:
   name: local-netboot-pv
   namespace: network
   labels:
-    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/name: netboot
 spec:
   capacity:
     storage: 1Gi
@@ -30,7 +30,7 @@ metadata:
   name: local-netboot-pvc
   namespace: network
   labels:
-    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/name: netboot
 spec:
   storageClassName: local-netboot
   accessModes:
