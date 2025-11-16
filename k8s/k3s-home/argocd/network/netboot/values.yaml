@@ -5,21 +5,21 @@ controllers:
       app:
         image:
           repository: ghcr.io/netbootxyz/netbootxyz
-          tag: 0.7.6-nbxyz4
+          tag: 0.7.6-nbxyz10
         resources:
           requests:
             cpu: 5m
             memory: 10M
           limits:
             memory: 250M
-        securityContext:
+        # securityContext:
           # runAsUser: 1007
           # runAsGroup: 1007
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
+          # allowPrivilegeEscalation: false
+          # readOnlyRootFilesystem: true
+          # capabilities:
+          #   drop:
+          #     - ALL
 
 service:
   app:
