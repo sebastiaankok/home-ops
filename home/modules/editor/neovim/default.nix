@@ -129,6 +129,7 @@
     ./plugins/markview.nix
     ./plugins/avante.nix
     ./plugins/render-markdown.nix
+    ./plugins/toggleterm.nix
   ];
 
 }
