@@ -1,4 +1,5 @@
 {
+  #Add some comments to this file AI!
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -14,6 +15,7 @@
       lt = "eza -l --sort=modified --icons=always";
       lg = "lazygit";
       cat = "bat -pp";
+      via = "vi +'ToggleTerm direction=horizontal' +'TermExec cmd=\"aider --watch-files --yes-always\"'";
     };
     zplug = {
       enable = true;
