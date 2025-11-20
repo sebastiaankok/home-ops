@@ -13,7 +13,6 @@
   home.stateVersion = "24.11";
 
   home.username = "sebastiaan";
-  home.homeDirectory = "/home/sebastiaan";
 
   programs = {
     home-manager.enable = true;

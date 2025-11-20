@@ -5,17 +5,14 @@
     enableCompletion = true;
     shellAliases = {
       k = "kubecolor";
-      up = "sudo nixos-rebuild switch --flake path:/home/sebastiaan/projects/home-ops ; source ~/.zshrc";
+      up = "sudo darwin-rebuild switch --flake path:/Users/sebastiaan/projects/home-ops ; source ~/.zshrc";
       kx = "switch";
-      synccluster = "export KUBECONFIG=$HOME/.kube/config; echo '' > $KUBECONFIG; tsh kube login --all --set-context-name {{.KubeName}}";
-      ad = "kx k3s-home && kx ns argocd && argocd admin dashboard --core";
       ld = "eza -lD --icons=always" ;
       ll = "eza -l --group-directories-first --icons=always";
       ls = "eza -l --group-directories-first --icons=always";
       lS = "eza -lF --color=always --sort=size --icons=always | grep -v /";
       lt = "eza -l --sort=modified --icons=always";
       lg = "lazygit";
-      tl = "timerecorder";
       cat = "bat -pp";
     };
     zplug = {

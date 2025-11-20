@@ -11,6 +11,10 @@
     # Secret management
     sops-nix.url = "github:Mic92/sops-nix";
 
+    # darwin
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # MicroVM
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +32,7 @@
     };
 
   };
-  outputs = inputs@{ self, nixpkgs, unstable, sops-nix, microvm, home-manager
+  outputs = inputs@{ self, nixpkgs, nix-darwin, unstable, sops-nix, microvm, home-manager
     , nixvim, ... }: {
 
       # NixOS configuration for B660-i5-13600 (host)
@@ -51,7 +55,6 @@
           ./modules/virtual/k3s-home/default.nix
         ];
       };
-
       # Laptop (dev machine)
       nixosConfigurations.dell-i5-7300U = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -61,6 +64,7 @@
           ./profiles/workstation.nix
           home-manager.nixosModules.home-manager
           {
+            users.users.sebastiaan.home = "/home/sebastiaan";
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
@@ -71,5 +75,30 @@
           }
         ];
       };
+
+      # Laptop (macbook)
+      darwinConfigurations.MacBook-Pro-van-Sebastiaan = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+	  {
+	    nixpkgs = {
+		config.allowUnfree = true;
+            };
+	  }
+          ./hosts/macbook-m5
+          home-manager.darwinModules.home-manager
+          {
+            users.users.sebastiaan.home = "/Users/sebastiaan";
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
+              sharedModules = [ nixvim.homeManagerModules.nixvim ];
+              users = { sebastiaan = import ./home/modules/default.nix; };
+            };
+          }
+        ];
+      };
+
     };
 }

@@ -20,7 +20,7 @@
     stylua
     taplo
     yamlfmt
-    ansible-lint
+    # ansible-lint
 
     # system tools
     bash
@@ -75,14 +75,12 @@
     argocd
     velero
     kopia
-    kopia-ui
 
     ## ai
     aider-chat-full
 
     ## gui
     moonlight-qt
-    signal-desktop
     obsidian
   ];
 }
