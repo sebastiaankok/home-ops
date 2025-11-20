@@ -250,10 +250,10 @@ compdef k='kubecolor'
 
 # Aider config
 export LM_STUDIO_API_KEY=dummy-api-key
-export LM_STUDIO_API_BASE=https://llmstudio.otohgunga.nl/v1
+export LM_STUDIO_API_BASE=http://127.0.0.1:1234/v1
 
 # Aider settings
-export AIDER_MODEL="lm_studio/unsloth/qwen3-coder-30b-a3b-instruct"
+export AIDER_MODEL="lm_studio/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
 export AIDER_DARK_MODE="True"
 export AIDER_CHAT_LANGUAGE="english"
 export AIDER_COMMIT_LANGUAGE="dutch"
