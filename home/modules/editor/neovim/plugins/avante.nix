@@ -7,12 +7,12 @@
           #mode = "legacy";
           provider = "openai"; # Use Ollama provider
           openai = {
-            endpoint = "https://llmstudio.otohgunga.nl/v1";
+            endpoint = "http://127.0.0.1:1234/v1";
             model = "unsloth/qwen3-coder-30b-a3b-instruct";
             api_key_name = "";
             api_key = "OPENAI_API_KEY";
             options = {
-               max_tokens = "15285";
+               max_tokens = "4048";
             };
           };
           # Could use this in the future
