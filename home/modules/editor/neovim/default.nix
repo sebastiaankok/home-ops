@@ -47,6 +47,13 @@
         action = "<C-w>W";
         options.silent = true;
       }
+      {
+        mode = "n";
+        key = "<leader>aw";
+        action = ":lua _G.aider_watch()<CR>";
+        options.silent = true;
+      }
+
     ];
     defaultEditor = true;
     viAlias = true;
@@ -71,6 +78,7 @@
     luaLoader.enable = true;
 
     opts = {
+      autoread = true;
       splitbelow = true;
       splitright = true;
 
@@ -109,7 +117,31 @@
         pattern = "helm";
         command = "LspRestart";
       }
+      { event = "FocusGained"; pattern = "*"; command = "checktime"; }
+      { event = "BufEnter";      pattern = "*"; command = "checktime"; }
+      { event = "CursorHold";    pattern = "*"; command = "checktime"; }
+      { event = "CursorHoldI";   pattern = "*"; command = "checktime"; }
     ];
+
+    extraConfigLuaPost = ''
+      local Terminal = require("toggleterm.terminal").Terminal
+      local aider_term
+
+      function _G.aider_watch()
+        if not aider_term then
+          aider_term = Terminal:new({
+            cmd = "aider --watch-files",
+            direction = "horizontal",
+            hidden = true,
+            close_on_exit = false,
+            size = 10,
+          })
+        end
+        aider_term:toggle()
+        vim.cmd("wincmd p") -- return focus to previous window
+      end
+    '';
+
   };
   imports = [
     ./completion.nix
