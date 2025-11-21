@@ -253,9 +253,12 @@ export LM_STUDIO_API_KEY=dummy-api-key
 export LM_STUDIO_API_BASE=http://127.0.0.1:1234/v1
 
 # Aider settings
-export AIDER_MODEL="lm_studio/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+# export AIDER_MODEL="lm_studio/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+# export AIDER_MODEL="lm_studio/qwen/qwen3-coder-30b"
 export AIDER_DARK_MODE="True"
 export AIDER_CHAT_LANGUAGE="english"
 export AIDER_COMMIT_LANGUAGE="dutch"
 export AIDER_AUTO_COMMITS="False"
 export AIDER_SHOW_MODEL_WARNINGS="False"
+export AIDER_GIT="False"
+export AIDER_CODE_THEME="monokai"
