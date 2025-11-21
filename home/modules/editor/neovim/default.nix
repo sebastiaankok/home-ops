@@ -63,18 +63,7 @@
       mapleader = " ";
       maplocalleader = " ";
     };
-
     colorschemes.catppuccin.enable = true;
-    # colorschemes.gruvbox.enable = true;
-    # colorschemes.gruvbox.settings.italics = false;
-    # colorschemes.gruvbox.settings = {
-    #   italic = {
-    #     strings = false;
-    #     operators = false;
-    #     comments = false;
-    #   };
-    # };
-
     luaLoader.enable = true;
 
     opts = {
@@ -158,9 +147,7 @@
     ./plugins/lualine.nix
     ./plugins/conform.nix
     ./plugins/trouble.nix
-    ./plugins/markview.nix
     ./plugins/avante.nix
-    ./plugins/render-markdown.nix
     ./plugins/toggleterm.nix
   ];
 
