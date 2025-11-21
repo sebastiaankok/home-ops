@@ -8,7 +8,7 @@
           provider = "openai"; # Use Ollama provider
           openai = {
             endpoint = "http://127.0.0.1:1234/v1";
-            model = "unsloth/qwen3-coder-30b-a3b-instruct";
+            model = "qwen/qwen3-coder-30b";
             api_key_name = "";
             api_key = "OPENAI_API_KEY";
             options = {
