@@ -6,7 +6,7 @@
     enableCompletion = true;
     shellAliases = {
       k = "kubecolor";
-      up = "sudo darwin-rebuild switch --flake path:/Users/sebastiaan/projects/home-ops ; source ~/.zshrc";
+      up = "sudo darwin-rebuild switch --flake path:$HOME/projects/home-ops ; source ~/.zshrc";
       kx = "switch";
       ld = "eza -lD --icons=always" ;
       ll = "eza -l --group-directories-first --icons=always";
@@ -16,6 +16,7 @@
       lg = "lazygit";
       cat = "bat -pp";
       via = "vi +'ToggleTerm direction=horizontal' +'TermExec cmd=\"aider --watch-files --yes-always\"'";
+      sm = "bash $HOME/projects/toolbox/llm/select_openrouter_model.sh; source ~/.zshrc";
     };
     zplug = {
       enable = true;
