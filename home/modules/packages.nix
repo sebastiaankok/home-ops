@@ -39,6 +39,7 @@
     nh
     sops
     watch
+    fzf
 
     # network
     nmap
