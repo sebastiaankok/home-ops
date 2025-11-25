@@ -95,7 +95,7 @@ ingress:
           - path: /
             pathType: Prefix
             service:
-              name: app
+              name: homepage
               port: 3000
     tls:
       - hosts:
