@@ -12,6 +12,18 @@ data:
     ingress: true
     traefik: false
 
+  services.yaml: |
+    - System:
+        - ArgoCD:
+            href: https://argocd.otohgunga.nl
+            icon: argocd
+            widget:
+              type: argocd
+              url: https://argocd.otohgunga.nl
+        - Unifi:
+            href: https://unifi
+            icon: unifi.png
+
   settings.yaml: |
     title: Homelab
     favicon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png
@@ -48,7 +60,7 @@ data:
       Downloads:
         style: column
         icon: sonarr
-      Kubernetes:
+      System:
         style: column
         icon: kubernetes
 
@@ -60,17 +72,19 @@ data:
           memory: true
           showLabel: true
           label: "cluster"
-        nodes:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
     - search:
         provider: google
         focus: false
         showSearchSuggestions: true
         target: _blank
 
-  bookmarks.yaml: ""
-
-  services.yaml: ""
+  bookmarks.yaml: |
+    - Git:
+        - Kubesearch:
+            - icon: kubernetes-dashboard.png
+              description: Helm Chart Search
+              href: https://kubesearch.dev/
+        - home-ops:
+            - icon: github.png
+              description: Home-ops repo
+              href: https://github.com/sebastiaankok/home-ops
