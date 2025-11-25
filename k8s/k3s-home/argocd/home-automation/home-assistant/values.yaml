@@ -41,6 +41,7 @@ ingress:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/title: "Home Assistant"
       gethomepage.dev/icon: "home-assistant"
+      gethomepage.dev/description: Manage your home automations and devices
       gethomepage.dev/group: "Home Automation"
     hosts:
       - host: hass.otohgunga.nl

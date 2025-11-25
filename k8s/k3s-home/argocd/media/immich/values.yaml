@@ -118,6 +118,7 @@ ingress:
       gethomepage.dev/title: "Immich"
       gethomepage.dev/icon: "immich"
       gethomepage.dev/group: "Media"
+      gethomepage.dev/description: The photo library application
     hosts:
       - host: immich.otohgunga.nl
         paths:

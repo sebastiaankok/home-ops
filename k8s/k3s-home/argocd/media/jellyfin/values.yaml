@@ -62,6 +62,7 @@ ingress:
       gethomepage.dev/title: "Jellyfin"
       gethomepage.dev/icon: "jellyfin"
       gethomepage.dev/group: "Media"
+      gethomepage.dev/description: Media library server
       gethomepage.dev/widget.url: "https://jellyfin.otohgunga.nl"
       gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_JELLYFIN_API_KEY}}" }}'
       gethomepage.dev/widget.type: "jellyfin"
