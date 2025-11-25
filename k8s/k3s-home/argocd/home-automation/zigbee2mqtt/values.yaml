@@ -39,6 +39,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Control your Zigbee devices through a web interface.
+      gethomepage.dev/group: Home Automation
+      gethomepage.dev/icon: sh-zigbee2mqtt.svg
+      gethomepage.dev/name: Zigbee2MQTT
+      gethomepage.dev/app: zigbee2mqtt
     hosts:
       - host: zigbee2mqtt.otohgunga.nl
         paths:
