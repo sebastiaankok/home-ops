@@ -14,9 +14,6 @@ data:
 
   services.yaml: |
     - System:
-        - ArgoCD:
-            href: https://argocd.otohgunga.nl
-            icon: sh-argo-cd.svg
         - Unifi:
             href: https://unifi
             icon: sh-ubiquiti-unifi.svg
@@ -68,13 +65,4 @@ data:
         showSearchSuggestions: true
         target: _blank
 
-  bookmarks.yaml: |
-    - Git:
-        - Kubesearch:
-            - icon: kubernetes-dashboard.png
-              description: Helm Chart Search
-              href: https://kubesearch.dev/
-        - home-ops:
-            - icon: github.png
-              description: Home-ops repo
-              href: https://github.com/sebastiaankok/home-ops
+  bookmarks.yaml: ""
