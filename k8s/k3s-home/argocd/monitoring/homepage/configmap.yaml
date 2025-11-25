@@ -16,13 +16,10 @@ data:
     - System:
         - ArgoCD:
             href: https://argocd.otohgunga.nl
-            icon: argocd
-            widget:
-              type: argocd
-              url: https://argocd.otohgunga.nl
+            icon: sh-argo-cd.svg
         - Unifi:
             href: https://unifi
-            icon: unifi.png
+            icon: sh-ubiquiti-unifi.svg
 
   settings.yaml: |
     title: Homelab
