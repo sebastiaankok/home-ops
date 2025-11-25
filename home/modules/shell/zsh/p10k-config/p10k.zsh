@@ -264,3 +264,6 @@ export AIDER_COMMIT_LANGUAGE="english"
 export AIDER_AUTO_COMMITS="False"
 export AIDER_SHOW_MODEL_WARNINGS="False"
 export AIDER_CODE_THEME="monokai"
+
+# SOPS
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
