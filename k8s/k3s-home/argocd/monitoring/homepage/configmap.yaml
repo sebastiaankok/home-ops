@@ -219,13 +219,6 @@ data:
             url: "https://nixos.wiki/"
             icon: "book"
 
-  # Docker configuration (if using Docker integration)
-  docker.yaml: |
-    # Docker
-    docker:
-      enabled: false
-      socket: "/var/run/docker.sock"
-
   # Kubernetes configuration
   kubernetes.yaml: |
     # Kubernetes
