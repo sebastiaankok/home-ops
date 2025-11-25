@@ -61,10 +61,14 @@ data:
           showLabel: true
           label: "cluster"
         nodes:
-          show: false
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
     - search:
-        provider: duckduckgo
+        provider: google
         focus: false
+        showSearchSuggestions: true
         target: _blank
 
   bookmarks.yaml: ""
