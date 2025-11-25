@@ -86,6 +86,9 @@ ingress:
       gethomepage.dev/icon: sh-radarr.svg
       gethomepage.dev/name: Radarr
       gethomepage.dev/app: radarr
+      gethomepage.dev/widget.url: "https://radarr.otohgunga.nl"
+      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_RADARR_API_KEY}}" }}'
+      gethomepage.dev/widget.type: "radarr"
     hosts:
       - host: radarr.otohgunga.nl
         paths:

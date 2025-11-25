@@ -85,6 +85,9 @@ ingress:
       gethomepage.dev/icon: sh-sonarr.svg
       gethomepage.dev/name: Sonarr
       gethomepage.dev/app: sonarr
+      gethomepage.dev/widget.url: "https://sonarr.otohgunga.nl"
+      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_SONARR_API_KEY}}" }}'
+      gethomepage.dev/widget.type: "sonarr"
     hosts:
       - host: sonarr.otohgunga.nl
         paths:

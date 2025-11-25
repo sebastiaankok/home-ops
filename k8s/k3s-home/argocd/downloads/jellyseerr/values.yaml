@@ -57,6 +57,9 @@ ingress:
       gethomepage.dev/icon: sh-jellyseerr.svg
       gethomepage.dev/name: Jellyseerr
       gethomepage.dev/app: jellyseerr
+      gethomepage.dev/widget.url: "https://jellyseerr.otohgunga.nl"
+      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}" }}'
+      gethomepage.dev/widget.type: "jellyseerr"
     hosts:
       - host: jellyseerr.otohgunga.nl
         paths:

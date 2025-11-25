@@ -92,9 +92,9 @@ ingress:
       gethomepage.dev/icon: sh-sabnzbd.svg
       gethomepage.dev/name: Sabnzbd
       gethomepage.dev/app: sabnzbd
-      gethomepage.dev/widget.type: "sabnzbd"
       gethomepage.dev/widget.url: "https://sabnzbd.otohgunga.nl"
       gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}" }}'
+      gethomepage.dev/widget.type: "sabnzbd"
     hosts:
       - host: sabnzbd.otohgunga.nl
         paths:
