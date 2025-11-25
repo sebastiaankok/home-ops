@@ -115,7 +115,7 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.ingress.kubernetes.io/proxy-body-size: "0"
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/title: "Immich"
+      gethomepage.dev/name: "Immich"
       gethomepage.dev/icon: "immich"
       gethomepage.dev/group: "Media"
       gethomepage.dev/description: The photo library application

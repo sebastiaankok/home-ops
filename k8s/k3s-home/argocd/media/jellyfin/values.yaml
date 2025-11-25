@@ -59,7 +59,7 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/title: "Jellyfin"
+      gethomepage.dev/name: "Jellyfin"
       gethomepage.dev/icon: "jellyfin"
       gethomepage.dev/group: "Media"
       gethomepage.dev/description: Media library server
