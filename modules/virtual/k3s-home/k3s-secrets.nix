@@ -29,5 +29,8 @@
     secrets."k3s-home/ingress-jellyseerr.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/homepage.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
