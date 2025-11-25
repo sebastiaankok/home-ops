@@ -109,8 +109,8 @@ persistence:
     globalMounts:
       - subPath: settings.yaml
         path: /app/config/settings.yaml
-      - subPath: widgets.yaml
-        path: /app/config/widgets.yaml
+      # - subPath: widgets.yaml
+      #   path: /app/config/widgets.yaml
       - subPath: services.yaml
         path: /app/config/services.yaml
       - subPath: bookmarks.yaml
