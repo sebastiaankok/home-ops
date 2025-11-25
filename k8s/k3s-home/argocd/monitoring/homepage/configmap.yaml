@@ -1,184 +1,72 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: &app homepage
-  namespace: homepage
-  annotations:
-    reloader.stakater.com/match: "true"
+  name: homepage-config
 data:
+  docker.yaml: ""
+
+  kubernetes.yaml: |
+    mode: cluster
+    gateway: false
+    ingress: true
+    traefik: false
+
   settings.yaml: |
-    ---
-    title: Home Lab
-    favicon: /assets/favicon.ico
+    title: Homelab
+    favicon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png
     theme: dark
-    color: neutral
-    useEqualHeights: true
-    layout: # key by group name in services.yaml
-      Media Services:
-        style: row
-        columns: 3
+    color: slate
+    headerStyle: clean
+    statusStyle: dot
+    useEqualHeights: false
+    fiveColumns: true
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+    layout:
       Home Automation:
-        style: row
-        columns: 3
-      Network Services:
-        style: row
-        columns: 3
-      Security & Monitoring:
-        style: row
-        columns: 3
-      System Services:
-        style: row
-        columns: 3
+        style: column
+        icon: home-assistant
+      LLM/Ai:
+        style: column
+        icon: open-webui
+      Apps:
+        style: column
+        icon: immich
+      Security:
+        style: column
+        icon: pocket-id
+      Social:
+        style: column
+        icon: mastodon
+      Media:
+        style: column
+        icon: jellyfin
+      Downloads:
+        style: column
+        icon: sonarr
+      Kubernetes:
+        style: column
+        icon: kubernetes
 
   widgets.yaml: |
-    ---
-    # - logo:
     - kubernetes:
         cluster:
-          show: false
-          cpu: false
-          memory: false
-          showLabel: false
-          label: "cluster"
-        nodes:
           show: true
           cpu: true
           memory: true
           showLabel: true
+          label: "cluster"
+        nodes:
+          show: false
     - search:
-        provider: custom
-        url: https://search.unlocked.link/search?q=
+        provider: duckduckgo
+        focus: false
         target: _blank
-        # focus: true # Optional, will set focus to the search bar on page load
 
-  services.yaml: |
-    ---
-    # Media Services
-    - Media Services:
-        - Jellyfin:
-            href: https://jellyfin.otohgunga.nl
-            icon: film
-            description: Media streaming platform
-        - Immich:
-            href: https://immich.otohgunga.nl
-            icon: image
-            description: Photo and video management
-        - Bazarr:
-            href: https://bazarr.otohgunga.nl
-            icon: subtitles
-            description: Subtitle management for Radarr and Sonarr
-        - Jellyseerr:
-            href: https://jellyseerr.otohgunga.nl
-            icon: theater-masks
-            description: Media request management
-        - Radarr:
-            href: https://radarr.otohgunga.nl
-            icon: movie
-            description: Movie collection management
-        - Sonarr:
-            href: https://sonarr.otohgunga.nl
-            icon: tv
-            description: TV show collection management
-        - Prowlarr:
-            href: https://prowlarr.otohgunga.nl
-            icon: bell-ring
-            description: Indexer management for Radarr and Sonarr
-        - Sabnzbd:
-            href: https://sabnzbd.otohgunga.nl
-            icon: download
-            description: Usenet download client
+  bookmarks.yaml: ""
 
-    # Home Automation
-    - Home Automation:
-        - HomeAssistant:
-            href: https://homeassistant.otohgunga.nl
-            icon: home
-            description: Home automation platform
-        - Zigbee2MQTT:
-            href: https://zigbee2mqtt.otohgunga.nl
-            icon: settings
-            description: Zigbee to MQTT bridge
-        - Mosquitto:
-            href: https://mosquitto.otohgunga.nl
-            icon: radio
-            description: MQTT messaging broker
-
-    # Network Services
-    - Network Services:
-        - UniFi:
-            href: https://unifi.otohgunga.nl
-            icon: router
-            description: Network device management
-        - Netboot:
-            href: https://netboot.otohgunga.nl
-            icon: ethernet
-            description: Network boot services
-        - WOLProxy:
-            href: https://wol-proxy.otohgunga.nl
-            icon: power
-            description: Wake on LAN proxy
-
-    # Security & Monitoring
-    - Security & Monitoring:
-        - Frigate:
-            href: https://frigate.otohgunga.nl
-            icon: camera
-            description: AI-powered video analytics
-        - Prometheus:
-            href: https://prometheus.otohgunga.nl
-            icon: chart-line
-            description: Monitoring and alerting
-        - ArgoCD:
-            href: https://argocd.otohgunga.nl
-            icon: git-branch
-            description: GitOps deployment management
-
-    # System Services
-    - System Services:
-        - Ingress:
-            href: https://ingress.otohgunga.nl
-            icon: shield
-            description: Kubernetes ingress controller
-        - IngressMedia:
-            href: https://ingress-media.otohgunga.nl
-            icon: shield
-            description: Media-specific ingress controller
-        - CertManager:
-            href: https://certmanager.otohgunga.nl
-            icon: certificate
-            description: SSL certificate management
-        - Velero:
-            href: https://velero.otohgunga.nl
-            icon: archive
-            description: Kubernetes backup and restore
-
-  bookmarks.yaml: |
-    ---
-    # Documentation
-    - Documentation:
-        - Kubernetes:
-            href: https://kubernetes.io/docs/
-            icon: book
-        - ArgoCD:
-            href: https://argo.cd/docs/
-            icon: book
-        - Helm:
-            href: https://helm.sh/docs/
-            icon: book
-
-    # Community
-    - Community:
-        - GitHub:
-            href: https://github.com/ahgraber/homelab-gitops-k3s
-            icon: github
-        - NixOS:
-            href: https://nixos.wiki/
-            icon: book
-
-  docker.yaml: |
-    ---
-
-  kubernetes.yaml: |
-    ---
-    mode: cluster
-    ingress: false # manually configure services (above)
+  services.yaml: ""
