@@ -114,6 +114,10 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/title: "Immich"
+      gethomepage.dev/icon: "immich"
+      gethomepage.dev/group: "Media"
     hosts:
       - host: immich.otohgunga.nl
         paths:

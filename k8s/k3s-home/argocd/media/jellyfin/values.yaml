@@ -52,6 +52,28 @@ service:
       http:
         port: *port
 
+ingress:
+  app:
+    enabled: true
+    className: ingress-nginx-media
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/title: "Jellyfin"
+      gethomepage.dev/icon: "jellyfin"
+      gethomepage.dev/group: "Media"
+    hosts:
+      - host: jellyfin.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: jellyfin-https-tls
+        hosts:
+          - jellyfin.otohgunga.nl
+
 persistence:
   config:
     existingClaim: local-jellyfin-pvc
@@ -72,21 +94,3 @@ persistence:
             subPath: log
           - path: /tmp
             subPath: tmp
-
-ingress:
-  app:
-    enabled: true
-    className: ingress-nginx-media
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-    hosts:
-      - host: jellyfin.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - secretName: jellyfin-https-tls
-        hosts:
-          - jellyfin.otohgunga.nl

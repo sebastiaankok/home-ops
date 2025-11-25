@@ -38,6 +38,10 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.org/websocket-services: home-assistant
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/title: "Home Assistant"
+      gethomepage.dev/icon: "home-assistant"
+      gethomepage.dev/group: "Home Automation"
     hosts:
       - host: hass.otohgunga.nl
         paths:
