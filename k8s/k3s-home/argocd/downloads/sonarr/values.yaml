@@ -79,6 +79,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Automatic downloads of series
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-sonarr.svg
+      gethomepage.dev/name: Sonarr
+      gethomepage.dev/app: sonarr
     hosts:
       - host: sonarr.otohgunga.nl
         paths:

@@ -64,6 +64,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Usenet indexer
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-prowlarr.svg
+      gethomepage.dev/name: Prowlarr
+      gethomepage.dev/app: prowlarr
     hosts:
       - host: prowlarr.otohgunga.nl
         paths:

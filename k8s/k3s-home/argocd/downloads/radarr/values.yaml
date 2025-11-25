@@ -80,6 +80,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Automatic downloads of movies
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-radarr.svg
+      gethomepage.dev/name: Radarr
+      gethomepage.dev/app: radarr
     hosts:
       - host: radarr.otohgunga.nl
         paths:

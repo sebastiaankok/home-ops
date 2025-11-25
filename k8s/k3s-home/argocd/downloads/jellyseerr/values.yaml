@@ -51,6 +51,12 @@ ingress:
     className: ingress-nginx-media
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Request management for media
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-jellyseerr.svg
+      gethomepage.dev/name: Jellyseerr
+      gethomepage.dev/app: jellyseerr
     hosts:
       - host: jellyseerr.otohgunga.nl
         paths:

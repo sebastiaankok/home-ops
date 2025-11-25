@@ -86,6 +86,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Usenet downloader
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-sabnzbd.svg
+      gethomepage.dev/name: Sabnzbd
+      gethomepage.dev/app: sabnzbd
     hosts:
       - host: sabnzbd.otohgunga.nl
         paths:

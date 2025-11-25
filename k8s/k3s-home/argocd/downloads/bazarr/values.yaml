@@ -66,6 +66,12 @@ ingress:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Subtitle downloader
+      gethomepage.dev/group: Downloads
+      gethomepage.dev/icon: sh-bazarr.svg
+      gethomepage.dev/name: Bazarr
+      gethomepage.dev/app: bazarr
     hosts:
       - host: bazarr.otohgunga.nl
         paths:
