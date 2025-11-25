@@ -13,6 +13,9 @@ controllers:
           TZ: Europe/Amsterdam
           LOG_LEVEL: debug
           HOMEPAGE_ALLOWED_HOSTS: "homepage.otohgunga.nl"
+          envFrom:
+            - secretRef:
+                name: homepage-secret
         resources:
           requests:
             cpu: 25m
