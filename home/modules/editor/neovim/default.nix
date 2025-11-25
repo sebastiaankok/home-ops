@@ -119,7 +119,7 @@
       function _G.aider_watch()
         if not aider_term then
           aider_term = Terminal:new({
-            cmd = "aider --watch-files",
+            cmd = "/Users/sebastiaan/projects/toolbox/llm/aider_wrapper.sh --watch-files",
             direction = "horizontal",
             hidden = true,
             close_on_exit = false,

@@ -17,6 +17,7 @@
       cat = "bat -pp";
       sm = "bash $HOME/projects/toolbox/llm/select_openrouter_model.sh; source ~/.zshrc";
       ask = "aider --chat-mode ask";
+      aider = "bash $HOME/projects/toolbox/llm/aider_wrapper.sh";
     };
     zplug = {
       enable = true;
