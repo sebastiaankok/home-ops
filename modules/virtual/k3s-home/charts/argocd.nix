@@ -22,6 +22,12 @@
           "cert-manager.io/cluster-issuer" = "letsencrypt-dns";
           "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true";
           "nginx.ingress.kubernetes.io/backend-protocol" = "HTTP";
+          "gethomepage.dev/enabled" = "true";
+          "gethomepage.dev/description" = "Control your deployments through a web interface.";
+          "gethomepage.dev/group" = "System";
+          "gethomepage.dev/icon" = "sh-argo-cd.svg";
+          "gethomepage.dev/name" = "ArgoCD";
+          "gethomepage.dev/app" = "argocd";
         };
         extraTls = [
           {
