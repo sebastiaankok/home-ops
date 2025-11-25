@@ -56,23 +56,38 @@ Beyond Kubernetes, this repo also manages my **NixOS machines** with flakes, ens
 
 ---
 
-## ⚡ Usage
+## ⚡ Adding new device
 
-### Install from GitHub
+### Install nix-darwin (macbook)
+Check [README.md](https://github.com/nix-darwin/nix-darwin?tab=readme-ov-file#prerequisites) on nix-darwin repo.
+```bash
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install --prefer-upstream-nix
+```
+
+### Clone this repo
+```bash
+git clone https://github.com/sebastiaankok/home-ops.git
+```
+### Update flake.nix with new hardware
+
+- Check your hostname and add this to the flake.nix file.
+- Add your hardware specific config in it's own file, for example: `hosts/macbook-m5/default.nix`
+
+### Rebuild from GitHub or local
 Build and switch a host directly from this repo:
+
 ```bash
+## Nixos from git directly
 sudo nixos-rebuild switch --flake github:sebastiaankok/home-ops#HOSTNAME
+## Darwin from local dir
+sudo darwin-rebuild switch --flake.
 ```
 
-Build from local
-```bash
-cd ~/nix-config
-nixos-rebuild switch --flake .
-```
-
-Manually updating flake lock files
+### Manually updating flake lock files
 ```bash
 nix flake update
+## Or specific repo
+nix flake update unstable
 ```
 
 ---
