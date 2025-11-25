@@ -87,7 +87,7 @@ ingress:
     enabled: true
     className: nginx
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.ingress.kubernetes.io/proxy-body-size: 32m
     hosts:
       - host: homepage.otohgunga.nl
