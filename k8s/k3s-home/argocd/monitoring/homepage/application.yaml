@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homepage
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: homepage
+  sources:
+    - repoURL: https://github.com/sebastiaankok/k8s-homelab.git
+      targetRevision: main
+      ref: values
+      path: k8s/k3s-home/argocd/monitoring/homepage/
+      directory:
+        exclude: "{application.yaml,values.yaml}"
+    - chart: app-template
+      repoURL: https://bjw-s-labs.github.io/helm-charts
+      targetRevision: 4.4.0
+      helm:
+        releaseName: homepage
+        valueFiles:
+          - "$values/k8s/k3s-home/argocd/monitoring/homepage/values.yaml"

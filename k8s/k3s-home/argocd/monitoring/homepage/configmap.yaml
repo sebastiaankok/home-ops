@@ -1,0 +1,243 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage
+  namespace: homepage
+data:
+  # Settings for the homepage
+  settings.yaml: |
+    homepage:
+      title: "Home Lab"
+      theme: "dark"
+      language: "en"
+      favicon: "/assets/favicon.ico"
+
+    navigation:
+      - name: "Home"
+        url: "/"
+        icon: "home"
+      - name: "Services"
+        url: "/services"
+        icon: "server"
+      - name: "Bookmarks"
+        url: "/bookmarks"
+        icon: "bookmark"
+
+  # Services configuration
+  services.yaml: |
+    # Services
+    services:
+      # Media Services
+      - name: "Jellyfin"
+        url: "https://jellyfin.otohgunga.nl"
+        icon: "film"
+        description: "Media streaming platform"
+        category: "media"
+
+      - name: "Immich"
+        url: "https://immich.otohgunga.nl"
+        icon: "image"
+        description: "Photo and video management"
+        category: "media"
+
+      - name: "Bazarr"
+        url: "https://bazarr.otohgunga.nl"
+        icon: "subtitles"
+        description: "Subtitle management for Radarr and Sonarr"
+        category: "media"
+
+      - name: "Jellyseerr"
+        url: "https://jellyseerr.otohgunga.nl"
+        icon: "theater-masks"
+        description: "Media request management"
+        category: "media"
+
+      - name: "Radarr"
+        url: "https://radarr.otohgunga.nl"
+        icon: "movie"
+        description: "Movie collection management"
+        category: "media"
+
+      - name: "Sonarr"
+        url: "https://sonarr.otohgunga.nl"
+        icon: "tv"
+        description: "TV show collection management"
+        category: "media"
+
+      - name: "Prowlarr"
+        url: "https://prowlarr.otohgunga.nl"
+        icon: "bell-ring"
+        description: "Indexer management for Radarr and Sonarr"
+        category: "media"
+
+      - name: "Sabnzbd"
+        url: "https://sabnzbd.otohgunga.nl"
+        icon: "download"
+        description: "Usenet download client"
+        category: "media"
+
+      # Home Automation
+      - name: "Home Assistant"
+        url: "https://homeassistant.otohgunga.nl"
+        icon: "home"
+        description: "Home automation platform"
+        category: "home-automation"
+
+      - name: "Zigbee2MQTT"
+        url: "https://zigbee2mqtt.otohgunga.nl"
+        icon: "settings"
+        description: "Zigbee to MQTT bridge"
+        category: "home-automation"
+
+      - name: "Mosquitto"
+        url: "https://mosquitto.otohgunga.nl"
+        icon: "radio"
+        description: "MQTT messaging broker"
+        category: "home-automation"
+
+      # Network Services
+      - name: "UniFi Controller"
+        url: "https://unifi.otohgunga.nl"
+        icon: "router"
+        description: "Network device management"
+        category: "network"
+
+      - name: "Netboot.xyz"
+        url: "https://netboot.otohgunga.nl"
+        icon: "ethernet"
+        description: "Network boot services"
+        category: "network"
+
+      - name: "WOL Proxy"
+        url: "https://wol-proxy.otohgunga.nl"
+        icon: "power"
+        description: "Wake on LAN proxy"
+        category: "network"
+
+      # Security & Monitoring
+      - name: "Frigate NVR"
+        url: "https://frigate.otohgunga.nl"
+        icon: "camera"
+        description: "AI-powered video analytics"
+        category: "security"
+
+      - name: "Prometheus"
+        url: "https://prometheus.otohgunga.nl"
+        icon: "chart-line"
+        description: "Monitoring and alerting"
+        category: "monitoring"
+
+      - name: "ArgoCD"
+        url: "https://argocd.otohgunga.nl"
+        icon: "git-branch"
+        description: "GitOps deployment management"
+        category: "management"
+
+      # System Services
+      - name: "Ingress Controller"
+        url: "https://ingress.otohgunga.nl"
+        icon: "shield"
+        description: "Kubernetes ingress controller"
+        category: "system"
+
+      - name: "Ingress Controller Media"
+        url: "https://ingress-media.otohgunga.nl"
+        icon: "shield"
+        description: "Media-specific ingress controller"
+        category: "system"
+
+      - name: "Cert Manager"
+        url: "https://certmanager.otohgunga.nl"
+        icon: "certificate"
+        description: "SSL certificate management"
+        category: "system"
+
+      - name: "Velero"
+        url: "https://velero.otohgunga.nl"
+        icon: "archive"
+        description: "Kubernetes backup and restore"
+        category: "system"
+
+  # Widgets configuration
+  widgets.yaml: |
+    # Widgets
+    widgets:
+      # Kubernetes Cluster Overview
+      - title: "Cluster Status"
+        type: "kubernetes"
+        position: [0, 0]
+        size: [2, 2]
+
+      # System Resources
+      - title: "System Resources"
+        type: "system"
+        position: [2, 0]
+        size: [2, 2]
+
+      # Service Status Overview
+      - title: "Service Status"
+        type: "services"
+        position: [0, 2]
+        size: [4, 2]
+
+      # Network Status
+      - title: "Network Status"
+        type: "network"
+        position: [0, 4]
+        size: [2, 2]
+
+      # Storage Status
+        title: "Storage Status"
+        type: "storage"
+        position: [2, 4]
+        size: [2, 2]
+
+  # Bookmarks configuration
+  bookmarks.yaml: |
+    # Bookmarks
+    bookmarks:
+      # Documentation
+      - name: "Documentation"
+        links:
+          - name: "Kubernetes Documentation"
+            url: "https://kubernetes.io/docs/"
+            icon: "book"
+          - name: "ArgoCD Documentation"
+            url: "https://argo.cd/docs/"
+            icon: "book"
+          - name: "Helm Documentation"
+            url: "https://helm.sh/docs/"
+            icon: "book"
+
+      # Community
+      - name: "Community"
+        links:
+          - name: "GitHub Repository"
+            url: "https://github.com/ahgraber/homelab-gitops-k3s"
+            icon: "github"
+          - name: "NixOS Wiki"
+            url: "https://nixos.wiki/"
+            icon: "book"
+
+  # Docker configuration (if using Docker integration)
+  docker.yaml: |
+    # Docker
+    docker:
+      enabled: false
+      socket: "/var/run/docker.sock"
+
+  # Kubernetes configuration
+  kubernetes.yaml: |
+    # Kubernetes
+    kubernetes:
+      enabled: true
+      cluster_name: "k3s-home"
+      namespace_filter: ["homepage", "monitoring", "default", "media", "home-automation", "network", "security", "system"]
+      show_events: true
+      show_pods: true
+      show_nodes: true
+      show_namespaces: true
+      show_deployments: true
+      show_services: true
+      show_ingress: true
+      show_persistentvolumeclaims: true
