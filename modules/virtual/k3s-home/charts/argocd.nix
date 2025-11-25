@@ -27,7 +27,7 @@
           "gethomepage.dev/group" = "System";
           "gethomepage.dev/icon" = "sh-argo-cd.svg";
           "gethomepage.dev/name" = "ArgoCD";
-          "gethomepage.dev/app" = "argocd";
+          "gethomepage.dev/app" = "argocd-server";
         };
         extraTls = [
           {
