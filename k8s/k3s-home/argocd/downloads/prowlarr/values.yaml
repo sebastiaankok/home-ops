@@ -70,9 +70,6 @@ ingress:
       gethomepage.dev/icon: sh-prowlarr.svg
       gethomepage.dev/name: Prowlarr
       gethomepage.dev/app: prowlarr
-      gethomepage.dev/widget.url: "https://prowlarr.otohgunga.nl"
-      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}" }}'
-      gethomepage.dev/widget.type: "prowlarr"
     hosts:
       - host: prowlarr.otohgunga.nl
         paths:

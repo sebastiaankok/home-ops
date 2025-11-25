@@ -72,9 +72,6 @@ ingress:
       gethomepage.dev/icon: sh-bazarr.svg
       gethomepage.dev/name: Bazarr
       gethomepage.dev/app: bazarr
-      gethomepage.dev/widget.url: "https://bazarr.otohgunga.nl"
-      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_BAZARR_API_KEY}}" }}'
-      gethomepage.dev/widget.type: "bazarr"
     hosts:
       - host: bazarr.otohgunga.nl
         paths:
