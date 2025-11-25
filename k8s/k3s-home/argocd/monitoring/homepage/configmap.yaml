@@ -66,12 +66,15 @@ data:
 
   widgets.yaml: |
     - kubernetes:
-        cluster:
+        nodes:
+          # Shows node-specific statistics
           show: true
+          # Shows the CPU for each node
           cpu: true
+          # Shows the memory for each node
           memory: true
+          # Shows the label, which is always the node name
           showLabel: true
-          label: "cluster"
     - search:
         provider: google
         focus: false
