@@ -15,8 +15,8 @@
       lt = "eza -l --sort=modified --icons=always";
       lg = "lazygit";
       cat = "bat -pp";
-      via = "vi +'ToggleTerm direction=horizontal' +'TermExec cmd=\"aider --watch-files --yes-always\"'";
       sm = "bash $HOME/projects/toolbox/llm/select_openrouter_model.sh; source ~/.zshrc";
+      ask = "aider --chat-mode ask";
     };
     zplug = {
       enable = true;
