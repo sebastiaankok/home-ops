@@ -18,6 +18,7 @@
       sm = "bash $HOME/projects/toolbox/llm/select_openrouter_model.sh; source ~/.zshrc";
       ask = "aider --chat-mode ask";
       aider = "bash $HOME/projects/toolbox/llm/aider_wrapper.sh";
+      sync = "rclone sync k3s-home:/data ~/backups/k3s-home --exclude 'library/**' --exclude 'frigate/frigate/**' --progress --links --transfers 16 --checkers 16";
     };
     zplug = {
       enable = true;
