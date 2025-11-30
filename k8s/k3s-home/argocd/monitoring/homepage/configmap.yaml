@@ -65,4 +65,25 @@ data:
         showSearchSuggestions: true
         target: _blank
 
-  bookmarks.yaml: ""
+  bookmarks.yaml: |
+    - Tech:
+        - Github:
+            - abbr: GH
+              href: https://github.com/sebastiaankok/home-ops
+        - Kubernetes docs:
+            - abbr: K8s
+              href: https://kubernetes.io/docs/
+        - NixOS packages:
+            - abbr: Nix
+              href: https://search.nixos.org/packages
+    - Monitoring:
+        - Grafana:
+            - abbr: GF
+              href: https://grafana.com/
+        - Prometheus:
+            - abbr: PM
+              href: https://prometheus.io/docs/
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
