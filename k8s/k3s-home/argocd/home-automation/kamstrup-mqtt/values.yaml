@@ -8,7 +8,7 @@ controllers:
           tag: aee0caf7fab340dd167be3b3c71a7574b45257b2
         probes:
           liveness:
-            enabled: false
+            enabled: true
             custom: true
             spec:
               tcpSocket:
