@@ -9,6 +9,18 @@ controllers:
         image:
           repository: koenkk/zigbee2mqtt
           tag: 2.7.0
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                host: rpi4-ser2net.otohgunga.nl
+                port: 20108
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 2
+              failureThreshold: 3
         env:
           ZIGBEE2MQTT_DATA: /data
         securityContext:
