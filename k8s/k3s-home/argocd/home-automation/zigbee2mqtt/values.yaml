@@ -11,7 +11,7 @@ controllers:
           tag: 2.7.0
         probes:
           liveness:
-            enabled: true
+            enabled: false
             custom: true
             spec:
               tcpSocket:
