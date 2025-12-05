@@ -6,6 +6,18 @@ controllers:
         image:
           repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
           tag: aee0caf7fab340dd167be3b3c71a7574b45257b2
+        probes:
+          liveness:
+            enabled: false
+            custom: true
+            spec:
+              tcpSocket:
+                host: rpi4-ser2net.otohgunga.nl
+                port: 20408
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 2
+              failureThreshold: 3
         securityContext:
           runAsUser: 1003
           runAsGroup: 1003
@@ -44,14 +56,3 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /opt/kamstrup/serial
-
-  # -- Temporarily hack until code fixed
-  # hack:
-  #   enabled: true
-  #   type: configMap
-  #   name: kamstrup-hack
-  #   advancedMounts:
-  #     kamstrup-mqtt:
-  #       app:
-  #         - path: /opt/kamstrup/kamstrup_meter.py
-  #           subPath: kamstrup_meter.py
