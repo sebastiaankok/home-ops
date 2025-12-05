@@ -35,6 +35,7 @@
     ripgrep
     eza
     lazygit
+    gh
     btop
     nh
     sops
