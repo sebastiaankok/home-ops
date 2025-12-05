@@ -7,6 +7,16 @@ controllers:
           repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
           tag: aee0caf7fab340dd167be3b3c71a7574b45257b2
         probes:
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                host: rpi4-ser2net.otohgunga.nl
+                port: 20408
+              periodSeconds: 10
+              timeoutSeconds: 2
+              failureThreshold: 3
           liveness:
             enabled: true
             custom: true
@@ -15,9 +25,9 @@ controllers:
                 host: rpi4-ser2net.otohgunga.nl
                 port: 20408
               initialDelaySeconds: 5
-              periodSeconds: 10
+              periodSeconds: 30
               timeoutSeconds: 2
-              failureThreshold: 3
+              failureThreshold: 10
         securityContext:
           runAsUser: 1003
           runAsGroup: 1003
