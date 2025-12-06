@@ -101,13 +101,6 @@ nix flake update unstable
         ├── 📁 databases
         │   └── 📁 cnpg-operator
         │       └── application.yaml
-        ├── 📁 downloads
-        │   ├── 📁 bazarr
-        │   ├── 📁 jellyseerr
-        │   ├── 📁 prowlarr
-        │   ├── 📁 radarr
-        │   ├── 📁 sabnzbd
-        │   └── 📁 sonarr
         ├── 📁 home-automation
         │   ├── 📁 home-assistant
         │   ├── 📁 kamstrup-mqtt
