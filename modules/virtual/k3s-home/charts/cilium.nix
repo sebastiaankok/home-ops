@@ -2,7 +2,7 @@
   name = "cilium";
   targetNamespace = "kube-system"; # Cilium usually runs in kube-system
   repo = "https://helm.cilium.io/";
-  version = "1.18.1";
+  version = "1.18.4";
   hash = "sha256:NqqIK+KjWsafcI9uYuHh+XX/SMVhzgedNa01cYKEryI=";
   values = {
     operator.replicas = 1;

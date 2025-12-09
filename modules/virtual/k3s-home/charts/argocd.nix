@@ -3,7 +3,7 @@
   targetNamespace = "argocd";
   createNamespace = true;
   repo = "https://argoproj.github.io/argo-helm";
-  version = "8.3.4"; # pick the version you want
+  version = "9.1.7"; # pick the version you want
   hash = "sha256:7014017a6c327bd6c682ad71f866f4a0e11508a01e9c39af1b1d8151186cbd61";
   values = {
     global = {
