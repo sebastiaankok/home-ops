@@ -10,4 +10,7 @@
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  # Automatically link .app bundles
+  programs.nix-index.enable = true;
+
 }
