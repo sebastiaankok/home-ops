@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+    gethomepage.dev/description: Manage your home automations and devices
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home Automation
+    gethomepage.dev/icon: home-assistant
+    gethomepage.dev/name: Home Assistant Guests
+    nginx.org/websocket-services: home-assistant
+  labels:
+    app.kubernetes.io/instance: home-assistant
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: home-assistant
+    helm.sh/chart: app-template-4.6.0
+  name: home-assistant-guests
+  namespace: home-automation
+spec:
+  ingressClassName: ingress-nginx-guests
+  rules:
+  - host: huis.otohgunga.nl
+    http:
+      paths:
+      - backend:
+          service:
+            name: home-assistant
+            port:
+              number: 8123
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - huis.otohgunga.nl
+    secretName: huis-https-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.10.21.60
