@@ -82,5 +82,6 @@
     ## gui
     moonlight-qt
     obsidian
+    mqtt-explorer
   ];
 }
