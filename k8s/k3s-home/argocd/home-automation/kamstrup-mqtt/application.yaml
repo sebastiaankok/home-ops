@@ -1,31 +1,31 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: kamstrup-mqtt
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-  destination:
-    name: in-cluster
-    namespace: home-automation
-  sources:
-    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
-      targetRevision: main
-      ref: values
-      path: "k8s/k3s-home/argocd/home-automation/kamstrup-mqtt/"
-      directory:
-        exclude: '{application.yaml,values.yaml}'
-    - chart: app-template
-      repoURL: 'https://bjw-s-labs.github.io/helm-charts'
-      targetRevision: 4.5.0
-      helm:
-        releaseName: "kamstrup-mqtt"
-        valueFiles:
-          - $values/k8s/k3s-home/argocd/home-automation/kamstrup-mqtt/values.yaml
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kamstrup-mqtt
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "3"
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#   destination:
+#     name: in-cluster
+#     namespace: home-automation
+#   sources:
+#     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+#       targetRevision: main
+#       ref: values
+#       path: "k8s/k3s-home/argocd/home-automation/kamstrup-mqtt/"
+#       directory:
+#         exclude: '{application.yaml,values.yaml}'
+#     - chart: app-template
+#       repoURL: 'https://bjw-s-labs.github.io/helm-charts'
+#       targetRevision: 4.5.0
+#       helm:
+#         releaseName: "kamstrup-mqtt"
+#         valueFiles:
+#           - $values/k8s/k3s-home/argocd/home-automation/kamstrup-mqtt/values.yaml
