@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx-guests
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: ingress-nginx-guests
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+      path: "k8s/k3s-home/argocd/system/ingress-nginx-guests/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: ingress-nginx
+      repoURL: 'https://kubernetes.github.io/ingress-nginx'
+      targetRevision: 4.14.1
+      helm:
+        releaseName: "ingress-nginx-guests"
+        valueFiles:
+          - $values/k8s/k3s-home/argocd/system/ingress-nginx-guests/values.yaml

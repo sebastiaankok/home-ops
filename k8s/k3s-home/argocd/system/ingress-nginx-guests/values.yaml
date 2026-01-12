@@ -1,0 +1,13 @@
+controller:
+  updateStatus:
+    enabled: false
+  kind: Deployment
+  priorityClassName: system-cluster-critical
+  ingressClassResource:
+    name: ingress-nginx-guests
+    enabled: true
+    default: false
+  watchIngressWithoutClass: false
+  service:
+    externalTrafficPolicy: Local
+    loadBalancerIP: 10.10.21.60
