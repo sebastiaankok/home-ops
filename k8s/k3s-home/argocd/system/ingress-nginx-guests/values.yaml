@@ -2,7 +2,7 @@ controller:
   updateStatus:
     enabled: false
   kind: Deployment
-  replicas: 0
+  replicas: 1
   priorityClassName: system-cluster-critical
   ingressClassResource:
     name: ingress-nginx-guests
