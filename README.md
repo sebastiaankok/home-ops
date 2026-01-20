@@ -125,26 +125,16 @@ nix flake update unstable
 
 ## 📦 Backups
 
-This homelab uses **Velero** and **Kopia** to backup Kubernetes resources and persistent data.
+This homelab uses **Restic** to backup data directories.
 
-### Velero (Kubernetes resources)
-- Velero handles cluster-level backups for namespaces, deployments, ConfigMaps, and Secrets.
-- Backups can be restored via:
+### Restic (object storage)
+
 ```bash
-velero restore create --from-backup <backup>
-```
+export RESTIC_REPOSITORY="s3:s3.eu-central-003.backblazeb2.com/nix-restic/backups/data"
+export $(sops -d modules/secrets.sops.yaml | yq .b2s3-config)
+export "RESTIC_PASSWORD=$(sops -d modules/secrets.sops.yaml | yq .restic-repo-password)"
 
-### Kopia (object storage)
-Kopia connects to object storage (e.g., Backblaze B2) to snapshot PVs and local storage used by apps like media servers, databases, and home automation.
-```bash
-
-export AWS_ACCESS_KEY_ID="" AWS_ACCESS_KEY_SECRET="" KOPIA_PASSWORD=""
-
-kopia repository connect s3 \
-  --bucket <bucket> \
-  --region eu-central-003 \
-  --endpoint s3.eu-central-003.backblazeb2.com \
-  --prefix kopia/<namespace>/
+restic ls latests
 ```
 
 ---
