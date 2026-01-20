@@ -4,7 +4,7 @@
   createNamespace = true;
   repo = "https://argoproj.github.io/argo-helm";
   version = "9.1.7"; # pick the version you want
-  hash = "sha256:7014017a6c327bd6c682ad71f866f4a0e11508a01e9c39af1b1d8151186cbd61";
+  hash = "sha256-s0+KjafBudeIQT3JvsA6iCexG1q4cZtqN6G/k09b4g4=";
   values = {
     global = {
       domain = "argocd.otohgunga.nl";

@@ -3,7 +3,7 @@
   targetNamespace = "kube-system"; # Cilium usually runs in kube-system
   repo = "https://helm.cilium.io/";
   version = "1.18.4";
-  hash = "sha256:NqqIK+KjWsafcI9uYuHh+XX/SMVhzgedNa01cYKEryI=";
+  hash = "sha256-w2HKVnsxmvZLgnNqtMWSeiAbH1265OkJx66qvOBXEpk=";
   values = {
     operator.replicas = 1;
     hubble.ui.enabled = true;
