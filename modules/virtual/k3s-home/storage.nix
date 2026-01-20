@@ -22,14 +22,13 @@
   };
 
   services.restic = {
-    enable = true;
-
     backups = {
       "data-b2" = {
         paths = [ "/data" ];
 
+        initialize = true;
         # Global exclude file
-        excludes = [
+        exclude = [
           "/library"
 
           # Logs
