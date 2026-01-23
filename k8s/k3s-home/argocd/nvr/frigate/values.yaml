@@ -92,7 +92,7 @@ persistence:
       - path: /dev/shm
 
   ## -- To enable GPU
-  renderD128:
+  graphics:
     enabled: true
     type: hostPath
     hostPath: /dev/dri/renderD128
