@@ -14,8 +14,8 @@ controllers:
           - secretRef:
               name: camera-rtsp-config
         env:
-          # LIBVA_DRIVER_NAME: i965
-          LIBVA_DRIVER_NAME: iHD
+          LIBVA_DRIVER_NAME: i965
+          # LIBVA_DRIVER_NAME: iHD
         probes:
           liveness: &probes
             enabled: true
