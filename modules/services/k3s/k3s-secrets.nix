@@ -8,12 +8,6 @@
     secrets."k3s-home/frigate.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
-    secrets."k3s-home/velero-repo-password.yaml" = {
-      sopsFile = ./secrets.sops.yaml;
-    };
-    secrets."k3s-home/velero-b2-credentials.yaml" = {
-      sopsFile = ./secrets.sops.yaml;
-    };
     secrets."k3s-home/cnpg-b2-credentials.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
@@ -30,6 +24,9 @@
       sopsFile = ./secrets.sops.yaml;
     };
     secrets."k3s-home/homepage.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
+    secrets."k3s-home/argocd-repo.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
   };
