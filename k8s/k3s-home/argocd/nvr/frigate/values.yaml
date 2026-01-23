@@ -14,8 +14,8 @@ controllers:
           - secretRef:
               name: camera-rtsp-config
         env:
-          LIBVA_DRIVER_NAME: i965
-          # LIBVA_DRIVER_NAME: iHD
+          # LIBVA_DRIVER_NAME: i965
+          LIBVA_DRIVER_NAME: iHD
         probes:
           liveness: &probes
             enabled: true
@@ -39,13 +39,14 @@ controllers:
             memory: 5Gi
         # TODO: We should find a way to increase security here
         securityContext:
-          privileged: true
+          privileged: false
           # runAsUser: 1002
           # runAsGroup: 1002
           capabilities:
             add:
               - PERFMON
               - CAP_PERFMON
+              - SYS_ADMIN
 
 service:
   app:
