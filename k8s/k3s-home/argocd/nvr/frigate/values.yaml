@@ -39,6 +39,7 @@ controllers:
             memory: 5Gi
         # TODO: We should find a way to increase security here
         securityContext:
+          privileged: true
           # runAsUser: 1002
           # runAsGroup: 1002
           allowPrivilegeEscalation: false
