@@ -42,8 +42,6 @@ controllers:
           privileged: true
           # runAsUser: 1002
           # runAsGroup: 1002
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
           capabilities:
             add:
               - PERFMON
