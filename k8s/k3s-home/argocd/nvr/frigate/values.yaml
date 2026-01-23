@@ -13,6 +13,8 @@ controllers:
         envFrom:
           - secretRef:
               name: camera-rtsp-config
+        env:
+          LIBVA_DRIVER_NAME: i965
         probes:
           liveness: &probes
             enabled: true
