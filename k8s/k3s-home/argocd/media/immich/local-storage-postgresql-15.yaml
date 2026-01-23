@@ -20,3 +20,4 @@ spec:
               operator: In
               values:
                 - k3s-home
+                - b660-i5-13600
