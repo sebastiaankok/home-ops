@@ -52,7 +52,7 @@
           ./hosts/b660-i5-13600
           ./profiles
           ./modules
-          ./modules/virtual/k3s-home/default.nix
+          #./modules/virtual/k3s-home/default.nix
         ];
       };
       # Laptop (dev machine)
