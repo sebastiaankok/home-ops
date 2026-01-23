@@ -98,6 +98,6 @@ persistence:
   graphics:
     enabled: true
     type: hostPath
-    hostPath: /dev/dri/renderD128
+    hostPath: /dev/dri
     globalMounts:
-      - path: /dev/dri/renderD128
+      - path: /dev/dri
