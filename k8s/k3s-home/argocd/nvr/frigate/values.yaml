@@ -42,9 +42,10 @@ controllers:
           # runAsGroup: 1002
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          #capabilities:
-          #  drop:
-          #    - ALL
+          capabilities:
+            add:
+              - PERFMON
+              - CAP_PERFMON
 
 service:
   app:
