@@ -16,7 +16,7 @@
     };
     server = {
       ingress = {
-        enabled = false;
+        enabled = true;
         ingressClassName = "nginx";
         annotations = {
           "cert-manager.io/cluster-issuer" = "letsencrypt-dns";
