@@ -3,8 +3,8 @@
   targetNamespace = "argocd";
   createNamespace = true;
   repo = "https://argoproj.github.io/argo-helm";
-  version = "9.1.7"; # pick the version you want
-  hash = "sha256-s0+KjafBudeIQT3JvsA6iCexG1q4cZtqN6G/k09b4g4=";
+  version = "9.3.5"; # pick the version you want
+  hash = "sha256-CEQ9z/0qrfITM7zMb5abe+ihQ/C1fj5jgDd4DgBGmuo=";
   values = {
     global = {
       domain = "argocd.otohgunga.nl";
@@ -36,6 +36,14 @@
           }
         ];
       };
+    };
+  };
+  extraFieldDefinitions = {
+    spec = {
+      repo = "https://argoproj.github.io/argo-helm";
+      chart = "argo-cd";
+      version = "9.3.5";
+      bootstrap = true;
     };
   };
   extraDeploy = [
