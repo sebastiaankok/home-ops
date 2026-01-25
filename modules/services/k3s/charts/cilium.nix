@@ -2,8 +2,8 @@
   name = "cilium";
   targetNamespace = "kube-system"; # Cilium usually runs in kube-system
   repo = "https://helm.cilium.io/";
-  version = "1.18.4";
-  hash = "sha256-w2HKVnsxmvZLgnNqtMWSeiAbH1265OkJx66qvOBXEpk=";
+  version = "1.18.6";
+  hash = "sha256-+yr38lc5X1+eXCFE/rq/K0m4g/IiNFJHuhB+Nu24eUs=";
   values = {
     operator.replicas = 1;
     hubble.ui.enabled = true;
@@ -24,7 +24,7 @@
     spec = {
       repo = "https://helm.cilium.io/";
       chart = "cilium";
-      version = "1.18.1";
+      version = "1.18.6";
       bootstrap = true;
     };
   };
