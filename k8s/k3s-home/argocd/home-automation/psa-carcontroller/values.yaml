@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  psa-carcontroller:
+    containers:
+      app:
+        image:
+          repository: flobz/psa_car_controller
+          tag: v3.6
+        # probes:
+        #   liveness:
+        #     enabled: false
+        #     custom: true
+        #     spec:
+        #       tcpSocket:
+        #         host: rpi4-ser2net.otohgunga.nl
+        #         port: 20108
+        #       initialDelaySeconds: 5
+        #       periodSeconds: 10
+        #       timeoutSeconds: 2
+        #       failureThreshold: 3
+        env:
+          ZIGBEE2MQTT_DATA: /data
+        securityContext:
+          runAsUser: 1007
+          runAsGroup: 1007
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+service:
+  app:
+    controller: psa-carcontroller
+    ports:
+      http:
+        port: 5000
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Control your Car through a web interface.
+      gethomepage.dev/group: Home Automation
+      gethomepage.dev/icon: car.svg
+      gethomepage.dev/name: psa-carcontroller
+      gethomepage.dev/app: psa-carcontroller
+    hosts:
+      - host: psa-carcontroller.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: psa-carcontroller-https-tls
+        hosts:
+          - psa-carcontroller.otohgunga.nl
+
+persistence:
+  data:
+    enabled: true
+    existingClaim: local-psa-carcontroller-pvc
+    globalMounts:
+      - path: /config

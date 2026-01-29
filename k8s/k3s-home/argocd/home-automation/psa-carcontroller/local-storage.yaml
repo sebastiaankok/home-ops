@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-psa-carcontroller-pv
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: psa-carcontroller
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-psa-carcontroller
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/psa-carcontroller"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+                - b660-i5-13600
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-psa-carcontroller-pvc
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: psa-carcontroller
+spec:
+  storageClassName: local-psa-carcontroller
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
