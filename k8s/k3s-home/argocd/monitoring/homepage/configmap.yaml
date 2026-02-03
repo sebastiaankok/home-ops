@@ -65,6 +65,7 @@ data:
         showSearchSuggestions: true
         target: _blank
     - resources:
+        label: system
         cpu: true
         memory: true
         cputemp: true
