@@ -61,6 +61,10 @@ ingress:
         secretName: homepage-tls
 
 persistence:
+  storage:
+    existingClaim: local-homepage-pvc
+    globalMounts:
+      - path: /storage
   config:
     type: configMap
     name: homepage-config

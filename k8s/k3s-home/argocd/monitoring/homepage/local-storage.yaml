@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-homepage-pv
+  labels:
+    app.kubernetes.io/name: homepage
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-homepage
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/storage/empty"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+                - b660-i5-13600
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-homepage-pvc
+  namespace: homepage
+  labels:
+    app.kubernetes.io/name: homepage
+spec:
+  storageClassName: local-homepage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
