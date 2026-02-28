@@ -1,0 +1,67 @@
+controllers:
+  valheim:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/mbround18/valheim
+          tag: 3.6.0@sha256:abb98466d453f128b96e41d9730cd52f2938013cae7980ce6d3dccc14168d228
+        probes:
+          liveness:
+            enabled: false
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+        env:
+          TZ: ${TIMEZONE}
+          PORT: 2456
+          NAME: "Valheim LAN"
+          WORLD: "kokparadise"
+          AUTO_UPDATE: 1
+          AUTO_UPDATE_SCHEDULE: 0 4 * * *
+          AUTO_UPDATE_PAUSE_WITH_PLAYERS: 1
+          ENABLE_CROSSPLAY: 1
+          PUBLIC: 0
+          PUID: 1010
+          PGID: 1010
+        resources:
+          requests:
+            cpu: 10m
+            memory: 10M
+          limits:
+            memory: 10Gi
+        securityContext:
+          runAsUser: 1010
+          runAsGroup: 1010
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+
+service:
+  app:
+    controller: *app
+    type: LoadBalancer
+    loadBalancerIP: 10.10.21.80
+    ports:
+      http:
+        port: 80
+      gameplay:
+        enabled: true
+        port: 2456
+        protocol: UDP
+      auth:
+        enabled: true
+        port: 2457
+        protocol: UDP
+      voip:
+        enabled: true
+        port: 2458
+        protocol: UDP
+
+persistence:
+  data:
+    existingClaim: local-valheim-pvc
+    globalMounts:
+      - path: /home/steam/.config/unity3d/IronGate/Valheim/
+      - path: /home/steam/valheim/

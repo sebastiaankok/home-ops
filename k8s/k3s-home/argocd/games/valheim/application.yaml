@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: valheim
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: games
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+      path: "k8s/k3s-home/argocd/games/valheim/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: app-template
+      repoURL: 'https://bjw-s-labs.github.io/helm-charts'
+      targetRevision: 4.6.2
+      helm:
+        releaseName: "valheim"
+        valueFiles:
+          - $values/k8s/k3s-home/argocd/games/valheim/values.yaml
