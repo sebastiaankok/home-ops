@@ -22,19 +22,19 @@ controllers:
           AUTO_UPDATE_PAUSE_WITH_PLAYERS: 1
           ENABLE_CROSSPLAY: 1
           PUBLIC: 0
-          PUID: 1010
-          PGID: 1010
+          # PUID: 1010
+          # PGID: 1010
         resources:
           requests:
             cpu: 10m
             memory: 10M
           limits:
             memory: 10Gi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
+        # securityContext:
+        #   allowPrivilegeEscalation: false
+        #   capabilities:
+        #     drop:
+        #       - ALL
 
 service:
   app:
