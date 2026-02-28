@@ -40,7 +40,7 @@ controllers:
 
 service:
   app:
-    controller: *app
+    controller: valheim
     type: LoadBalancer
     loadBalancerIP: 10.10.21.80
     ports:
