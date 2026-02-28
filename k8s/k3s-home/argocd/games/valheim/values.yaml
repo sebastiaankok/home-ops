@@ -31,8 +31,6 @@ controllers:
           limits:
             memory: 10Gi
         securityContext:
-          runAsUser: 1010
-          runAsGroup: 1010
           allowPrivilegeEscalation: false
           capabilities:
             drop:
