@@ -13,10 +13,11 @@ controllers:
           startup:
             enabled: false
         env:
-          TZ: ${TIMEZONE}
+          TZ: NL
           PORT: 2456
           NAME: "Valheim LAN"
           WORLD: "kokparadise"
+          PASSWORD: "123456"
           AUTO_UPDATE: 1
           AUTO_UPDATE_SCHEDULE: 0 4 * * *
           AUTO_UPDATE_PAUSE_WITH_PLAYERS: 1
