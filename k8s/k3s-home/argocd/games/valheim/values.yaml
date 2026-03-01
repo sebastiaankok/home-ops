@@ -13,13 +13,14 @@ controllers:
           startup:
             enabled: false
         env:
+          TZ: "Europe/Amsterdam"
           PORT: 2456
           NAME: "Valheim LAN"
           WORLD: "kokparadise"
           AUTO_UPDATE: 1
           AUTO_UPDATE_SCHEDULE: 0 4 * * *
           AUTO_UPDATE_PAUSE_WITH_PLAYERS: 1
-          ENABLE_CROSSPLAY: 1
+          TYPE: "BepInEx"
           PUBLIC: 0
           # PUID: 1010
           # PGID: 1010
