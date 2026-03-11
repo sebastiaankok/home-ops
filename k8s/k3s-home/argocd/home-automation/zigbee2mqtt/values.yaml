@@ -8,7 +8,7 @@ controllers:
       app:
         image:
           repository: koenkk/zigbee2mqtt
-          tag: 2.8.0
+          tag: 2.9.1
         probes:
           liveness:
             enabled: false
