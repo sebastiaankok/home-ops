@@ -91,7 +91,7 @@ persistence:
     enabled: true
     type: emptyDir
     medium: Memory
-    sizeLimit: 128Mi
+    sizeLimit: 256Mi
     globalMounts:
       - path: /dev/shm
 
