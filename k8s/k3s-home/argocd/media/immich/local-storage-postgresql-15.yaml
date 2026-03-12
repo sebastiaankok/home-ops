@@ -30,7 +30,6 @@ metadata:
   annotations:
     cnpg.io/nodeSerial: "1"
     cnpg.io/pvcStatus: ready
-    cnpg.io/operatorVersion: 1.28.0
   labels:
     app.kubernetes.io/name: immich
     cnpg.io/cluster: immich-postgresql-15
