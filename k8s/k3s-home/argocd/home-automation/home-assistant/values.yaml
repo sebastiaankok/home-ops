@@ -3,8 +3,8 @@ controllers:
   home-assistant:
     pod:
       # most simple way of making mdns work
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      # hostNetwork: true
+      # dnsPolicy: ClusterFirstWithHostNet
       annotations:
         backup.velero.io/backup-volumes: config
         backup.velero.io/backup-volumes-excludes: tmpfs
