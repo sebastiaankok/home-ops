@@ -59,7 +59,7 @@ service:
         port: &restream-port 8554
   external-rtsp:
     enabled: true
-    controller: *app
+    controller: frigate
     type: LoadBalancer
     loadBalancerIP: 10.10.21.70
     externalTrafficPolicy: Local
