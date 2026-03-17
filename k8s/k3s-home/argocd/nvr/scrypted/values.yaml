@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  scrypted:
+    pod:
+      # most simple way of making mdns work
+      hostNetwork: true
+      securityContext:
+        runAsUser: 1008
+        runAsGroup: 1008
+        fsGroup: 1008
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    containers:
+      app:
+        image:
+          repository: ghcr.io/bjw-s-labs/scrypted
+          tag: 0.141.0@sha256:c9e82faec2e27debeba03fd8d4bdb2aa53cdaf0f3f8aa77c04312a047db4c2ea
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+        resources:
+          requests:
+            cpu: 136m
+            memory: 1024Mi
+          limits:
+            memory: 12Gi
+
+service:
+  app:
+    controller: scrypted
+    ports:
+      http:
+        port: &port 11080
+        primary: true
+      rebroadcast1:
+        port: 34135
+      rebroadcast2:
+        port: 34136
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Video streams and webcam feeds
+      gethomepage.dev/group: Home Automation
+      gethomepage.dev/icon: sh-scrypted.svg
+      gethomepage.dev/name: Scrypted
+      gethomepage.dev/app: scrypted
+    hosts:
+      - host: scrypted.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: scrypted-https-tls
+        hosts:
+          - scrypted.otohgunga.nl
+
+persistence:
+  config:
+    existingClaim: local-scrypted-pvc
+    advancedMounts:
+      scrypted:
+        app:
+          - path: /server/volume
+  storage:
+    existingClaim: local-scrypted-pvc
+    globalMounts:
+      - path: /storage
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: /.cache
+  cache-npm:
+    type: emptyDir
+    globalMounts:
+      - path: /.npm
+  ## -- To enable GPU
+  graphics:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/dri
+    globalMounts:
+      - path: /dev/dri
