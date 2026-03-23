@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-mass-pv
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: music-assistant
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-mass
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/music-assistant"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+                - b660-i5-13600
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-mass-pvc
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: music-assistant
+spec:
+  storageClassName: local-mass
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

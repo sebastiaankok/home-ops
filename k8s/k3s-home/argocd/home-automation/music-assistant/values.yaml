@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  main:
+    # pod:
+      # most simple way of making mdns work
+      # hostNetwork: true
+      # dnsPolicy: ClusterFirstWithHostNet
+    containers:
+      app:
+        image:
+          repository: ghcr.io/music-assistant/server
+          tag: 2.8.0b22
+
+        resources:
+          requests:
+            cpu: 15m
+            memory: 1.4Gi
+          limits:
+            memory: 1.4Gi
+        securityContext:
+          runAsUser: 1009
+          runAsGroup: 1009
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+service:
+  main:
+    controller: main
+    # annotations:
+    #   lbipam.cilium.io/ips: ${SVC_MUSIC_ASSISTANT_ADDR}
+    # type: LoadBalancer
+    #externalTrafficPolicy: Cluster
+    ports:
+      http:
+        port: 8095
+      http2:
+        port: 1780
+      snapserver:
+        port: 1704
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      # nginx.org/websocket-services: home-assistant
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Music Assistant"
+      gethomepage.dev/icon: "music-assistant"
+      gethomepage.dev/description: Manage your music devices
+      gethomepage.dev/group: "Home Automation"
+    hosts:
+      - host: music.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: main
+              port: http
+            pathType: Prefix
+    tls:
+      - hosts:
+          - music.otohgunga.nl
+        secretName: music-https-tls
+
+persistence:
+  media:
+    existingClaim: local-mass-pvc
+
+  data:
+    existingClaim: local-mass-pvc
+
+  tmpfs:
+    type: emptyDir
+    globalMounts:
+      - path: /.audio
+        subPath: .audio
