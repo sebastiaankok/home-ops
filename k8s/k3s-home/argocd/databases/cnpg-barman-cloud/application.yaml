@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-barman-cloud
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+  destination:
+    name: in-cluster
+    namespace: cnpg-system
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+      path: "k8s/k3s-home/argocd/databases/cnpg-barman-cloud/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: plugin-barman-cloud
+      repoURL: 'https://cloudnative-pg.io/charts/'
+      targetRevision: 0.5.0
+      helm:
+        releaseName: "plugin-barman-cloud"
+        #valueFiles:
+        #  - $values/k8s/k3s-home/argocd/databases/cnpg-barman-cloud/values.yaml
