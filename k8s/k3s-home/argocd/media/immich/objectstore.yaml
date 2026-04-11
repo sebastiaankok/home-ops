@@ -1,0 +1,28 @@
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: backblazeb2
+  namespace: immich
+spec:
+  configuration:
+    destinationPath: s3://cnpg-operator/immich/postgresql-15
+    endpointURL: https://s3.eu-central-003.backblazeb2.com
+    s3Credentials:
+      accessKeyId:
+        name: cnpg-b2-credentials
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: cnpg-b2-credentials
+        key: ACCESS_SECRET_KEY
+      region:
+        name: cnpg-b2-credentials
+        key: ACCESS_REGION
+    wal:
+      compression: gzip
+      encryption: AES256
+    data:
+      compression: gzip
+      encryption: AES256
+      immediateCheckpoint: false
+      jobs: 2

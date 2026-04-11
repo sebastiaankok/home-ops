@@ -58,29 +58,35 @@ spec:
     storageClass: local-immich-postgresql-15
     size: 1Gi
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://cnpg-operator/immich/postgresql-15
-      endpointURL: https://s3.eu-central-003.backblazeb2.com
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-b2-credentials
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: cnpg-b2-credentials
-          key: ACCESS_SECRET_KEY
-        region:
-          name: cnpg-b2-credentials
-          key: ACCESS_REGION
-      wal:
-        compression: gzip
-        encryption: AES256
-      data:
-        compression: gzip
-        encryption: AES256
-        immediateCheckpoint: false
-        jobs: 2
-    retentionPolicy: "14d"
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: backblazeb2
+
+  # backup:
+  #   barmanObjectStore:
+  #     destinationPath: s3://cnpg-operator/immich/postgresql-15
+  #     endpointURL: https://s3.eu-central-003.backblazeb2.com
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cnpg-b2-credentials
+  #         key: ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: cnpg-b2-credentials
+  #         key: ACCESS_SECRET_KEY
+  #       region:
+  #         name: cnpg-b2-credentials
+  #         key: ACCESS_REGION
+  #     wal:
+  #       compression: gzip
+  #       encryption: AES256
+  #     data:
+  #       compression: gzip
+  #       encryption: AES256
+  #       immediateCheckpoint: false
+  #       jobs: 2
+  #   retentionPolicy: "14d"
 
   resources:
     requests:
