@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, pkgs-unstable, ...}:
 {
   home.packages = with pkgs; [
     # languages
@@ -78,6 +78,7 @@
 
     ## ai
     aider-chat-full
+    pkgs-unstable.claude-code
 
     ## gui
     moonlight-qt
