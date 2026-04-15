@@ -32,8 +32,8 @@
     };
 
   };
-  outputs = inputs@{ self, nixpkgs, nix-darwin, unstable, sops-nix, microvm, home-manager
-    , nixvim, ... }: {
+  outputs = inputs@{ self, nixpkgs, nix-darwin, unstable, sops-nix, microvm
+    , home-manager, nixvim, ... }: {
 
       # NixOS configuration for B660-i5-13600 (host)
       nixosConfigurations.b660-i5-13600 = nixpkgs.lib.nixosSystem rec {
@@ -52,7 +52,6 @@
           ./hosts/b660-i5-13600
           ./profiles
           ./modules
-          #./modules/virtual/k3s-home/default.nix
         ];
       };
       # Laptop (dev machine)
@@ -77,34 +76,31 @@
       };
 
       # Laptop (macbook)
-      darwinConfigurations.MacBook-Pro-van-Sebastiaan = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          {
-            nixpkgs = {
-              config.allowUnfree = true;
-            };
-          }
-          ./hosts/macbook-m5
-          home-manager.darwinModules.home-manager
-          {
-            users.users.sebastiaan.home = "/Users/sebastiaan";
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit inputs;
-                pkgs-unstable = import unstable {        # <-- add this
-                  config.allowUnfree = true;
-                  system = "aarch64-darwin";
+      darwinConfigurations.MacBook-Pro-van-Sebastiaan =
+        nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            { nixpkgs = { config.allowUnfree = true; }; }
+            ./hosts/macbook-m5
+            home-manager.darwinModules.home-manager
+            {
+              users.users.sebastiaan.home = "/Users/sebastiaan";
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                  pkgs-unstable = import unstable {
+                    config.allowUnfree = true;
+                    system = "aarch64-darwin";
+                  };
                 };
+                sharedModules = [ nixvim.homeManagerModules.nixvim ];
+                users = { sebastiaan = import ./home/modules/default.nix; };
               };
-              sharedModules = [ nixvim.homeManagerModules.nixvim ];
-              users = { sebastiaan = import ./home/modules/default.nix; };
-            };
-          }
-        ];
-      };
+            }
+          ];
+        };
 
     };
 }
