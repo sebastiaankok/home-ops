@@ -80,11 +80,11 @@
       darwinConfigurations.MacBook-Pro-van-Sebastiaan = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-	  {
-	    nixpkgs = {
-		config.allowUnfree = true;
+          {
+            nixpkgs = {
+              config.allowUnfree = true;
             };
-	  }
+          }
           ./hosts/macbook-m5
           home-manager.darwinModules.home-manager
           {
@@ -92,7 +92,13 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
+              extraSpecialArgs = {
+                inherit inputs;
+                pkgs-unstable = import unstable {        # <-- add this
+                  config.allowUnfree = true;
+                  system = "aarch64-darwin";
+                };
+              };
               sharedModules = [ nixvim.homeManagerModules.nixvim ];
               users = { sebastiaan = import ./home/modules/default.nix; };
             };
