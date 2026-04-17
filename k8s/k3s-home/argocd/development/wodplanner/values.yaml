@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+defaultPodOptions:
+  imagePullSecrets:
+    - name: ghcr-secret
+controllers:
+  wodplanner:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/sebastiaankok/wodplanner
+          tag: main
+          pullPolicy: Always
+        resources:
+          requests:
+            cpu: 10m
+            memory: 250Mi
+          limits:
+            memory: 1Gi
+        securityContext:
+          runAsUser: 1010
+          runAsGroup: 1010
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+service:
+  app:
+    controller: wodplanner
+    ports:
+      http:
+        port: 8000
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Wodplanner"
+      gethomepage.dev/icon: "sport"
+      gethomepage.dev/description: Manage your wod workouts
+      gethomepage.dev/group: "Media"
+    hosts:
+      - host: wodplanner.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+            pathType: Prefix
+    tls:
+      - hosts:
+          - wodplanner.otohgunga.nl
+        secretName: wodplanner-https-tls
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: local-wodplanner-pvc
+    globalMounts:
+      - path: /data
