@@ -7,6 +7,7 @@
     pipx
     virtualenv
     go
+    nodejs
 
     ## language utils
     black
