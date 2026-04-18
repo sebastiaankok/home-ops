@@ -75,27 +75,7 @@ service:
 
 ingress:
   app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Wodplanner"
-      gethomepage.dev/icon: "mdi-dumbbell"
-      gethomepage.dev/description: Manage your wod workouts
-      gethomepage.dev/group: "Media"
-    hosts:
-      - host: wodplanner.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-            pathType: Prefix
-    tls:
-      - hosts:
-          - wodplanner.otohgunga.nl
-        secretName: wodplanner-https-tls
+    enabled: false
 
 persistence:
   config:
