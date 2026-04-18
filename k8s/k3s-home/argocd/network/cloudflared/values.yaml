@@ -54,8 +54,8 @@ defaultPodOptions:
 #       - path: /etc/cloudflared/config.yaml
 #         subPath: config.yaml
 #         readOnly: true
-service:
-  app:
-    ports:
-      http:
-        port: *port
+# service:
+#   app:
+#     ports:
+#       http:
+#         port: *port
