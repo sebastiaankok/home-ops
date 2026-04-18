@@ -18,6 +18,7 @@ controllers:
           limits:
             memory: 1Gi
         env:
+          ENVIRONMENT: "production"
           API_CACHE_TTL_SECONDS: 600
           SECRET_KEY:
             valueFrom:
