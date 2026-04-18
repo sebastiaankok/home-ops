@@ -46,8 +46,14 @@ controllers:
     strategy: RollingUpdate
     containers:
       app:
-        command: "backup-db"
-        args: "--db-path /data/wodplanner.db --backup-dir /data/backups --keep 7"
+        command:
+          - backup-db
+          - --db-path
+          - /data/wodplanner.db
+          - --backup-dir
+          - /data/backups
+          - --keep
+          - "7"
         image:
           repository: ghcr.io/sebastiaankok/wodplanner
           tag: main
