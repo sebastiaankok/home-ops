@@ -1,0 +1,64 @@
+controllers:
+  cloudflared:
+    replicas: 2
+    strategy: RollingUpdate
+    containers:
+      app:
+        image:
+          repository: mirror.gcr.io/cloudflare/cloudflared
+          tag: 2026.3.0@sha256:6b599ca3e974349ead3286d178da61d291961182ec3fe9c505e1dd02c8ac31b0
+        args:
+          - tunnel
+          - run
+        env:
+          NO_AUTOUPDATE: true
+          # TUNNEL_METRICS: 0.0.0.0:80
+          TUNNEL_TRANSPORT_PROTOCOL: http2
+        envFrom:
+          - secretRef:
+              name: "cloudflared-secret"
+              key: "tunnel-token"
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ready
+                port: &port 80
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness: *probes
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+persistence:
+  config:
+    type: configMap
+    name: "cloudflared-configmap"
+    globalMounts:
+      - path: /etc/cloudflared/config.yaml
+        subPath: config.yaml
+        readOnly: true
+service:
+  app:
+    ports:
+      http:
+        port: *port
+serviceMonitor:
+  app:
+    endpoints:
+      - port: http

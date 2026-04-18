@@ -1,0 +1,8 @@
+---
+ingress:
+  - hostname: "wodplanner.otohgunga.nl"
+    service: https://wodplanner.wodplanner.svc.cluster.local:8000
+    originRequest:
+      noTLSVerify: true
+      originServerName: "wodplanner.wodplanner.svc.cluster.local"
+  - service: http_status:404
