@@ -1,7 +1,8 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: cloudflared-egress-policy
+  name: wodplanner-no-internal-access
+
 spec:
   endpointSelector: {}
   egress:
@@ -13,10 +14,6 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-
-    - toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: wodplanner
 
     - toCIDRSet:
         - cidr: 0.0.0.0/0
