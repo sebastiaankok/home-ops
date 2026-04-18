@@ -4,6 +4,7 @@ defaultPodOptions:
     - name: ghcr-secret
 controllers:
   wodplanner:
+    strategy: RollingUpdate
     containers:
       app:
         image:
