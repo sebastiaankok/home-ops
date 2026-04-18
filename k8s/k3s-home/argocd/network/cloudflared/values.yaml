@@ -46,14 +46,14 @@ defaultPodOptions:
     runAsNonRoot: true
     runAsUser: 1000
     runAsGroup: 1000
-persistence:
-  config:
-    type: configMap
-    name: "cloudflared-configmap"
-    globalMounts:
-      - path: /etc/cloudflared/config.yaml
-        subPath: config.yaml
-        readOnly: true
+# persistence:
+#   config:
+#     type: configMap
+#     name: "cloudflared-configmap"
+#     globalMounts:
+#       - path: /etc/cloudflared/config.yaml
+#         subPath: config.yaml
+#         readOnly: true
 service:
   app:
     ports:
