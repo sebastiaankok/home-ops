@@ -33,6 +33,33 @@ controllers:
           capabilities:
             drop:
               - ALL
+  backup:
+    cronjob:
+      backoffLimit: 2
+      concurrencyPolicy: Forbid
+      failedJobsHistory: 1
+      schedule: "0 1 * * *"
+      startingDeadlineSeconds: 30
+      successfulJobsHistory: 1
+      suspend: false
+    type: cronjob
+    strategy: RollingUpdate
+    containers:
+      app:
+        command: "backup-db"
+        args: "--db-path /data/wodplanner.db --backup-dir /data/backups --keep 7"
+        image:
+          repository: ghcr.io/sebastiaankok/wodplanner
+          tag: main
+          pullPolicy: Always
+        resources:
+          requests:
+            cpu: 10m
+            memory: 250Mi
+          limits:
+            memory: 1Gi
+
+
 service:
   app:
     controller: wodplanner
@@ -70,3 +97,5 @@ persistence:
     existingClaim: local-wodplanner-pvc
     globalMounts:
       - path: /data
+
+
