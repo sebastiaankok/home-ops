@@ -59,7 +59,3 @@ service:
     ports:
       http:
         port: *port
-serviceMonitor:
-  app:
-    endpoints:
-      - port: http
