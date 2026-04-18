@@ -19,19 +19,19 @@ controllers:
               secretKeyRef:
                 name: cloudflared-secret
                 key: tunnel-token
-        probes:
-          liveness: &probes
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /ready
-                port: &port 80
-              initialDelaySeconds: 0
-              periodSeconds: 10
-              timeoutSeconds: 5
-              failureThreshold: 3
-          readiness: *probes
+        # probes:
+        #   liveness: &probes
+        #     enabled: true
+        #     custom: true
+        #     spec:
+        #       httpGet:
+        #         path: /ready
+        #         port: &port 800
+        #       initialDelaySeconds: 0
+        #       periodSeconds: 10
+        #       timeoutSeconds: 5
+        #       failureThreshold: 3
+        #   readiness: *probes
         resources:
           requests:
             cpu: 10m
