@@ -12,26 +12,12 @@ controllers:
           - run
         env:
           NO_AUTOUPDATE: true
-          # TUNNEL_METRICS: 0.0.0.0:80
           TUNNEL_TRANSPORT_PROTOCOL: http2
           TUNNEL_TOKEN:
             valueFrom:
               secretKeyRef:
                 name: cloudflared-secret
                 key: tunnel-token
-        # probes:
-        #   liveness: &probes
-        #     enabled: true
-        #     custom: true
-        #     spec:
-        #       httpGet:
-        #         path: /ready
-        #         port: &port 800
-        #       initialDelaySeconds: 0
-        #       periodSeconds: 10
-        #       timeoutSeconds: 5
-        #       failureThreshold: 3
-        #   readiness: *probes
         resources:
           requests:
             cpu: 10m
@@ -46,16 +32,3 @@ defaultPodOptions:
     runAsNonRoot: true
     runAsUser: 1000
     runAsGroup: 1000
-# persistence:
-#   config:
-#     type: configMap
-#     name: "cloudflared-configmap"
-#     globalMounts:
-#       - path: /etc/cloudflared/config.yaml
-#         subPath: config.yaml
-#         readOnly: true
-# service:
-#   app:
-#     ports:
-#       http:
-#         port: *port
