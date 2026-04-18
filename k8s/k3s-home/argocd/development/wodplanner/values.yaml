@@ -16,6 +16,13 @@ controllers:
             memory: 250Mi
           limits:
             memory: 1Gi
+        env:
+          API_CACHE_TTL_SECONDS: 600
+          SECRET_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: wodplanner-secret
+                key: cookie_secret
         securityContext:
           runAsUser: 1010
           runAsGroup: 1010
@@ -39,7 +46,7 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Wodplanner"
-      gethomepage.dev/icon: "sport"
+      gethomepage.dev/icon: "mdi-dumbbell"
       gethomepage.dev/description: Manage your wod workouts
       gethomepage.dev/group: "Media"
     hosts:

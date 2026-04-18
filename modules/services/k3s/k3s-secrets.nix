@@ -29,5 +29,8 @@
     secrets."k3s-home/argocd-repo.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/wodplanner-secret.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
