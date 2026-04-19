@@ -40,7 +40,7 @@ controllers:
       failedJobsHistory: 1
       schedule: "0 1 * * *"
       startingDeadlineSeconds: 30
-      successfulJobsHistory: 1
+      successfulJobsHistory: 0
       suspend: false
     type: cronjob
     strategy: RollingUpdate
