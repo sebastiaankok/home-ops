@@ -10,7 +10,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/music-assistant/server
-          tag: 2.8.5
+          tag: 2.8.6
 
         resources:
           requests:
