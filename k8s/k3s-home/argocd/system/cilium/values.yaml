@@ -1,3 +1,4 @@
+---
 operator:
   replicas: 1
 hubble:

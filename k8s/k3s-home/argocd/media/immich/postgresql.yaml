@@ -15,7 +15,7 @@ spec:
   postgresql:
     shared_preload_libraries:
       # psvectors library to do migration
-      #- "vectors.so"
+      # - "vectors.so"
       - "vchord.so"
 
     parameters:
@@ -28,15 +28,15 @@ spec:
 
   managed:
     roles:
-    - name: immich
-      connectionLimit: -1
-      inherit: true
-      ensure: present
-      comment: Immich
-      login: true
-      superuser: true
-      passwordSecret:
-        name: postgresql-user-immich
+      - name: immich
+        connectionLimit: -1
+        inherit: true
+        ensure: present
+        comment: Immich
+        login: true
+        superuser: true
+        passwordSecret:
+          name: postgresql-user-immich
 
   bootstrap:
     initdb:
@@ -45,10 +45,10 @@ spec:
       secret:
         name: postgresql-user-immich
       postInitSQL:
-       - CREATE EXTENSION IF NOT EXISTS "vector";
-       - CREATE EXTENSION IF NOT EXISTS "vchord" CASCADE;
-       - CREATE EXTENSION IF NOT EXISTS "cube" CASCADE;
-       - CREATE EXTENSION IF NOT EXISTS "earthdistance" CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS "vector";
+        - CREATE EXTENSION IF NOT EXISTS "vchord" CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS "cube" CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS "earthdistance" CASCADE;
 
   enableSuperuserAccess: true
   superuserSecret:
@@ -59,10 +59,10 @@ spec:
     size: 1Gi
 
   plugins:
-  - name: barman-cloud.cloudnative-pg.io
-    isWALArchiver: true
-    parameters:
-      barmanObjectName: backblazeb2
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: backblazeb2
 
   # backup:
   #   barmanObjectStore:

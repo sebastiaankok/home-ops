@@ -1,3 +1,4 @@
+---
 controllers:
   server:
     strategy: RollingUpdate
@@ -11,7 +12,7 @@ controllers:
         runAsNonRoot: true
       annotations:
         backup.velero.io/backup-volumes: library
-        #backup.velero.io/backup-volumes-excludes: cache, matplotlib, tmpfs
+        # backup.velero.io/backup-volumes-excludes: cache, matplotlib, tmpfs
     containers:
       main:
         image:
@@ -54,7 +55,7 @@ controllers:
         runAsNonRoot: true
       annotations:
         backup.velero.io/backup-volumes: library
-        #backup.velero.io/backup-volumes-excludes: library, cache, matplotlib, tmpfs
+        # backup.velero.io/backup-volumes-excludes: library, cache, matplotlib, tmpfs
     containers:
       main:
         image:

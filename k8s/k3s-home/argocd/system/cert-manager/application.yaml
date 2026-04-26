@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,16 +9,16 @@ metadata:
 spec:
   project: default
   ignoreDifferences:
-  - kind: ClusterIssuer
-    group: cert-manager.io
-    name: letsencrypt-dns
-    jqPathExpressions:
-      - '.spec.acme.preferredChain'
+    - kind: ClusterIssuer
+      group: cert-manager.io
+      name: letsencrypt-dns
+      jqPathExpressions:
+        - '.spec.acme.preferredChain'
   syncPolicy:
     automated:
       prune: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
   destination:
     name: in-cluster
     namespace: cert-manager

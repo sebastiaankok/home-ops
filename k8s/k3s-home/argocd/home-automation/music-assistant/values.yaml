@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
 controllers:
   main:
     replicas: 0
@@ -32,7 +33,7 @@ service:
     # annotations:
     #   lbipam.cilium.io/ips: ${SVC_MUSIC_ASSISTANT_ADDR}
     # type: LoadBalancer
-    #externalTrafficPolicy: Cluster
+    # externalTrafficPolicy: Cluster
     ports:
       http:
         port: 8095

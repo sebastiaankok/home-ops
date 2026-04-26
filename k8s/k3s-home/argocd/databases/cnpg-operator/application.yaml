@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,8 +12,8 @@ spec:
     automated:
       prune: true
     syncOptions:
-    - CreateNamespace=true
-    - ServerSideApply=true
+      - CreateNamespace=true
+      - ServerSideApply=true
   destination:
     name: in-cluster
     namespace: cnpg-system
@@ -28,5 +29,5 @@ spec:
       targetRevision: 0.28.0
       helm:
         releaseName: "cnpg-operator"
-        #valueFiles:
+        # valueFiles:
         #  - $values/k8s/k3s-home/argocd/databases/cnpg-operator/values.yaml

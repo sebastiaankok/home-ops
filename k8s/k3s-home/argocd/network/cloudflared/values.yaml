@@ -1,3 +1,4 @@
+---
 controllers:
   cloudflared:
     replicas: 2
@@ -26,7 +27,7 @@ controllers:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: { drop: ["ALL"] }
+          capabilities: {drop: ["ALL"]}
 defaultPodOptions:
   securityContext:
     runAsNonRoot: true
