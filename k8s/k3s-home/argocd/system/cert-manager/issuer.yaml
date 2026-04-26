@@ -13,7 +13,7 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - dns01:
-      cloudflare:
-        apiTokenSecretRef:
-          key: api-token
-          name: cloudflare-api-token-secret
+        cloudflare:
+          apiTokenSecretRef:
+            key: api-token
+            name: cloudflare-api-token-secret
