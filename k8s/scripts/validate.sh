@@ -137,7 +137,7 @@ layer2_schema() {
 
     if echo "$output" | grep -q '"kind":"ValidationError"'; then
       log_fail "$yaml_file"
-      echo "$output" | jq -r '.[] | select(.kind == "ValidationError") | .details' 2>/dev/null || echo "$output" | head -5
+      echo "$output" | jq -r '.[] | select(.kind == "ValidationError") | .details' 2>/dev/null || head -5 <<< "$output"
       ((failed++))
     elif echo "$output" | grep -q '"kind":"Error"'; then
       local error_msg
@@ -197,8 +197,15 @@ layer3_helm() {
         continue
       fi
 
-      if [[ ! -f "$values_yaml" ]]; then
-        log_skip "$app_name (no values.yaml)"
+      local has_values=false
+      if [[ -f "$values_yaml" ]]; then
+        has_values=true
+      fi
+
+      local first_line
+      IFS= read -r first_line < "$app_yaml" || true
+      if [[ "$first_line" == "#"* ]]; then
+        log_skip "$app_name (commented out)"
         ((skipped++))
         continue
       fi
@@ -234,19 +241,25 @@ layer3_helm() {
       local release_name
       release_name=$(yq -r '.spec.sources[1].helm.releaseName // .metadata.name' "$app_yaml")
 
+      local helm_args=(
+        "$release_name" "$repo_name/$chart"
+        --version "$version"
+        --namespace default
+      )
+      if [[ "$has_values" == "true" ]]; then
+        helm_args+=(-f "$values_yaml")
+      fi
+
       local rendered
-      rendered=$(helm template "$release_name" "$repo_name/$chart" \
-        --version "$version" \
-        -f "$values_yaml" \
-        --namespace default 2>&1) || {
+      rendered=$(helm template "${helm_args[@]}" 2>&1) || {
         log_fail "$app_name (helm template failed)"
-        echo "$rendered" | head -10
+        head -10 <<< "$rendered"
         ((failed++))
         continue
       }
 
       local result
-      result=$(echo "$rendered" | kubeconform "${KUBECONFORM_FLAGS[@]}" - 2>&1) || true
+      result=$(kubeconform "${KUBECONFORM_FLAGS[@]}" - 2>&1 <<< "$rendered") || true
 
       if echo "$result" | grep -q '"kind":"ValidationError"'; then
         log_fail "$app_name (rendered manifest invalid)"
