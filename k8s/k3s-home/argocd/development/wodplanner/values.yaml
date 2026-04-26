@@ -6,7 +6,7 @@ controllers:
     containers:
       app:
         image:
-          repository: ghcr.io/8go/wod-planner
+          repository: ghcr.io/sebastiaankok/wodplanner
           tag: latest
         env:
           TZ: Europe/Amsterdam
