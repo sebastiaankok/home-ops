@@ -6,7 +6,7 @@ A single flake-based NixOS + nix-darwin repo that manages:
 1. **NixOS/darwin hosts** — declarative machine configs rebuilt with `nixos-rebuild` / `darwin-rebuild`
 2. **Kubernetes workloads** — k3s cluster running directly on `b660-i5-13600`, bootstrapped by Nix once, then managed by ArgoCD via GitOps
 
-There are no traditional build/test/lint steps. Changes are applied by rebuilding Nix configurations or pushing to `main` for ArgoCD to reconcile.
+There are traditional lint/test steps for K8s manifests. Changes to `k8s/k3s-home/argocd/` are validated via CI before merging.
 
 ## Repository layout
 
@@ -91,3 +91,34 @@ See [`k8s/KUBERNETES.md`](k8s/KUBERNETES.md) for full templates and patterns. Su
 - Nix files use 2-space indentation.
 - YAML files use 2-space indentation.
 - Renovate handles dependency updates — do not manually bump versions that Renovate manages (Helm charts, container images, GitHub Actions).
+
+## Testing & Linting (k8s/)
+
+Validation runs in CI on PRs and pushes to `main` for files in `k8s/**`.
+
+### Layers
+
+1. **YAML lint** — `yamllint` validates syntax and formatting
+2. **K8s schema** — `kubeconform` validates raw manifests (namespace, PV/PVC, ConfigMap, etc.) against K8s CRD schemas
+3. **Helm template** — Renders each app's Helm chart with its `values.yaml` and validates the output with `kubeconform`
+
+### Local testing
+
+```bash
+# Enter the dev shell
+nix develop
+
+# Run all validation layers
+cd k8s/k3s-home/argocd
+../scripts/validate.sh --all
+
+# Run specific layers
+../scripts/validate.sh --yaml-lint
+../scripts/validate.sh --schema
+../scripts/validate.sh --helm
+```
+
+### CI workflow
+
+- `.github/workflows/validate-k8s.yaml` runs on PRs and pushes to `main` touching `k8s/**`
+- Renovate auto-merges wait for CI to pass (no longer ignores tests)

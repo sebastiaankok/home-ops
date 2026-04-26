@@ -1,77 +1,54 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 controllers:
-  unifi:
+  unifi-controller:
+    replicas: 1
     containers:
       app:
         image:
-          repository: jacobalberty/unifi
-          tag: v10.0.162@sha256:896c0ab82d33300694dae82982fd7094497afcbea0be92cadc1e94bfead731d3
-          pullPolicy: IfNotPresent
+          repository: ghcr.io/Bj0/uniFi-controller
+          tag: latest
         env:
-          TZ: "Europe/Amsterdam"
-          RUNAS_UID0: "false"
-          UNIFI_UID: "1007"
-          UNIFI_GID: "1007"
-          UNIFI_STDOUT: "true"
-          JVM_INIT_HEAP_SIZE:
-          JVM_MAX_HEAP_SIZE: 1024M
+          TZ: Europe/Amsterdam
+          PGID: "1000"
+          PUID: "1000"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
-            memory: 1Gi
-            cpu: 50m
+            cpu: 250m
+            memory: 512Mi
           limits:
-            memory: 1600Mi
+            memory: 1Gi
+    pod:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
 service:
   app:
-    controller: unifi
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-    loadBalancerIP: 10.10.21.70
+    controller: unifi-controller
     ports:
       http:
-        port: 8443
-        protocol: HTTPS
-      controller:
-        enabled: true
         port: 8080
-        protocol: TCP
-      portal-http:
-        enabled: false
+      https:
+        port: 8443
+      captportal:
         port: 8880
-        protocol: HTTP
-      portal-https:
-        enabled: false
+      gui:
         port: 8843
-        protocol: HTTPS
-      speedtest:
-        enabled: true
-        port: 6789
-        protocol: TCP
       stun:
-        enabled: true
         port: 3478
-        protocol: UDP
-      syslog:
-        enabled: true
-        port: 5514
-        protocol: UDP
-      discovery:
-        enabled: true
-        port: 10001
-        protocol: UDP
-
-persistence:
-  data:
-    existingClaim: local-unifi-pvc
-    globalMounts:
-      - path: /unifi
-
 ingress:
   app:
     enabled: true
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      gethomepage.dev/enabled: "true"
     hosts:
       - host: unifi.otohgunga.nl
         paths:
@@ -79,8 +56,8 @@ ingress:
             service:
               identifier: app
               port: http
+            pathType: Prefix
     tls:
       - secretName: unifi-https-tls
         hosts:
           - unifi.otohgunga.nl
-

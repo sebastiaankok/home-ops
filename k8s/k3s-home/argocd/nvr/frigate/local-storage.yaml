@@ -2,19 +2,19 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: local-frigate-pv
-  namespace: frigate
+  namespace: nvr
   labels:
     app.kubernetes.io/name: frigate
 spec:
   capacity:
-    storage: 1Gi
+    storage: 100Gi
   volumeMode: Filesystem
   storageClassName: local-frigate
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: /data/frigate
+    path: "/data/frigate"
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -29,7 +29,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: local-frigate-pvc
-  namespace: frigate
+  namespace: nvr
   labels:
     app.kubernetes.io/name: frigate
 spec:
@@ -39,4 +39,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-

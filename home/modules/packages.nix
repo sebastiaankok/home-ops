@@ -19,6 +19,8 @@
     stylua
     taplo
     yamlfmt
+    yamllint
+
     # ansible-lint
 
     # system tools
@@ -72,6 +74,7 @@
     stern
     cilium-cli
     kubernetes-helm
+    kubeconform
     helm-ls
     argocd
     velero

@@ -1,0 +1,42 @@
+---
+name: Validate K8s Manifests
+
+on:
+  pull_request:
+    paths:
+      - 'k8s/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'k8s/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: '3.17.0'
+
+      - name: Install yq
+        run: |
+          YQ_VERSION="v4.44.3"
+          curl -sSL "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" -o /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+
+      - name: Install kubeconform
+        run: |
+          KUBECONFORM_VERSION="v0.11.0"
+          curl -sSL "https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz" | tar xz -C /usr/local/bin kubeconform
+          chmod +x /usr/local/bin/kubeconform
+
+      - name: Install yamllint
+        run: pip install yamllint --quiet
+
+      - name: Run validation
+        run: bash k8s/scripts/validate.sh --all

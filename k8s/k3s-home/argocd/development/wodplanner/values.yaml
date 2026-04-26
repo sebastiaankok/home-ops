@@ -1,87 +1,59 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
-defaultPodOptions:
-  imagePullSecrets:
-    - name: ghcr-secret
 controllers:
   wodplanner:
-    strategy: RollingUpdate
+    replicas: 1
     containers:
       app:
         image:
-          repository: ghcr.io/sebastiaankok/wodplanner
-          tag: main
-          pullPolicy: Always
-        resources:
-          requests:
-            cpu: 10m
-            memory: 250Mi
-          limits:
-            memory: 1Gi
+          repository: ghcr.io/8go/wod-planner
+          tag: latest
         env:
-          ENVIRONMENT: "production"
-          API_CACHE_TTL_SECONDS: 86400
-          SECRET_KEY:
-            valueFrom:
-              secretKeyRef:
-                name: wodplanner-secret
-                key: cookie_secret
+          TZ: Europe/Amsterdam
         securityContext:
-          runAsUser: 1010
-          runAsGroup: 1010
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           capabilities:
             drop:
               - ALL
-  backup:
-    cronjob:
-      backoffLimit: 2
-      concurrencyPolicy: Forbid
-      failedJobsHistory: 1
-      schedule: "0 1 * * *"
-      startingDeadlineSeconds: 30
-      successfulJobsHistory: 0
-      suspend: false
-    type: cronjob
-    strategy: RollingUpdate
-    containers:
-      app:
-        command:
-          - backup-db
-          - --db-path
-          - /data/wodplanner.db
-          - --backup-dir
-          - /data/backups
-          - --keep
-          - "7"
-        image:
-          repository: ghcr.io/sebastiaankok/wodplanner
-          tag: main
-          pullPolicy: Always
         resources:
           requests:
             cpu: 10m
-            memory: 250Mi
+            memory: 128Mi
           limits:
-            memory: 1Gi
-
-
+            memory: 256Mi
+    pod:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
 service:
   app:
     controller: wodplanner
     ports:
       http:
-        port: 8000
-
+        port: 8080
 ingress:
   app:
-    enabled: false
-
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      gethomepage.dev/enabled: "true"
+    hosts:
+      - host: wod.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+            pathType: Prefix
+    tls:
+      - hosts:
+          - wod.otohgunga.nl
+        secretName: wod-https-tls
 persistence:
   config:
     enabled: true
     existingClaim: local-wodplanner-pvc
     globalMounts:
       - path: /data
-
-

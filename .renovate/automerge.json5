@@ -8,7 +8,6 @@
       automergeType: "branch",
       matchUpdateTypes: ["minor", "patch", "digest"],
       minimumReleaseAge: "3 days",
-      ignoreTests: true,
     },
     {
       description: "Auto-merge trusted GitHub Actions",
@@ -21,7 +20,6 @@
       automergeType: "branch",
       matchUpdateTypes: ["minor", "patch", "digest"],
       minimumReleaseAge: "1 minute",
-      ignoreTests: true,
     },
     {
       description: "Auto-merge GitHub Releases",
@@ -30,7 +28,6 @@
       automergeType: "branch",
       matchUpdateTypes: ["minor", "patch"],
       matchPackageNames: ["/external-dns/", "/gateway-api/", "/prometheus-operator/"],
-      ignoreTests: true,
     },
   ],
 }
