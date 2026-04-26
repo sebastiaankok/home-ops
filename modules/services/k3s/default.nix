@@ -22,12 +22,6 @@
       #"--disable-kube-proxy"
     ];
 
-    autoDeployCharts = {
-      argocd = import ./charts/argocd.nix;
-      cilium = import ./charts/cilium.nix;
-    };
-
-    # -- Install secrets (mounted sops directory)
     manifests = {
       copy-secrets-job = import ./manifests/copy-secrets-job.nix;
     };

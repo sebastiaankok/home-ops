@@ -40,38 +40,7 @@
   };
   extraFieldDefinitions = {
     spec = {
-      repo = "https://argoproj.github.io/argo-helm";
-      chart = "argo-cd";
-      version = "9.3.5";
       bootstrap = true;
     };
   };
-  extraDeploy = [
-    {
-      apiVersion = "argoproj.io/v1alpha1";
-      kind = "Application";
-      metadata = {
-        name = "gitops-ctrl";
-        namespace = "argocd";
-      };
-      spec = {
-        project = "default";
-        source = {
-          repoURL = "https://github.com/sebastiaankok/k8s-homelab.git";
-          path = "k8s/k3s-home/argocd";
-          targetRevision = "HEAD";
-          directory = {
-            recurse = true;
-            include = "*/application.yaml";
-            jsonnet = {};
-          };
-        };
-        destination = {
-          name = "in-cluster";
-          namespace = "argocd";
-        };
-        syncPolicy = {};
-      };
-    }
-  ];
 }

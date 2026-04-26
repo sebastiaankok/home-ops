@@ -3,8 +3,8 @@
   targetNamespace = "argocd";
   createNamespace = true;
   repo = "https://argoproj.github.io/argo-helm";
-  version = "9.1.7"; # pick the version you want
-  hash = "sha256-s0+KjafBudeIQT3JvsA6iCexG1q4cZtqN6G/k09b4g4=";
+  version = "9.3.5";
+  hash = "sha256-CEQ9z/0qrfITM7zMb5abe+ihQ/C1fj5jgDd4DgBGmuo=";
   values = {
     global = {
       domain = "argocd.otohgunga.nl";
@@ -38,32 +38,4 @@
       };
     };
   };
-  extraDeploy = [
-    {
-      apiVersion = "argoproj.io/v1alpha1";
-      kind = "Application";
-      metadata = {
-        name = "gitops-ctrl";
-        namespace = "argocd";
-      };
-      spec = {
-        project = "default";
-        source = {
-          repoURL = "https://github.com/sebastiaankok/k8s-homelab.git";
-          path = "k8s/k3s-home/argocd";
-          targetRevision = "HEAD";
-          directory = {
-            recurse = true;
-            include = "*/application.yaml";
-            jsonnet = {};
-          };
-        };
-        destination = {
-          name = "in-cluster";
-          namespace = "argocd";
-        };
-        syncPolicy = {};
-      };
-    }
-  ];
 }

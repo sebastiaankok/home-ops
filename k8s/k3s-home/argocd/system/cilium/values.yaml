@@ -1,0 +1,18 @@
+operator:
+  replicas: 1
+hubble:
+  ui:
+    enabled: true
+  relay:
+    enabled: true
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: "10.42.0.0/16"
+tunnelProtocol: geneve
+l2announcements:
+  enabled: true
+  leaseDuration: "120s"
+  leaseRenewDeadline: "60s"
+  leaseRetryPeriod: "10s"
+externalIPs:
+  enabled: true

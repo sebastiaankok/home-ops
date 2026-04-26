@@ -22,40 +22,8 @@
   };
   extraFieldDefinitions = {
     spec = {
-      repo = "https://helm.cilium.io/";
-      chart = "cilium";
-      version = "1.18.6";
       bootstrap = true;
     };
   };
-  extraDeploy = [
-    {
-      apiVersion = "cilium.io/v2";
-      kind = "CiliumLoadBalancerIPPool";
-      metadata = {
-        name = "all";
-      };
-      spec = {
-        blocks = [
-          {
-            start = "10.10.21.30";
-            stop  = "10.10.21.100";
-          }
-        ];
-      };
-    }
-    {
-      apiVersion = "cilium.io/v2alpha1";
-      kind = "CiliumL2AnnouncementPolicy";
-      metadata = {
-        name = "policy-all";
-      };
-      spec = {
-        interfaces = [ "^ens[0-9]+" "enp3s[0-9]+" ];
-        externalIPs = true;
-        loadBalancerIPs = true;
-      };
-    }
-  ];
 }
 
