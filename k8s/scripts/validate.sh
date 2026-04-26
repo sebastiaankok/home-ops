@@ -197,10 +197,9 @@ layer3_helm() {
         continue
       fi
 
-      if [[ ! -f "$values_yaml" ]]; then
-        log_skip "$app_name (no values.yaml)"
-        ((skipped++))
-        continue
+      local has_values=false
+      if [[ -f "$values_yaml" ]]; then
+        has_values=true
       fi
 
       local first_line
@@ -242,11 +241,17 @@ layer3_helm() {
       local release_name
       release_name=$(yq -r '.spec.sources[1].helm.releaseName // .metadata.name' "$app_yaml")
 
+      local helm_args=(
+        "$release_name" "$repo_name/$chart"
+        --version "$version"
+        --namespace default
+      )
+      if [[ "$has_values" == "true" ]]; then
+        helm_args+=(-f "$values_yaml")
+      fi
+
       local rendered
-      rendered=$(helm template "$release_name" "$repo_name/$chart" \
-        --version "$version" \
-        -f "$values_yaml" \
-        --namespace default 2>&1) || {
+      rendered=$(helm template "${helm_args[@]}" 2>&1) || {
         log_fail "$app_name (helm template failed)"
         head -10 <<< "$rendered"
         ((failed++))
