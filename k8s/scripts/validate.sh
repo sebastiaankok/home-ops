@@ -203,6 +203,14 @@ layer3_helm() {
         continue
       fi
 
+      local first_line
+      IFS= read -r first_line < "$app_yaml" || true
+      if [[ "$first_line" == "#"* ]]; then
+        log_skip "$app_name (commented out)"
+        ((skipped++))
+        continue
+      fi
+
       local chart repo_url version
       chart=$(yq '.spec.sources[1].chart // ""' "$app_yaml" 2>/dev/null) || continue
       repo_url=$(yq '.spec.sources[1].repoURL // ""' "$app_yaml" 2>/dev/null) || continue
