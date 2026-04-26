@@ -12,7 +12,7 @@ spec:
       name: le-issuer-account-key
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
-    - dns01:
+      - dns01:
         cloudflare:
           apiTokenSecretRef:
             key: api-token
