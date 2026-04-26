@@ -55,7 +55,15 @@ Beyond Kubernetes, this repo also manages my **NixOS machines** with flakes, ens
 - **`profiles/`** → role-based configs (e.g. `workstation.nix`)
 
 ---
+## Bootstrap
 
+```
+## Install Cilium
+helm install cilium cilium/cilium --version 1.18.6 -f k8s/k3s-home/argocd/system/cilium/values.yaml --namespace kube-system
+## Install ArgoCD
+helm install argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd --version 9.3.5 -f k8s/k3s-home/argocd/system/argocd/values.yaml --namespace argocd --create-namespace
+kubectl apply -f k8s/k3s-home/argocd/system/argocd/controller.yaml
+```
 ## ⚡ Adding new device
 
 ### Install nix-darwin (macbook)
