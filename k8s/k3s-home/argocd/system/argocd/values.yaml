@@ -4,6 +4,10 @@ global:
 configs:
   params:
     server.insecure: "true"
+  cm:
+    accounts.readonly: apiKey
+  rbac:
+    policy.csv: "g, readonly, role:readonly"
 server:
   ingress:
     enabled: true
