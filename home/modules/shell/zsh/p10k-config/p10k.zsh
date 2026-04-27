@@ -239,7 +239,11 @@ export PATH="${HOME}/.local/bin:$PATH"
 bindkey -e
 
 # Kubectl decode secrets
-function kpass () { jq -r '.data | map_values(@base64d)' | sed 's/\\n/\n/g;' }
+function kpass () {
+  jq -r '.data
+    | to_entries[]
+    | "export \(.key)=\(.value | @base64d | @sh)"'
+}
 
 # Kubectl completion
 autoload -Uz compinit
