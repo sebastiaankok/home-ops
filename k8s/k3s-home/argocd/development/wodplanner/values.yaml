@@ -55,7 +55,7 @@ controllers:
           - "7"
         image:
           repository: ghcr.io/sebastiaankok/wodplanner
-          tag: 0.3.0
+          tag: 0.4.0
           pullPolicy: Always
         resources:
           requests:
