@@ -21,11 +21,9 @@ controllers:
         env:
           ENVIRONMENT: "production"
           API_CACHE_TTL_SECONDS: 86400
-          SECRET_KEY:
-            valueFrom:
-              secretKeyRef:
-                name: wodplanner-secret
-                key: cookie_secret
+        envFrom:
+          - secretRef:
+              name: wodplanner-secret
         securityContext:
           runAsUser: 1010
           runAsGroup: 1010
