@@ -1,0 +1,26 @@
+---
+fullnameOverride: actions-runner-controller
+flags:
+  logLevel: info
+  logFormat: text
+  runnerMaxConcurrentReconciles: 5
+  updateStrategy: immediate
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 256Mi
+
+podSecurityContext:
+  fsGroup: 1030
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1030

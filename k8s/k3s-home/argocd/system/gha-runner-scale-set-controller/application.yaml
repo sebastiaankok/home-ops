@@ -1,0 +1,34 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gha-runner-scale-set-controller
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - ServerSideApply=true
+  destination:
+    name: in-cluster
+    namespace: arc-systems
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+      path: "k8s/k3s-home/argocd/system/gha-runner-scale-set-controller/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: gha-runner-scale-set-controller
+      repoURL: 'oci://ghcr.io/actions/actions-runner-controller-charts'
+      targetRevision: 0.9.3
+      helm:
+        releaseName: "gha-runner-scale-set-controller"
+        valueFiles:
+          - $values/k8s/k3s-home/argocd/system/gha-runner-scale-set-controller/values.yaml

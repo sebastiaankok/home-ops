@@ -221,28 +221,34 @@ layer3_helm() {
         continue
       fi
 
-      local repo_name
-      repo_name=$(echo "$repo_url" | sed -E 's|https?://||' | sed -E 's/[^a-zA-Z0-9.-]/_/g')
-
-      local found=false
-      for r in "${repos[@]}"; do
-        if [[ "$r" == "$repo_url" ]]; then
-          found=true
-          break
-        fi
-      done
-
-      if [[ "$found" == "false" ]]; then
-        log_info "Adding helm repo: $repo_name ($repo_url)"
-        helm repo add "$repo_name" "$repo_url" > /dev/null 2>&1 || true
-        repos+=("$repo_url")
-      fi
-
       local release_name
       release_name=$(yq -r '.spec.sources[1].helm.releaseName // .metadata.name' "$app_yaml")
 
+      local chart_ref
+      if [[ "$repo_url" == oci://* ]]; then
+        chart_ref="${repo_url}/${chart}"
+      else
+        local repo_name
+        repo_name=$(echo "$repo_url" | sed -E 's|https?://||' | sed -E 's/[^a-zA-Z0-9.-]/_/g')
+
+        local found=false
+        for r in "${repos[@]}"; do
+          if [[ "$r" == "$repo_url" ]]; then
+            found=true
+            break
+          fi
+        done
+
+        if [[ "$found" == "false" ]]; then
+          log_info "Adding helm repo: $repo_name ($repo_url)"
+          helm repo add "$repo_name" "$repo_url" > /dev/null 2>&1 || true
+          repos+=("$repo_url")
+        fi
+        chart_ref="$repo_name/$chart"
+      fi
+
       local helm_args=(
-        "$release_name" "$repo_name/$chart"
+        "$release_name" "$chart_ref"
         --version "$version"
         --namespace default
       )
