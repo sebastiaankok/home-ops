@@ -17,5 +17,5 @@ data:
     destination = "http://10.10.10.102:1234"
     health_endpoint = "http://10.10.10.102:1234/v1/models"
     mac_address = "c8:7f:54:68:cf:9a"
-    broadcast_ip = "10.10.10.102"
+    broadcast_ip = "10.10.10.255"
     wol_port = 9
