@@ -2,7 +2,7 @@
 ---
 controllers:
   wol-proxy:
-    replicas: 0
+    replicas: 1
     containers:
       app:
         image:
@@ -37,16 +37,16 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: llmstudio.otohgunga.nl
+      - host: lmstudio.otohgunga.nl
         paths:
           - path: /
             service:
               identifier: app
               port: http
     tls:
-      - secretName: llmstudio-https-tls
+      - secretName: lmstudio-https-tls
         hosts:
-          - llmstudio.otohgunga.nl
+          - lmstudio.otohgunga.nl
 
 
 persistence:

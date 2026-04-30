@@ -5,7 +5,7 @@ metadata:
   name: wol-proxy-config
 data:
   config.toml: |
-    port = ":8080"
+    port = ":1234"
     timeout = "1m"
     poll_interval = "5s"
     health_check_interval = "10s"
@@ -13,9 +13,9 @@ data:
 
     [[targets]]
     name = "service"
-    hostname = "llmstudio.otohgunga.nl"
-    destination = "http://gpu.otohgunga.nl:1234"
-    health_endpoint = "http://gpu.otohgunga.nl:1234/v1/models"
+    hostname = "lmstudio.otohgunga.nl"
+    destination = "http://10.10.10.102:1234"
+    health_endpoint = "http://10.10.10.102:1234/v1/models"
     mac_address = "c8:7f:54:68:cf:9a"
-    broadcast_ip = "gpu.otohgunga.nl"
+    broadcast_ip = "10.10.10.102"
     wol_port = 9
