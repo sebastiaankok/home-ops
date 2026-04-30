@@ -28,7 +28,7 @@ service:
     controller: wol-proxy
     ports:
       http:
-        port: 8080
+        port: 1234
 
 ingress:
   app:
