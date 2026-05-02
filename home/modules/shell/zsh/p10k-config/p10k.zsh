@@ -235,6 +235,9 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # Export path for local binaries
 export PATH="${HOME}/.local/bin:$PATH"
 
+# Export opencode path
+export PATH=/Users/sebastiaan/.opencode/bin:$PATH
+
 # Disable vim keybinds, to make CTLR+A work.
 bindkey -e
 
