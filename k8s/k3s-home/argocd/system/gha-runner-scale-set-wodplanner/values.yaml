@@ -3,7 +3,7 @@ runnerScaleSetName: gha-runner-scale-set-wodplanner
 githubConfigUrl: https://github.com/sebastiaankok/wodplanner
 githubConfigSecret: pre-defined-secret
 minRunners: 1
-maxRunners: 3
+maxRunners: 10
 containerMode:
   type: kubernetes
   kubernetesModeWorkVolumeClaim:
