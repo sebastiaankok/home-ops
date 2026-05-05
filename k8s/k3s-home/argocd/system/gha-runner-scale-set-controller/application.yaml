@@ -25,8 +25,7 @@ spec:
       path: "k8s/k3s-home/argocd/system/gha-runner-scale-set-controller/"
       directory:
         exclude: '{application.yaml,values.yaml}'
-    - chart: gha-runner-scale-set-controller
-      repoURL: 'oci://ghcr.io/actions/actions-runner-controller-charts'
+    - repoURL: 'oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller'
       targetRevision: 0.14.1
       helm:
         releaseName: "gha-runner-scale-set-controller"
