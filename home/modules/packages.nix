@@ -6,7 +6,7 @@
     python3Packages.pip
     pipx
     virtualenv
-    go
+    pkgs-unstable.go
     nodejs
 
     ## language utils
@@ -20,6 +20,7 @@
     taplo
     yamlfmt
     yamllint
+    gnumake
 
     # ansible-lint
 
@@ -79,6 +80,7 @@
     argocd
     velero
     kopia
+    kind
 
     ## ai
     aider-chat-full
