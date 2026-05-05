@@ -35,5 +35,8 @@
     secrets."k3s-home/cloudflared-secret.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/gha-action-secret.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
