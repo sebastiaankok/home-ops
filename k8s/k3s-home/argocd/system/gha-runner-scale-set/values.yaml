@@ -1,6 +1,6 @@
 nameOverride: &name gha-runner-scale-set
 runnerScaleSetName: gha-runner-scale-set
-githubConfigUrl: https://github.com/sebastiaankok
+githubConfigUrl: https://github.com/sebastiaankok/wodplanner
 githubConfigSecret: pre-defined-secret
 minRunners: 1
 maxRunners: 3
