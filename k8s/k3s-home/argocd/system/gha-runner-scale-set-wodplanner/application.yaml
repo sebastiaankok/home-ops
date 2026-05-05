@@ -29,6 +29,6 @@ spec:
       chart: 'gha-runner-scale-set-wodplanner'
       targetRevision: 0.14.1
       helm:
-        releaseName: "gha-runner-scale-set-wodplanner"
+        releaseName: "gha-runner-scale-set"
         valueFiles:
           - $values/k8s/k3s-home/argocd/system/gha-runner-scale-set-wodplanner/values.yaml
