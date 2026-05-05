@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gha-runner-scale-set
+  name: local-path-provisioner
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
