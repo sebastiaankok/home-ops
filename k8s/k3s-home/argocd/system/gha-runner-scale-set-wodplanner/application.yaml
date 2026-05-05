@@ -26,9 +26,9 @@ spec:
       directory:
         exclude: '{application.yaml,values.yaml}'
     - repoURL: 'ghcr.io/actions/actions-runner-controller-charts'
-      chart: 'gha-runner-scale-set-wodplanner'
+      chart: 'gha-runner-scale-set'
       targetRevision: 0.14.1
       helm:
-        releaseName: "gha-runner-scale-set"
+        releaseName: "gha-runner-scale-set-wodplanner"
         valueFiles:
           - $values/k8s/k3s-home/argocd/system/gha-runner-scale-set-wodplanner/values.yaml
