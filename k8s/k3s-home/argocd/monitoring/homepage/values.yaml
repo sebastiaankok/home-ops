@@ -2,6 +2,8 @@
 ---
 controllers:
   homepage:
+    pod:
+      automountServiceAccountToken: true
     strategy: Recreate
     annotations:
       reloader.stakater.com/search: "true"
