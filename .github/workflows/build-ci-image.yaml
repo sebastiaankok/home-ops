@@ -31,14 +31,14 @@ jobs:
         env:
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sudo mkdir -p /kaniko/.docker
+          mkdir -p /kaniko/.docker
           printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' \
             "$(printf '%s:%s' '${{ github.actor }}' "${REGISTRY_PASSWORD}" | base64 -w 0)" \
-            | sudo tee /kaniko/.docker/config.json > /dev/null
+            > /kaniko/.docker/config.json
 
       - name: Build and push
         run: |
-          sudo /kaniko/executor \
+          /kaniko/executor \
             --context="${GITHUB_WORKSPACE}/k8s/images/ci-image" \
             --dockerfile="${GITHUB_WORKSPACE}/k8s/images/ci-image/Dockerfile" \
             --destination="ghcr.io/sebastiaankok/home-ops/ci-image:${{ steps.tag.outputs.tag }}"

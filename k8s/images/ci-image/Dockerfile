@@ -15,6 +15,7 @@ RUN \
     curl -fsSL "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64" \
       -o /usr/local/bin/yq && \
     chmod +x /usr/local/bin/kubeconform /usr/local/bin/helm /usr/local/bin/yq && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    chown -R runner:runner /kaniko
 
 USER runner
