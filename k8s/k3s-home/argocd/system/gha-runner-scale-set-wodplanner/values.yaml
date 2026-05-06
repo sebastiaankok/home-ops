@@ -1,3 +1,4 @@
+---
 nameOverride: &name gha-runner-scale-set-wodplanner
 runnerScaleSetName: gha-runner-scale-set-wodplanner
 githubConfigUrl: https://github.com/sebastiaankok/wodplanner
