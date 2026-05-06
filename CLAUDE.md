@@ -109,16 +109,15 @@ Validation runs in CI on PRs and pushes to `main` for files in `k8s/**`.
 nix develop
 
 # Run all validation layers
-cd k8s/k3s-home/argocd
-../scripts/validate.sh --all
+bash ci/validate.sh --all
 
 # Run specific layers
-../scripts/validate.sh --yaml-lint
-../scripts/validate.sh --schema
-../scripts/validate.sh --helm
+bash ci/validate.sh --yaml-lint
+bash ci/validate.sh --schema
+bash ci/validate.sh --helm
 ```
 
 ### CI workflow
 
-- `.github/workflows/validate-k8s.yaml` runs on PRs and pushes to `main` touching `k8s/**`
+- `.github/workflows/validate-k8s.yaml` runs on PRs and pushes to `main` touching `k8s/**` or `ci/**`
 - Renovate auto-merges wait for CI to pass (no longer ignores tests)

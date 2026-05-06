@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-ARGOCD_DIR="$ROOT_DIR/k3s-home/argocd"
+ARGOCD_DIR="$ROOT_DIR/k8s/k3s-home/argocd"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -95,7 +95,7 @@ layer1_yaml_lint() {
   local passed=0
 
   while IFS= read -r -d '' yaml_file; do
-    if yamllint -c "$ROOT_DIR/../.yamllint.yaml" "$yaml_file" 2>/dev/null; then
+    if yamllint -c "$ROOT_DIR/.yamllint.yaml" "$yaml_file" 2>/dev/null; then
       log_pass "$yaml_file"
       ((passed++))
     else

@@ -5,11 +5,13 @@ on:
   pull_request:
     paths:
       - 'k8s/**'
+      - 'ci/**'
   push:
     branches:
       - main
     paths:
       - 'k8s/**'
+      - 'ci/**'
 
 jobs:
   validate:
@@ -19,4 +21,4 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Run validation
-        run: bash k8s/scripts/validate.sh --all
+        run: bash ci/validate.sh --all
