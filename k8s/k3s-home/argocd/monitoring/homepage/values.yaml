@@ -32,7 +32,8 @@ controllers:
       identifier: homepage
 
 serviceAccount:
-  homepage: {}
+  homepage:
+    automountToken: true
 
 service:
   app:

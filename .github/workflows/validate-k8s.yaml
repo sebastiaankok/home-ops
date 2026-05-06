@@ -18,25 +18,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Install Helm
-        uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2 # v5
-        with:
-          version: '3.17.0'
-
-      - name: Install yq
-        run: |
-          YQ_VERSION="v4.44.3"
-          curl -sSL "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" -o /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
-
-      - name: Install kubeconform
-        run: |
-          KUBECONFORM_VERSION="v0.7.0"
-          curl -sSL "https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz" | tar xz -C /usr/local/bin kubeconform
-          chmod +x /usr/local/bin/kubeconform
-
-      - name: Install yamllint
-        run: pip install yamllint --quiet
-
       - name: Run validation
         run: bash k8s/scripts/validate.sh --all
