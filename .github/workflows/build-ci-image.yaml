@@ -27,17 +27,12 @@ jobs:
         id: tag
         run: echo "tag=${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
 
-      - name: Configure kaniko credentials
+      - name: Build and push
         env:
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          sudo mkdir -p /kaniko/.docker
-          echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$(echo -n "${{ github.actor }}:${REGISTRY_PASSWORD}" | base64 -w 0)\"}}}" \
-            | sudo tee /kaniko/.docker/config.json > /dev/null
-
-      - name: Build and push
         run: |
           sudo -E /kaniko/executor \
             --context="${GITHUB_WORKSPACE}/k8s/images/ci-image" \
             --dockerfile="${GITHUB_WORKSPACE}/k8s/images/ci-image/Dockerfile" \
-            --destination="ghcr.io/sebastiaankok/home-ops/ci-image:${{ steps.tag.outputs.tag }}"
+            --destination="ghcr.io/sebastiaankok/home-ops/ci-image:${{ steps.tag.outputs.tag }}" \
+            --registry-credential="ghcr.io=${{ github.actor }}:${REGISTRY_PASSWORD}"
