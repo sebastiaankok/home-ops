@@ -1,3 +1,4 @@
+---
 nameOverride: &name gha-runner-scale-set-home-ops
 runnerScaleSetName: gha-runner-scale-set-home-ops
 githubConfigUrl: https://github.com/sebastiaankok/home-ops

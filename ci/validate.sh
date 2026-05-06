@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-ARGOCD_DIR="$ROOT_DIR/k3s-home/argocd"
+ARGOCD_DIR="$ROOT_DIR/k8s/k3s-home/argocd"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -95,7 +95,7 @@ layer1_yaml_lint() {
   local passed=0
 
   while IFS= read -r -d '' yaml_file; do
-    if yamllint -c "$ROOT_DIR/../.yamllint.yaml" "$yaml_file" 2>/dev/null; then
+    if yamllint -c "$ROOT_DIR/.yamllint.yaml" "$yaml_file" 2>/dev/null; then
       log_pass "$yaml_file"
       ((passed++))
     else
@@ -225,8 +225,10 @@ layer3_helm() {
       release_name=$(yq -r '.spec.sources[1].helm.releaseName // .metadata.name' "$app_yaml")
 
       local chart_ref
-      if [[ "$repo_url" == oci://* ]]; then
-        chart_ref="${repo_url}/${chart}"
+      if [[ "$repo_url" == oci://* ]] || [[ "$repo_url" != http* ]]; then
+        local oci_url="$repo_url"
+        [[ "$oci_url" != oci://* ]] && oci_url="oci://$repo_url"
+        chart_ref="${oci_url}/${chart}"
       else
         local repo_name
         repo_name=$(echo "$repo_url" | sed -E 's|https?://||' | sed -E 's/[^a-zA-Z0-9.-]/_/g')
