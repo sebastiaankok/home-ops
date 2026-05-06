@@ -225,8 +225,10 @@ layer3_helm() {
       release_name=$(yq -r '.spec.sources[1].helm.releaseName // .metadata.name' "$app_yaml")
 
       local chart_ref
-      if [[ "$repo_url" == oci://* ]]; then
-        chart_ref="${repo_url}/${chart}"
+      if [[ "$repo_url" == oci://* ]] || [[ "$repo_url" != http* ]]; then
+        local oci_url="$repo_url"
+        [[ "$oci_url" != oci://* ]] && oci_url="oci://$repo_url"
+        chart_ref="${oci_url}/${chart}"
       else
         local repo_name
         repo_name=$(echo "$repo_url" | sed -E 's|https?://||' | sed -E 's/[^a-zA-Z0-9.-]/_/g')
