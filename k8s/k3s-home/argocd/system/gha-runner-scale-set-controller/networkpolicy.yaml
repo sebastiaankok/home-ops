@@ -14,12 +14,8 @@ spec:
             - 172.16.0.0/12
             - 192.168.0.0/16
             - 169.254.0.0/16
-    - toCIDRSet:
-        - cidr: 10.43.0.1/32
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
+    - toEntities:
+        - kube-apiserver
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
