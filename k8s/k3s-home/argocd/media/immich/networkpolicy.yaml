@@ -19,10 +19,6 @@ spec:
               protocol: ANY
     - toEntities:
         - kube-apiserver
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
     - toCIDRSet:
         - cidr: 0.0.0.0/0
           except:
