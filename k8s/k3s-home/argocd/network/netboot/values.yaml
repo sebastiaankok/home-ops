@@ -2,8 +2,8 @@
 ---
 controllers:
   netboot:
-    # pod:
-    #   hostNetwork: true
+    pod:
+      hostNetwork: true
     replicas: 1
     containers:
       app:
