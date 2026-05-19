@@ -10,6 +10,9 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
             k8s:k8s-app: kube-dns
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: home-automation
+            k8s:app.kubernetes.io/name: mosquitto
       toPorts:
         - ports:
             - port: "53"
