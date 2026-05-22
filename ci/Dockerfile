@@ -1,11 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/home-operations/actions-runner:2.334.0@sha256:95d91d7f8d241e319ef2f4fec08f417aa1606b96fbb327643f75c303acd30002
 USER root
-# Python 3.14 from deadsnakes
 RUN \
     apt-get -qq update && \
-    apt-get -qq install -y --no-install-recommends software-properties-common && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
     apt-get -qq install -y --no-install-recommends \
       python3.14 python3.14-dev python3.14-venv && \
     python3.14 -m ensurepip --upgrade && \
@@ -16,12 +13,15 @@ RUN \
     apt-get -qq install -y --no-install-recommends nodejs && \
     npm install --no-save @commitlint/cli @commitlint/config-conventional && \
     rm -rf /var/lib/apt/lists/*
-# Playwright system dependencies (install playwright temporarily just for install-deps)
+
+# Playwright system dependencies
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN \
     python3.14 -m pip install playwright && \
     python3.14 -m playwright install-deps chromium && \
     python3.14 -m playwright install chromium && \
-    rm -rf /root/.cache/*
+    rm -rf /root/.cache/pip
+
 # CLI tools: existing + argocd
 RUN \
     apt-get -qq update && \
