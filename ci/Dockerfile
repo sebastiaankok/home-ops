@@ -14,12 +14,13 @@ RUN \
 RUN \
     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get -qq install -y --no-install-recommends nodejs && \
+    npm install --no-save @commitlint/cli @commitlint/config-conventional && \
     rm -rf /var/lib/apt/lists/*
 # Playwright system dependencies (install playwright temporarily just for install-deps)
 RUN \
     python3.14 -m pip install playwright && \
     python3.14 -m playwright install-deps chromium && \
-    python3.14 -m pip uninstall -y playwright && \
+    python3.14 -m playwright install chromium && \
     rm -rf /root/.cache/*
 # CLI tools: existing + argocd
 RUN \
