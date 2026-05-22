@@ -1,8 +1,27 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/home-operations/actions-runner:2.334.0@sha256:95d91d7f8d241e319ef2f4fec08f417aa1606b96fbb327643f75c303acd30002
-
 USER root
-
+# Python 3.14 from deadsnakes
+RUN \
+    apt-get -qq update && \
+    apt-get -qq install -y --no-install-recommends software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt-get -qq install -y --no-install-recommends \
+      python3.14 python3.14-dev python3.14-venv && \
+    python3.14 -m ensurepip --upgrade && \
+    rm -rf /var/lib/apt/lists/*
+# Node.js LTS
+RUN \
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get -qq install -y --no-install-recommends nodejs && \
+    rm -rf /var/lib/apt/lists/*
+# Playwright system dependencies (install playwright temporarily just for install-deps)
+RUN \
+    python3.14 -m pip install playwright && \
+    python3.14 -m playwright install-deps chromium && \
+    python3.14 -m pip uninstall -y playwright && \
+    rm -rf /root/.cache/*
+# CLI tools: existing + argocd
 RUN \
     apt-get -qq update && \
     apt-get -qq install -y --no-install-recommends jq yamllint && \
@@ -12,7 +31,8 @@ RUN \
       | tar xz --strip-components=1 -C /usr/local/bin linux-amd64/helm && \
     curl -fsSL "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64" \
       -o /usr/local/bin/yq && \
-    chmod +x /usr/local/bin/kubeconform /usr/local/bin/helm /usr/local/bin/yq && \
+    curl -sSL -o /usr/local/bin/argocd \
+      "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64" && \
+    chmod +x /usr/local/bin/kubeconform /usr/local/bin/helm /usr/local/bin/yq /usr/local/bin/argocd && \
     rm -rf /var/lib/apt/lists/*
-
 USER runner
