@@ -10,6 +10,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/sebastiaankok/wodplanner
+          tag: 0.11.0
           pullPolicy: Always
         resources:
           requests:
