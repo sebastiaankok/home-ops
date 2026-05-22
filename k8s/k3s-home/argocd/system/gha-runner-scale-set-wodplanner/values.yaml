@@ -21,7 +21,7 @@ template:
   spec:
     containers:
       - name: runner
-        image: ghcr.io/sebastiaankok/home-ops/ci-image:1f6b1443
+        image: ghcr.io/sebastiaankok/home-ops/ci-image:f957f6c
         command:
           - /home/runner/run.sh
         env:
