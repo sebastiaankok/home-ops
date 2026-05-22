@@ -9,6 +9,9 @@ spec:
   egress:
     - toEndpoints:
         - matchLabels:
+            k8s:io.kubernetes.pod.namespace: argocd
+    - toEndpoints:
+        - matchLabels:
             k8s:io.kubernetes.pod.namespace: arc-systems
     - toEndpoints:
         - matchLabels:
