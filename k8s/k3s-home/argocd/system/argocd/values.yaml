@@ -6,8 +6,14 @@ configs:
     server.insecure: "true"
   cm:
     accounts.readonly: apiKey
+    accounts.wodplanner: apiKey
   rbac:
-    policy.csv: "g, readonly, role:readonly"
+    policy.csv: |
+      g, readonly, role:readonly
+      g, wodplanner, role:wodplanner-image-updater
+      p, role:wodplanner-image-updater, applications, get, default/wodplanner, allow
+      p, role:wodplanner-image-updater, applications, update, default/wodplanner, allow
+      p, role:wodplanner-image-updater, applications, sync, default/wodplanner, allow
 server:
   ingress:
     enabled: true
