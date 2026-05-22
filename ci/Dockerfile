@@ -3,6 +3,8 @@ FROM ghcr.io/home-operations/actions-runner:2.334.0@sha256:95d91d7f8d241e319ef2f
 USER root
 RUN \
     apt-get -qq update && \
+    apt-get -qq install -y --no-install-recommends software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
     apt-get -qq install -y --no-install-recommends \
       python3.14 python3.14-dev python3.14-venv && \
     python3.14 -m ensurepip --upgrade && \
