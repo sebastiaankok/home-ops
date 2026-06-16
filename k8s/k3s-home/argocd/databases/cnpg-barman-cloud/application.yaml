@@ -28,7 +28,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: plugin-barman-cloud
       repoURL: 'https://cloudnative-pg.io/charts/'
-      targetRevision: 0.6.0
+      targetRevision: 0.7.0
       helm:
         releaseName: "plugin-barman-cloud"
         # valueFiles:
