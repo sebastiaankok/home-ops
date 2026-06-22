@@ -19,6 +19,7 @@
     boot.kernel.sysctl = {
       "fs.inotify.max_user_watches" = 65536;
       "fs.file-max" = 500000;
+      "net.ipv4.ip_forward" = 1;
     };
   };
 
