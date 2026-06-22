@@ -19,7 +19,7 @@
       "--disable servicelb"
       "--disable-network-policy"
       "--flannel-backend=none"
-      #"--disable-kube-proxy"
+      "--disable-kube-proxy"
     ];
 
     manifests = {
