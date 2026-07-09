@@ -82,10 +82,6 @@
     kopia
     kind
 
-    ## ai
-    aider-chat-full
-    pkgs-unstable.claude-code
-
     ## gui
     moonlight-qt
     obsidian
