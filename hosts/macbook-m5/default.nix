@@ -13,4 +13,15 @@
   # Automatically link .app bundles
   programs.nix-index.enable = true;
 
+  launchd.daemons.limit-maxfiles = {
+    serviceConfig = {
+      Label = "limit.maxfiles";
+      ProgramArguments = [
+        "launchctl" "limit" "maxfiles" "65536" "524288"
+      ];
+      RunAtLoad = true;
+      ServiceIPC = false;
+    };
+  };
+
 }
