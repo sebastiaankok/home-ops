@@ -10,7 +10,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/sebastiaankok/wodplanner
-          tag: &version 0.13.1
+          tag: &version 0.14.0
           pullPolicy: Always
         resources:
           requests:
@@ -21,7 +21,6 @@ controllers:
         env:
           ENVIRONMENT: "production"
           API_CACHE_TTL_SECONDS: 120
-          APP_VERSION: *version
         envFrom:
           - secretRef:
               name: wodplanner-secret
