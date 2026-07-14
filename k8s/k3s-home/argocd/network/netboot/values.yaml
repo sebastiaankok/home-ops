@@ -60,30 +60,6 @@ route:
           - identifier: app
             port: 3000
 
-ingress:
-  app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/description: Network boot and diskless installations.
-      gethomepage.dev/group: System
-      gethomepage.dev/icon: "sh-netboot.xyz.svg"
-      gethomepage.dev/name: Netboot.xyz
-      gethomepage.dev/app: netboot
-    hosts:
-      - host: netboot.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: control
-    tls:
-      - secretName: netboot-https-tls
-        hosts:
-          - netboot.otohgunga.nl
-
 persistence:
   config:
     existingClaim: local-netboot-pvc

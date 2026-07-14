@@ -44,25 +44,6 @@ route:
           - identifier: app
             port: 1234
 
-ingress:
-  app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-    hosts:
-      - host: lmstudio.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - secretName: lmstudio-https-tls
-        hosts:
-          - lmstudio.otohgunga.nl
-
-
 persistence:
   wol-proxy-configfile:
     type: configMap

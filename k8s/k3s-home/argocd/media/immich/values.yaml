@@ -127,30 +127,6 @@ route:
           - identifier: server
             port: 2283
 
-ingress:
-  main:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Immich"
-      gethomepage.dev/icon: "immich"
-      gethomepage.dev/group: "Media"
-      gethomepage.dev/description: The photo library application
-    hosts:
-      - host: immich.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: server
-              port: http
-    tls:
-      - secretName: immich-https-tls
-        hosts:
-          - immich.otohgunga.nl
-
 persistence:
   matplotlib:
     type: emptyDir

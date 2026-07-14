@@ -75,32 +75,6 @@ route:
           - identifier: app
             port: 8096
 
-ingress:
-  app:
-    enabled: true
-    className: ingress-nginx-media
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Jellyfin"
-      gethomepage.dev/icon: "jellyfin"
-      gethomepage.dev/group: "Media"
-      gethomepage.dev/description: Media library server
-      gethomepage.dev/widget.url: "https://jellyfin.otohgunga.nl"
-      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_JELLYFIN_API_KEY}}" }}'
-      gethomepage.dev/widget.type: "jellyfin"
-    hosts:
-      - host: jellyfin.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - secretName: jellyfin-https-tls
-        hosts:
-          - jellyfin.otohgunga.nl
-
 persistence:
   config:
     existingClaim: local-jellyfin-pvc

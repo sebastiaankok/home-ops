@@ -91,30 +91,6 @@ route:
           - identifier: app
             port: 5000
 
-ingress:
-  app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/description: Video streams and webcam feeds
-      gethomepage.dev/group: Home Automation
-      gethomepage.dev/icon: sh-frigate.svg
-      gethomepage.dev/name: Frigate
-      gethomepage.dev/app: frigate
-    hosts:
-      - host: frigate.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - secretName: frigate-https-tls
-        hosts:
-          - frigate.otohgunga.nl
-
 persistence:
   data:
     enabled: true

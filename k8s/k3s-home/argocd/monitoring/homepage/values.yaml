@@ -58,26 +58,6 @@ route:
           - identifier: app
             port: 3000
 
-ingress:
-  app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      nginx.ingress.kubernetes.io/proxy-body-size: 32m
-    hosts:
-      - host: homepage.otohgunga.nl
-        paths:
-          - path: /
-            pathType: Prefix
-            service:
-              name: homepage
-              port: 3000
-    tls:
-      - hosts:
-          - homepage.otohgunga.nl
-        secretName: homepage-tls
-
 persistence:
   storage:
     existingClaim: local-homepage-pvc

@@ -54,31 +54,6 @@ route:
           - identifier: app
             port: 8123
 
-ingress:
-  app:
-    enabled: true
-    className: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-dns
-      nginx.org/websocket-services: home-assistant
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Home Assistant"
-      gethomepage.dev/icon: "home-assistant"
-      gethomepage.dev/description: Manage your home automations and devices
-      gethomepage.dev/group: "Home Automation"
-    hosts:
-      - host: hass.otohgunga.nl
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-            pathType: Prefix
-    tls:
-      - hosts:
-          - hass.otohgunga.nl
-        secretName: hass-https-tls
-
 persistence:
   config:
     enabled: true
