@@ -35,6 +35,25 @@ service:
       http:
         port: 8123
 
+route:
+  app:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Home Assistant"
+      gethomepage.dev/icon: "home-assistant"
+      gethomepage.dev/description: Manage your home automations and devices
+      gethomepage.dev/group: "Home Automation"
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "hass.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 8123
+
 ingress:
   app:
     enabled: true
