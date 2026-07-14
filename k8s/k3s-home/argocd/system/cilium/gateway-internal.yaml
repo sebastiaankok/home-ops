@@ -1,0 +1,38 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-otohgunga-nl
+  namespace: kube-system
+spec:
+  secretName: wildcard-otohgunga-nl-tls
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.otohgunga.nl"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+  namespace: kube-system
+  annotations:
+    io.cilium/lb-ipam-ips: "10.10.21.60"
+spec:
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: 10.10.21.60
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.otohgunga.nl"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: wildcard-otohgunga-nl-tls
+      allowedRoutes:
+        namespaces:
+          from: All
