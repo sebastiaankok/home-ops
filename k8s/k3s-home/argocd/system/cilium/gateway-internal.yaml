@@ -4,6 +4,8 @@ kind: Certificate
 metadata:
   name: wildcard-otohgunga-nl
   namespace: kube-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   secretName: wildcard-otohgunga-nl-tls
   issuerRef:
@@ -18,6 +20,7 @@ metadata:
   name: internal
   namespace: kube-system
   annotations:
+    argocd.argoproj.io/sync-wave: "2"
     io.cilium/lb-ipam-ips: "10.10.21.60"
 spec:
   gatewayClassName: cilium
@@ -32,6 +35,8 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
+          - group: ''
+            kind: Secret
           - name: wildcard-otohgunga-nl-tls
       allowedRoutes:
         namespaces:
