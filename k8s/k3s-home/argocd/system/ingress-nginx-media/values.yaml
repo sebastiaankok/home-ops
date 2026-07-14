@@ -1,5 +1,6 @@
 ---
 controller:
+  replicaCount: 0
   updateStatus:
     enabled: false
   kind: Deployment
