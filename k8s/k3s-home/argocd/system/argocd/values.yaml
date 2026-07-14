@@ -15,9 +15,8 @@ configs:
       p, role:wodplanner-image-updater, applications, update, default/wodplanner, allow
       p, role:wodplanner-image-updater, applications, sync, default/wodplanner, allow
 server:
-  ingress:
+  httproute:
     enabled: true
-    ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -31,7 +30,12 @@ server:
       gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}" }}'
       gethomepage.dev/widget.url: "https://argocd.otohgunga.nl"
       gethomepage.dev/widget.type: "argocd"
-    extraTls:
-      - hosts:
-          - argocd.otohgunga.nl
-        secretName: argocd-https-tls
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+    hostnames:
+      - "argocd.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - name: argocd-server
+            port: 80
