@@ -1,6 +1,7 @@
 ---
 controller:
   kind: Deployment
+  replicaCount: 0
   priorityClassName: system-cluster-critical
   watchIngressWithoutClass: false
   ingressClassResource:
