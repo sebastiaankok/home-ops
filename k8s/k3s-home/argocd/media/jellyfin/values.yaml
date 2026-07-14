@@ -53,6 +53,28 @@ service:
       http:
         port: *port
 
+route:
+  app:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Jellyfin"
+      gethomepage.dev/icon: "jellyfin"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/description: Media library server
+      gethomepage.dev/widget.url: "https://jellyfin.otohgunga.nl"
+      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_JELLYFIN_API_KEY}}" }}'
+      gethomepage.dev/widget.type: "jellyfin"
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "jellyfin.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 8096
+
 ingress:
   app:
     enabled: true
