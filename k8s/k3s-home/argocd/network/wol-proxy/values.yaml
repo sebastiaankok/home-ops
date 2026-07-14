@@ -30,6 +30,20 @@ service:
       http:
         port: 1234
 
+route:
+  app:
+    annotations: {}
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "lmstudio.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 1234
+
 ingress:
   app:
     enabled: true

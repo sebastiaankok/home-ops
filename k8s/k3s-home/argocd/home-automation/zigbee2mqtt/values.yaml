@@ -46,6 +46,26 @@ service:
       http:
         port: 8080
 
+route:
+  app:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Control your Zigbee devices through a web interface.
+      gethomepage.dev/group: Home Automation
+      gethomepage.dev/icon: sh-zigbee2mqtt.svg
+      gethomepage.dev/name: Zigbee2MQTT
+      gethomepage.dev/app: zigbee2mqtt
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "zigbee2mqtt.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 8080
+
 ingress:
   app:
     enabled: true

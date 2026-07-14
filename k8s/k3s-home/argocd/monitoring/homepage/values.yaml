@@ -44,6 +44,20 @@ service:
       http:
         port: 3000
 
+route:
+  app:
+    annotations: {}
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "homepage.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 3000
+
 ingress:
   app:
     enabled: true

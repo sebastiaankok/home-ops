@@ -71,6 +71,26 @@ service:
         protocol: TCP
         targetPort: *restream-port
 
+route:
+  app:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: Video streams and webcam feeds
+      gethomepage.dev/group: Home Automation
+      gethomepage.dev/icon: sh-frigate.svg
+      gethomepage.dev/name: Frigate
+      gethomepage.dev/app: frigate
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "frigate.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 5000
+
 ingress:
   app:
     enabled: true

@@ -108,6 +108,25 @@ service:
       http:
         port: 6379
 
+route:
+  server:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Immich"
+      gethomepage.dev/icon: "immich"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/description: The photo library application
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "immich.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: server
+            port: 2283
+
 ingress:
   main:
     enabled: true
