@@ -19,25 +19,25 @@ spec:
           - /usr/lib/postgresql/18/lib
         extension_control_path:
           - /usr/share/postgresql/18/
-    parameters:
-      shared_buffers: 256MB
-      pg_stat_statements.max: '10000'
-      pg_stat_statements.track: all
-      auto_explain.log_min_duration: '10s'
-    pg_hba:
-      - host all all 10.42.0.0/16 md5
+    # parameters:
+    #   shared_buffers: 256MB
+    #   pg_stat_statements.max: '10000'
+    #   pg_stat_statements.track: all
+    #   auto_explain.log_min_duration: '10s'
+    # pg_hba:
+    #   - host all all 10.42.0.0/16 md5
 
   storage:
     storageClass: local-immich-postgresql-18
     size: 1Gi
 
-  plugins:
-    - name: barman-cloud.cloudnative-pg.io
-      isWALArchiver: true
-      parameters:
-        barmanObjectName: backblazeb2
-        serverName: immich-postgresql-18
-
+  # plugins:
+  #   - name: barman-cloud.cloudnative-pg.io
+  #     isWALArchiver: true
+  #     parameters:
+  #       barmanObjectName: backblazeb2
+  #       serverName: immich-postgresql-18
+  #
   resources:
     requests:
       memory: "512Mi"
@@ -46,12 +46,12 @@ spec:
       memory: "2Gi"
       cpu: "2"
 
-  affinity:
-    enablePodAntiAffinity: false
-
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: false
+  # affinity:
+  #   enablePodAntiAffinity: false
+  #
+  # nodeMaintenanceWindow:
+  #   inProgress: false
+  #   reusePVC: false
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
