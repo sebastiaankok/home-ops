@@ -32,7 +32,7 @@ metadata:
     cnpg.io/nodeSerial: "1"
     cnpg.io/pvcStatus: ready
   labels:
-    app.kubernetes.io/name: immich
+    app.kubernetes.io/name: postgresql
     cnpg.io/cluster: immich-postgresql-18
     cnpg.io/instanceRole: primary
     cnpg.io/pvcRole: PG_DATA
