@@ -20,15 +20,25 @@ controllers:
           tag: v3.0.2
         env:
           IMMICH_MEDIA_LOCATION: &mediaLocation /data/immich
+          DB_HOSTNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-postgresql-18-app
+                key: host
+          DB_DATABASE_NAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-postgresql-18-app
+                key: dbname
           DB_USERNAME:
             valueFrom:
               secretKeyRef:
-                name: postgresql-user-immich
+                name: immich-postgresql-18-app
                 key: username
           DB_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: postgresql-user-immich
+                name: immich-postgresql-18-app
                 key: password
         envFrom:
           - configMapRef:
