@@ -28,17 +28,17 @@ kind: PersistentVolumeClaim
 metadata:
   name: immich-postgresql-18-1
   namespace: immich
-  annotations:
-    cnpg.io/nodeSerial: "1"
-    cnpg.io/pvcStatus: ready
-  labels:
-    app.kubernetes.io/name: immich
-    cnpg.io/cluster: immich-postgresql-18
-    cnpg.io/instanceRole: primary
-    cnpg.io/pvcRole: PG_DATA
-    cnpg.io/podRole: instance
-    cnpg.io/instanceName: immich-postgresql-18-1
-    role: primary
+  # annotations:
+  #   cnpg.io/nodeSerial: "1"
+  #   cnpg.io/pvcStatus: ready
+  # labels:
+  #   app.kubernetes.io/name: immich
+  #   cnpg.io/cluster: immich-postgresql-18
+  #   cnpg.io/instanceRole: primary
+  #   cnpg.io/pvcRole: PG_DATA
+  #   cnpg.io/podRole: instance
+  #   cnpg.io/instanceName: immich-postgresql-18-1
+  #   role: primary
 spec:
   storageClassName: local-immich-postgresql-18
   accessModes:
