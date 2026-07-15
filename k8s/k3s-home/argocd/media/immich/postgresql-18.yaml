@@ -6,6 +6,12 @@ metadata:
   namespace: immich
 spec:
   instances: 1
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: postgresql-user-immich
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
   postgresql:
     shared_preload_libraries:
