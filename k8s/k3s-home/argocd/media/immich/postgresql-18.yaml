@@ -6,12 +6,6 @@ metadata:
   namespace: immich
 spec:
   instances: 1
-  bootstrap:
-    initdb:
-      database: immich
-      owner: immich
-      secret:
-        name: postgresql-user-immich
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
   postgresql:
     shared_preload_libraries:
@@ -32,21 +26,6 @@ spec:
       auto_explain.log_min_duration: '10s'
     pg_hba:
       - host all all 10.42.0.0/16 md5
-  managed:
-    roles:
-      - name: immich
-        connectionLimit: -1
-        inherit: true
-        ensure: present
-        comment: Immich
-        login: true
-        superuser: true
-        passwordSecret:
-          name: postgresql-user-immich
-
-  enableSuperuserAccess: true
-  superuserSecret:
-    name: immich-postgresql-18-superuser
 
   storage:
     storageClass: local-immich-postgresql-18
@@ -77,10 +56,11 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: immich-database
+  name: immich-database-18
 spec:
-  name: immich
-  owner: immich
+  # "app"/"app" is auto-generated via cnpg in each cluster, adjust to your user/database
+  name: app
+  owner: app
   cluster:
     name: immich-postgresql-18
   extensions:
