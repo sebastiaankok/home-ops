@@ -63,15 +63,15 @@ spec:
   owner: app
   cluster:
     name: immich-postgresql-18
-  extensions:
-    - name: vector
-      ensure: present
-    - name: vchord
-      ensure: present
-    - name: earthdistance
-      ensure: present
-    - name: cube
-      ensure: present
+  # extensions:
+  #   - name: vector
+  #     ensure: present
+  #   - name: vchord
+  #     ensure: present
+  #   - name: earthdistance
+  #     ensure: present
+  #   - name: cube
+  #     ensure: present
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
