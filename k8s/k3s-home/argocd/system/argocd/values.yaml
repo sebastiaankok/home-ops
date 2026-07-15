@@ -27,7 +27,7 @@ server:
       gethomepage.dev/icon: sh-argo-cd.svg
       gethomepage.dev/name: ArgoCD
       gethomepage.dev/app: argocd-server
-      gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}" }}'
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_ARGOCD_API_KEY}}'
       gethomepage.dev/widget.url: "https://argocd.otohgunga.nl"
       gethomepage.dev/widget.type: "argocd"
     parentRefs:
