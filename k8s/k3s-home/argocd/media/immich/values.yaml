@@ -17,7 +17,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-server
-          tag: v3.0.2
+          tag: v3.0.3
         env:
           IMMICH_MEDIA_LOCATION: &mediaLocation /data/immich
           DB_HOSTNAME:
@@ -70,7 +70,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-machine-learning
-          tag: v3.0.2
+          tag: v3.0.3
         envFrom:
           - secretRef:
               name: immich-secret
