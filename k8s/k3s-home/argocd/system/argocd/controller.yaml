@@ -9,6 +9,10 @@ spec:
     name: in-cluster
     namespace: argocd
   project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
   source:
     directory:
       include: '*/application.yaml'
@@ -28,6 +32,10 @@ spec:
     name: in-cluster
     namespace: argocd
   project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
   source:
     directory:
       include: '*/application.yaml'
