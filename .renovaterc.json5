@@ -10,6 +10,7 @@
     'github>sebastiaankok/home-ops//.renovate/commit-messages.json5',
   ],
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
+  timezone: 'Europe/Amsterdam',
   ignorePaths: [
     '**/*.sops.*',
     '**/resources/**',
