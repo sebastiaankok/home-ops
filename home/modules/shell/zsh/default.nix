@@ -23,6 +23,7 @@
       vim = "nvim";
       diff = "colordiff -Naur";
       vimdiff = "nvim -d";
+      ki ="kubectl get pods -o 'custom-columns=NAME:.metadata.name,IMAGES:.spec.containers[*].image'";
     };
     zplug = {
       enable = true;

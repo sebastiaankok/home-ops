@@ -255,6 +255,10 @@ source <(kubectl completion zsh)
 compdef kubecolor='kubectl'
 compdef k='kubecolor'
 
+# Kubectl color settings
+export KUBECOLOR_FORCE_COLORS=auto
+export LESS='-R'
+
 # Aider config
 export LM_STUDIO_API_KEY=dummy-api-key
 export LM_STUDIO_API_BASE=http://127.0.0.1:1234/v1
@@ -272,5 +276,6 @@ export AIDER_AUTO_COMMITS="False"
 export AIDER_SHOW_MODEL_WARNINGS="False"
 export AIDER_CODE_THEME="monokai"
 
+export PATH=/Users/$USER/.opencode/bin:$PATH
 # SOPS
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"

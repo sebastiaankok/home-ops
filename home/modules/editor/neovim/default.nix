@@ -63,7 +63,15 @@
       mapleader = " ";
       maplocalleader = " ";
     };
-    colorschemes.catppuccin.enable = true;
+    colorschemes.catppuccin = {
+      enable = true;
+      # settings = {
+      #   flavour = "mocha"; # or latte, frappe, macchiato
+      #   integrations = {
+      #     native_lsp.enabled = true;
+      #   };
+      # };
+    };
     luaLoader.enable = true;
 
     opts = {
@@ -91,7 +99,14 @@
         99; # Folds with a level higher than this number will be closed
     };
 
-    highlight.ExtraWhitespace.bg = "#FF5C57";
+    highlight = {
+      ExtraWhitespace.bg = "#FF5C57";
+      # Vimdiff colors
+      # DiffAdd    = { bg = "#1e3a2f"; fg = "NONE"; };
+      # DiffChange = { bg = "#2a2d3a"; fg = "NONE"; };
+      # DiffDelete = { bg = "#3a1e1e"; fg = "#F28FAD"; };
+      # DiffText   = { bg = "#3a3000"; fg = "NONE"; bold = true; };
+    };
     match.ExtraWhitespace = "\\s\\+$";
 
     # Example on how to change settings for certain files.
@@ -119,7 +134,7 @@
       function _G.aider_watch()
         if not aider_term then
           aider_term = Terminal:new({
-            cmd = "/Users/sebastiaan/projects/toolbox/llm/aider_wrapper.sh --watch-files",
+            cmd = "aider --watch-files",
             direction = "horizontal",
             hidden = true,
             close_on_exit = false,
@@ -150,5 +165,5 @@
     ./plugins/avante.nix
     ./plugins/toggleterm.nix
   ];
-
 }
+

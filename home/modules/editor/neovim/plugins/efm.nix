@@ -1,7 +1,7 @@
 {
   programs.nixvim.plugins = {
 
-    efmls-configs.setup = let
+    efmls-configs.languages = let
       shellTools = {
         formatter = "shfmt";
         linter = "shellcheck";

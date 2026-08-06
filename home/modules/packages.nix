@@ -6,14 +6,15 @@
     python3Packages.pip
     pipx
     virtualenv
-    pkgs-unstable.go
+    uv
+    go
     nodejs
 
     ## language utils
     black
     isort
     djlint
-    nixfmt-classic
+    nixfmt
     prettierd
     shellcheck
     stylua
@@ -21,10 +22,15 @@
     yamlfmt
     yamllint
     gnumake
-
     # ansible-lint
+    ansible-lint
+    pandoc
+    pre-commit
+    glow
 
     # system tools
+    fzf
+    t-rec
     bash
     findutils
     yq-go
@@ -36,20 +42,26 @@
     nettools
     vivid
     diff-so-fancy
+    colordiff
     ripgrep
     eza
-    lazygit
-    gh
     btop
     nh
     sops
     watch
-    fzf
+
+    # git
+    git-filter-repo
+    gh
+    glab
+    lazygit
+    delta
 
     # network
     nmap
     wireguard-go
     wireguard-tools
+    iperf3
 
     # databases
     postgresql
@@ -75,11 +87,14 @@
     stern
     cilium-cli
     kubernetes-helm
+    kubernetes-helmPlugins.helm-unittest
     kubeconform
     helm-ls
     argocd
     velero
     kopia
+    kubefwd
+    trivy
     kind
 
     ## gui
