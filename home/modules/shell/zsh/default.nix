@@ -45,7 +45,7 @@
       sm = "bash $HOME/projects/toolbox/llm/select_openrouter_model.sh; source ~/.zshrc";
       ask = "aider --chat-mode ask";
       aider = "bash $HOME/projects/toolbox/llm/aider_wrapper.sh";
-      sync = "rclone sync k3s-home:/data ~/backups/k3s-home --exclude 'library/**' --exclude 'frigate/frigate/**' --progress --links --transfers 16 --checkers 16";
+      sync = "rclone sync k3s-home:/data ~/backups/k3s-home --exclude 'library/**' --exclude 'home-assistant/.venv/**' --exclude 'home-assistant/home-assistant.log*' --exclude 'frigate/frigate/**' --exclude 'mediaserver/jellyseerr/cache/**'  --exclude 'mediaserver/jellyseerr/images/**' --exclude 'mediaserver/jellyfin/metadata/**' --retries 3 --low-level-retries 10 --size-only --progress --links --transfers 16 --checkers 128";
       vi = "nvim";
       vim = "nvim";
       diff = "colordiff -Naur";
