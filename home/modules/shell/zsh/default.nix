@@ -1,9 +1,36 @@
+{ pkgs, lib, ... }:
 {
-  #Add some comments to this file AI!
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
+
+    initContent = lib.mkBefore ''
+      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
+
+      source ${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/git/git.plugin.zsh
+    '';
+
+    completionInit = ''
+      fpath=(${pkgs.zsh}/share/zsh/${pkgs.zsh.version}/functions $fpath)
+
+      autoload -Uz compinit
+      if [[ -n $HOME/.zcompdump(#qNmh+1) ]]; then
+        compinit
+      else
+        compinit -C
+      fi
+    '';
+
+    syntaxHighlighting.enable = true;
+
+    plugins = [
+      { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
+      { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
+    ];
+
     shellAliases = {
       k = "kubecolor";
       up = "sudo darwin-rebuild switch --flake path:$HOME/projects/home-ops ; source ~/.zshrc";
@@ -23,18 +50,7 @@
       vim = "nvim";
       diff = "colordiff -Naur";
       vimdiff = "nvim -d";
+      ki ="kubectl get pods -o 'custom-columns=NAME:.metadata.name,IMAGES:.spec.containers[*].image'";
     };
-    zplug = {
-      enable = true;
-      plugins = [
-        { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
-        { name = "plugins/git"; tags = [ from:oh-my-zsh ]; }
-        { name = "zsh-users/zsh-syntax-highlighting";}
-      ];
-    };
-
-    plugins = [
-      { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
-    ];
   };
 }

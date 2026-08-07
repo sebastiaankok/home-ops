@@ -2,29 +2,8 @@
   programs.nixvim = {
     plugins = {
       avante = {
-        enable = true;
+        enable = false;
         settings = {
-          #mode = "legacy";
-          provider = "openai"; # Use Ollama provider
-          openai = {
-            endpoint = "http://127.0.0.1:1234/v1";
-            model = "qwen/qwen3-coder-30b";
-            api_key_name = "";
-            api_key = "OPENAI_API_KEY";
-            options = {
-               max_tokens = "4048";
-            };
-          };
-          # Could use this in the future
-          #vendors = {
-          #  "ollama_suggests" = {
-          #    endpoint = "http://localhost:11434";
-          #    __inherited_from = "ollama";
-          #    model = "qwen2.5-coder:7b";
-          #    max_tokens = "128";
-          #  };
-          #};
-
           prompt_logger = {
             enabled = true;
           };

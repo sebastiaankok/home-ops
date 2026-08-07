@@ -2,6 +2,6 @@ kind: SwitchConfig
 version: v1alpha1
 kubeconfigStores:
  - kind: filesystem
-   kubeconfigName: "*"
+   kubeconfigName: "*.yaml"
    paths:
      - ~/.kube/configs

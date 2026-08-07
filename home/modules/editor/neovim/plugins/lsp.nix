@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.nixvim = {
     plugins = {
@@ -25,7 +25,10 @@
         };
 
         servers = {
-          ansiblels.enable = true;
+          ansiblels = {
+            enable = true;
+            package = pkgs.ansible-language-server;
+          };
           bashls.enable = true;
           cmake.enable = true;
           dockerls.enable = true;

@@ -4,31 +4,27 @@
 
   inputs = {
 
-    # Nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # darwin
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secret management
     sops-nix.url = "github:Mic92/sops-nix";
-
-    # darwin
-    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # MicroVM
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Home-manager
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nixvim
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim/nixos-26.05";
     };
 
   };
@@ -95,7 +91,7 @@
                     system = "aarch64-darwin";
                   };
                 };
-                sharedModules = [ nixvim.homeManagerModules.nixvim ];
+                sharedModules = [ nixvim.homeModules.nixvim ];
                 users = { sebastiaan = import ./home/modules/default.nix; };
               };
             }
