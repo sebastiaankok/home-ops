@@ -22,9 +22,11 @@
 
   programs.git = {
     enable = true;
-    userEmail = "sebastiaan@linux.com";
-    userName = "Sebastiaan Kok";
-    extraConfig = {
+    settings = {
+      user = {
+        email = "sebastiaan@linux.com";
+        name = "Sebastiaan Kok";
+      };
       color = { ui = true; };
       core = {
         pager = "delta";
