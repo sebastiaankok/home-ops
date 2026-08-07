@@ -249,8 +249,6 @@ function kpass () {
 }
 
 # Kubectl completion
-autoload -Uz compinit
-compinit
 source <(kubectl completion zsh)
 compdef kubecolor='kubectl'
 compdef k='kubecolor'

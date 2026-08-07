@@ -1,18 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
-  #Add some comments to this file AI!
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
 
-    initExtraFirst = ''
+    initContent = lib.mkBefore ''
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
+
+      source ${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/git/git.plugin.zsh
     '';
 
     completionInit = ''
+      fpath=(${pkgs.zsh}/share/zsh/${pkgs.zsh.version}/functions $fpath)
+
       autoload -Uz compinit
       if [[ -n $HOME/.zcompdump(#qNmh+1) ]]; then
         compinit
@@ -27,10 +30,6 @@
       { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
       { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
     ];
-
-    initExtra = ''
-      source ${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/git/git.plugin.zsh
-    '';
 
     shellAliases = {
       k = "kubecolor";
