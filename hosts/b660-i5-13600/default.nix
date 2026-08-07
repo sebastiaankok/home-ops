@@ -13,9 +13,7 @@
     };
 
     # Raise file descriptor and inotify limits for root systemd user manager
-    systemd.extraConfig = ''
-      DefaultLimitNOFILE=65536
-    '';
+    systemd.settings.Manager.DefaultLimitNOFILE = 65536;
     boot.kernel.sysctl = {
       "fs.inotify.max_user_watches" = 65536;
       "fs.file-max" = 500000;

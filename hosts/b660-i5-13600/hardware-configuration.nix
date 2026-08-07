@@ -43,13 +43,12 @@
   boot.kernelParams = [ "ip=dhcp" "i915.enable_gvt=1" ];
   boot.kernel.sysctl = { "vm.swappiness" = 10;};
   boot.initrd = {
-    systemd.users.root.shell = "/bin/cryptsetup-askpass";
     network = {
       enable = true;
       ssh = {
         enable = true;
         port = 22;
-        authorizedKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTvwNAE0ZUIgEZRlZqw48o5Sw8gZuCPaYUPUHEp/vtg sebastiaan@linux.com" ];
+        authorizedKeys = [ "command=\"systemctl default\" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTvwNAE0ZUIgEZRlZqw48o5Sw8gZuCPaYUPUHEp/vtg sebastiaan@linux.com" ];
         hostKeys = [ "/etc/secrets/initrd/ssh_host_rsa_key"];
       };
     };
