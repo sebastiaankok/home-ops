@@ -277,3 +277,5 @@ export AIDER_CODE_THEME="monokai"
 export PATH=/Users/$USER/.opencode/bin:$PATH
 # SOPS
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+
+export TERM=xterm-256color
