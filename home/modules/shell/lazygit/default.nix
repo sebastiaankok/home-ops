@@ -3,6 +3,7 @@
     enable = true;
     settings = {
       gui = {
+        sidePanelWidth = 0.25;
         theme = {
           activeBorderColor = [ "#89b4fa" "bold" ];
           inactiveBorderColor = [ "#a6adc8" ];
