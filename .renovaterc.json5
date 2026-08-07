@@ -4,7 +4,7 @@
     'config:recommended',
     'docker:enableMajor',
     'helpers:pinGitHubActionDigests',
-    'github>sebastiaankok/home-ops//.renovate/automerge.json5',
+    
     'github>sebastiaankok/home-ops//.renovate/groups.json5',
     'github>sebastiaankok/home-ops//.renovate/labels.json5',
     'github>sebastiaankok/home-ops//.renovate/commit-messages.json5',
