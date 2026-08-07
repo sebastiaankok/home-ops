@@ -59,7 +59,7 @@
     text = ''
       #!/usr/bin/env bash
 
-      diff=$(git --no-pager diff --cached)
+      diff=$(git --no-pager diff --cached | grep '^-\|^+' -A 5 -B 5)
 
       curl -s http://localhost:11434/api/chat \
         -H "Content-Type: application/json" \
