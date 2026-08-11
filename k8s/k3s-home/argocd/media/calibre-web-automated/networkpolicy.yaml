@@ -5,12 +5,6 @@ metadata:
   name: calibre-policy
 spec:
   endpointSelector: {}
-  ingress:
-    - fromEntities:
-        - host
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: calibre
   egress:
     - toEndpoints:
         - matchLabels:
