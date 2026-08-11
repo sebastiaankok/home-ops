@@ -6,8 +6,7 @@ controllers:
       reloader.stakater.com/auto: "true"
     pod:
       securityContext:
-        runAsNonRoot: false
-        runAsUser: 0
+        runAsUser: 1011
         runAsGroup: 1011
         fsGroup: 1011
         fsGroupChangePolicy: OnRootMismatch
@@ -20,8 +19,6 @@ controllers:
           tag: v4.0.6
         env:
           TZ: Europe/Amsterdam
-          PUID: 1011
-          PGID: 1011
           UMASK: "002"
           CACHE_DIR: /cache
           NETWORK_SHARE_MODE: "true"
@@ -61,17 +58,11 @@ controllers:
           limits:
             memory: 2Gi
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           capabilities:
             drop:
               - ALL
-            add:
-              - CHOWN
-              - SETUID
-              - SETGID
-              - FOWNER
-              - DAC_OVERRIDE
 
 service:
   app:
