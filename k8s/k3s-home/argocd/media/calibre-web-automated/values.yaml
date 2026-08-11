@@ -46,7 +46,7 @@ controllers:
             cpu: 50m
             memory: 200Mi
           limits:
-            memory: 600Mi
+            memory: 1Gi
 
 service:
   app:
