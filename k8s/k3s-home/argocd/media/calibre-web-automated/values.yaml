@@ -1,0 +1,118 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  calibre-web-automated:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    pod:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 1011
+        fsGroup: 1011
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    containers:
+      app:
+        image:
+          repository: ghcr.io/crocodilestick/calibre-web-automated
+          tag: v4.0.6
+        env:
+          TZ: Europe/Amsterdam
+          PUID: 1011
+          PGID: 1011
+          UMASK: "002"
+          CACHE_DIR: /cache
+          NETWORK_SHARE_MODE: "true"
+          S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: "1"
+          S6_READ_ONLY_ROOT: "1"
+          HARDCOVER_TOKEN:
+            valueFrom:
+              secretKeyRef:
+                name: calibre-web-automated
+                key: HARDCOVER_TOKEN
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                port: &port 8083
+                path: /login
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 6
+          readiness: *probes
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                port: *port
+                path: /
+              failureThreshold: 90
+              periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+              - CHOWN
+              - SETUID
+              - SETGID
+              - FOWNER
+              - DAC_OVERRIDE
+
+service:
+  app:
+    controller: calibre-web-automated
+    ports:
+      http:
+        port: *port
+
+route:
+  app:
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Calibre Web Automated"
+      gethomepage.dev/icon: "calibre-web"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/description: Ebook library management
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - "calibre.otohgunga.nl"
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: *port
+
+persistence:
+  config:
+    existingClaim: local-calibre-web-automated-pvc
+    advancedMounts:
+      calibre-web-automated:
+        app:
+          - path: /config
+          - path: /calibre-library
+            subPath: library
+          - path: /cwa-book-ingest
+            subPath: ingest
+  tmpfs:
+    type: emptyDir
+    advancedMounts:
+      calibre-web-automated:
+        app:
+          - path: /cache

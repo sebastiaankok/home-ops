@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-calibre-web-automated-pv
+  labels:
+    app.kubernetes.io/name: calibre-web-automated
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-calibre-web-automated
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/calibre"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+                - b660-i5-13600
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-calibre-web-automated-pvc
+  namespace: calibre
+  labels:
+    app.kubernetes.io/name: calibre-web-automated
+spec:
+  storageClassName: local-calibre-web-automated
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
