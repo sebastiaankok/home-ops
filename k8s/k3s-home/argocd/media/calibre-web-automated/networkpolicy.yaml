@@ -6,9 +6,8 @@ metadata:
 spec:
   endpointSelector: {}
   ingress:
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
+    - fromEntities:
+        - host
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: calibre
