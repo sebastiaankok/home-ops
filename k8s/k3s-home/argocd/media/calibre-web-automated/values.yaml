@@ -64,7 +64,7 @@ route:
       gethomepage.dev/group: "Media"
       gethomepage.dev/description: Ebook library management
     parentRefs:
-      - name: internal
+      - name: calibre
         namespace: kube-system
         sectionName: https
     hostnames:

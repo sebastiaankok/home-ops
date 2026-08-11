@@ -2,9 +2,16 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: calibre-egress-policy
+  name: calibre-policy
 spec:
   endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: calibre
   egress:
     - toEndpoints:
         - matchLabels:

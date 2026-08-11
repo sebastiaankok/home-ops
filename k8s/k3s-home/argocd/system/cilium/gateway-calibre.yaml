@@ -1,23 +1,8 @@
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: wildcard-otohgunga-nl
-  namespace: kube-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-spec:
-  secretName: wildcard-otohgunga-nl-tls
-  issuerRef:
-    name: letsencrypt-dns
-    kind: ClusterIssuer
-  dnsNames:
-    - "*.otohgunga.nl"
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: internal
+  name: calibre
   namespace: kube-system
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -25,7 +10,7 @@ spec:
   gatewayClassName: cilium
   addresses:
     - type: IPAddress
-      value: 10.10.21.50
+      value: 10.10.21.60
   listeners:
     - name: https
       protocol: HTTPS
