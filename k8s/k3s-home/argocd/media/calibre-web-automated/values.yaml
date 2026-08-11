@@ -1,34 +1,37 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 ---
+defaultPodOptions:
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    seccompProfile:
+      type: RuntimeDefault
+
 controllers:
   calibre-web-automated:
-    annotations:
-      reloader.stakater.com/auto: "true"
-    pod:
-      securityContext:
-        runAsUser: 1011
-        runAsGroup: 1011
-        fsGroup: 1011
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
     containers:
       app:
         image:
           repository: ghcr.io/crocodilestick/calibre-web-automated
-          tag: v4.0.6
+          tag: v4.0.6@sha256:c31a738b6d5ec6982c050063dd3f063b6943eb1051fc81144789f840d9093a8d
         env:
-          TZ: Europe/Amsterdam
-          UMASK: "002"
           CACHE_DIR: /cache
-          NETWORK_SHARE_MODE: "true"
-          S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: "1"
-          S6_READ_ONLY_ROOT: "1"
-          HARDCOVER_TOKEN:
-            valueFrom:
-              secretKeyRef:
-                name: calibre-web-automated
-                key: HARDCOVER_TOKEN
+          NETWORK_SHARE_MODE: true
+          S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: 1
+          S6_READ_ONLY_ROOT: 1
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+              - CHOWN
+              - SETUID
+              - SETGID
+              - FOWNER
+              - DAC_OVERRIDE
         probes:
           liveness: &probes
             enabled: true
@@ -37,32 +40,13 @@ controllers:
               httpGet:
                 port: &port 8083
                 path: /login
-              initialDelaySeconds: 30
-              periodSeconds: 10
-              timeoutSeconds: 5
-              failureThreshold: 6
           readiness: *probes
-          startup:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                port: *port
-                path: /
-              failureThreshold: 90
-              periodSeconds: 5
         resources:
           requests:
-            cpu: 100m
-            memory: 512Mi
+            cpu: 50m
+            memory: 200Mi
           limits:
-            memory: 2Gi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          capabilities:
-            drop:
-              - ALL
+            memory: 600Mi
 
 service:
   app:
@@ -92,18 +76,25 @@ route:
 
 persistence:
   config:
-    existingClaim: local-calibre-web-automated-pvc
-    advancedMounts:
-      calibre-web-automated:
-        app:
-          - path: /config
-          - path: /calibre-library
-            subPath: library
-          - path: /cwa-book-ingest
-            subPath: ingest
+    existingClaim: calibre-config-v1
+    globalMounts:
+      - path: /config
+  library:
+    existingClaim: calibre-config-v1
+    globalMounts:
+      - path: /calibre-library
+        subPath: library
+  ingest:
+    existingClaim: calibre-config-v1
+    globalMounts:
+      - path: /cwa-book-ingest
+        subPath: ingest
   tmpfs:
     type: emptyDir
-    advancedMounts:
-      calibre-web-automated:
-        app:
-          - path: /cache
+    globalMounts:
+      - path: /cache
+        subPath: cache
+      - path: /tmp
+        subPath: tmp
+      - path: /run
+        subPath: run
