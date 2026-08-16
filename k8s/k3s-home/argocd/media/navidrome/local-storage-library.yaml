@@ -14,7 +14,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/data/storage/library/music"
+    path: "/data/library/music"
   nodeAffinity:
     required:
       nodeSelectorTerms:
