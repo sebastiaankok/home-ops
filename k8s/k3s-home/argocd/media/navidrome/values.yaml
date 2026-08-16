@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  navidrome:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    pod:
+      securityContext:
+        runAsUser: 1012
+        runAsGroup: 1012
+        runAsNonRoot: true
+        fsGroup: 1012
+        fsGroupChangePolicy: OnRootMismatch
+    containers:
+      app:
+        image:
+          repository: ghcr.io/navidrome/navidrome
+          tag: 0.63.2@sha256:9012939114fbb1bb641b81cf96dec5ded15f0aafefe8d47a511d7cb919658e40
+        env:
+          TZ: Europe/Amsterdam
+          ND_AUTHREQUESTLIMIT: "0"
+          ND_DATAFOLDER: /config
+          ND_ENABLEGRAVATAR: "true"
+          ND_ENABLESHARING: "true"
+          ND_LOGLEVEL: info
+          ND_MUSICFOLDER: /data/music
+          ND_PORT: &port 8080
+          ND_PROMETHEUS_ENABLED: "true"
+          ND_REVERSEPROXYUSERHEADER: Remote-User
+          ND_REVERSEPROXYWHITELIST: 10.0.0.0/8
+          ND_SCANSCHEDULE: "@every 1h"
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities: {drop: ["ALL"]}
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            memory: 4Gi
+service:
+  app:
+    controller: navidrome
+    ports:
+      http:
+        port: *port
+
+route:
+  app:
+    hostnames:
+      - "navidrome.otohgunga.nl"
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+
+persistence:
+  config:
+    existingClaim: local-navidrome-pvc
+    globalMounts:
+      - path: /config
+  library:
+    existingClaim: local-navidrome-library-pvc
+    globalMounts:
+      - path: /data/music
