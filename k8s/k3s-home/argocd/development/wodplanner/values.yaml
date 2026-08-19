@@ -42,7 +42,6 @@ controllers:
       successfulJobsHistory: 0
       suspend: false
     type: cronjob
-    strategy: RollingUpdate
     containers:
       app:
         command:
