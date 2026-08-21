@@ -38,8 +38,8 @@ controllers:
               secretKeyRef:
                 name: audiomuse-postgresql-15-app
                 key: password
-          PGSSLMODE: verify-full
-          PGSSLROOTCERT: /run/secrets/ca/ca.crt
+          # PGSSLMODE: verify-full
+          # PGSSLROOTCERT: /run/secrets/ca/ca.crt
         envFrom:
           - secretRef:
               name: audiomuse-secret
