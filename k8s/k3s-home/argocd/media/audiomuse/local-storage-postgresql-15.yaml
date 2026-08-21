@@ -31,14 +31,14 @@ metadata:
   annotations:
     cnpg.io/nodeSerial: "1"
     cnpg.io/pvcStatus: ready
-  labels:
-    app.kubernetes.io/name: postgresql
-    cnpg.io/cluster: audiomuse-postgresql-15
-    cnpg.io/instanceRole: primary
-    cnpg.io/pvcRole: PG_DATA
-    cnpg.io/podRole: instance
-    cnpg.io/instanceName: audiomuse-postgresql-15-1
-    role: primary
+  # labels:
+  #   app.kubernetes.io/name: postgresql
+  #   cnpg.io/cluster: audiomuse-postgresql-15
+  #   cnpg.io/instanceRole: primary
+  #   cnpg.io/pvcRole: PG_DATA
+  #   cnpg.io/podRole: instance
+  #   cnpg.io/instanceName: audiomuse-postgresql-15-1
+  #   role: primary
 spec:
   storageClassName: local-audiomuse-postgresql-15
   accessModes:
