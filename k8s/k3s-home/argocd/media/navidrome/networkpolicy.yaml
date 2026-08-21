@@ -4,11 +4,16 @@ kind: CiliumNetworkPolicy
 metadata:
   name: navidrome-egress-policy
 spec:
-  endpointSelector: {}
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: navidrome
   egress:
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: navidrome
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: audiomuse
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
