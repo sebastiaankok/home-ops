@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  flask:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      app:
+        image:
+          repository: ghcr.io/neptunehub/audiomuse-ai
+          tag: 3.3.0
+        env:
+          SERVICE_TYPE: flask
+          TZ: Europe/Amsterdam
+        envFrom:
+          - secretRef:
+              name: audiomuse-secret
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {drop: ["ALL"]}
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+  worker:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      app:
+        image:
+          repository: ghcr.io/neptunehub/audiomuse-ai
+          tag: 3.3.0
+        env:
+          SERVICE_TYPE: worker
+          TZ: Europe/Amsterdam
+        envFrom:
+          - secretRef:
+              name: audiomuse-secret
+        probes:
+          liveness:
+            enabled: false
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {drop: ["ALL"]}
+        resources:
+          requests:
+            cpu: 250m
+            memory: 2Gi
+          limits:
+            cpu: "8"
+            memory: 12Gi
+
+defaultPodOptions:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+service:
+  flask:
+    controller: flask
+    ports:
+      http:
+        port: 8000
+
+route:
+  flask:
+    hostnames:
+      - "audiomuse.otohgunga.nl"
+    parentRefs:
+      - name: internal
+        namespace: kube-system
+        sectionName: https
+    rules:
+      - backendRefs:
+          - identifier: flask
+            port: http
+
+persistence:
+  temp-audio:
+    type: emptyDir
+    sizeLimit: 5Gi
+    globalMounts:
+      - path: /app/temp_audio
+  plugins:
+    type: emptyDir
+    globalMounts:
+      - path: /app/plugin/installed

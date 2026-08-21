@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-audiomuse-postgresql-15-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-audiomuse-postgresql-15
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/databases/audiomuse-postgresql-15"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+                - b660-i5-13600
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiomuse-postgresql-15-1
+  namespace: audiomuse
+  annotations:
+    cnpg.io/nodeSerial: "1"
+    cnpg.io/pvcStatus: ready
+  labels:
+    app.kubernetes.io/name: postgresql
+    cnpg.io/cluster: audiomuse-postgresql-15
+    cnpg.io/instanceRole: primary
+    cnpg.io/pvcRole: PG_DATA
+    cnpg.io/podRole: instance
+    cnpg.io/instanceName: audiomuse-postgresql-15-1
+    role: primary
+spec:
+  storageClassName: local-audiomuse-postgresql-15
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

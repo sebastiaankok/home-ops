@@ -1,0 +1,44 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: audiomuse-postgresql-15
+  namespace: audiomuse
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:15-bookworm
+
+  storage:
+    storageClass: local-audiomuse-postgresql-15
+    size: 1Gi
+
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: audiomuse-database-15
+spec:
+  name: app
+  owner: app
+  cluster:
+    name: audiomuse-postgresql-15
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: audiomuse-postgresql-15-backup-schedule
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+  cluster:
+    name: audiomuse-postgresql-15
