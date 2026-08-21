@@ -16,7 +16,7 @@ controllers:
           CLAP_ENABLED: "true"
           ENABLE_PROXY_FIX: true
           MEDIASERVER_TYPE: navidrome
-          NAVIDROME_URL: http://navidrome.media.svc.cluster.local
+          NAVIDROME_URL: http://navidrome.navidrome.svc.cluster.local
           POSTGRES_HOST:
             valueFrom:
               secretKeyRef:
