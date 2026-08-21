@@ -12,6 +12,34 @@ controllers:
         env:
           SERVICE_TYPE: flask
           TZ: Europe/Amsterdam
+          TEMP_DIR: /tmp
+          CLAP_ENABLED: "true"
+          ENABLE_PROXY_FIX: true
+          MEDIASERVER_TYPE: navidrome
+          NAVIDROME_URL: http://navidrome.media.svc.cluster.local
+          POSTGRES_HOST:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: host
+          POSTGRES_PORT:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: port
+          POSTGRES_DB: app
+          POSTGRES_USER:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: username
+          POSTGRES_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: password
+          PGSSLMODE: verify-full
+          PGSSLROOTCERT: /run/secrets/ca/ca.crt
         envFrom:
           - secretRef:
               name: audiomuse-secret
@@ -45,6 +73,34 @@ controllers:
         env:
           SERVICE_TYPE: worker
           TZ: Europe/Amsterdam
+          TEMP_DIR: /tmp
+          CLAP_ENABLED: "true"
+          ENABLE_PROXY_FIX: true
+          MEDIASERVER_TYPE: navidrome
+          NAVIDROME_URL: http://navidrome.media.svc.cluster.local
+          POSTGRES_HOST:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: host
+          POSTGRES_PORT:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: port
+          POSTGRES_DB: app
+          POSTGRES_USER:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: username
+          POSTGRES_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: audiomuse-postgresql-15-app
+                key: password
+          PGSSLMODE: verify-full
+          PGSSLROOTCERT: /run/secrets/ca/ca.crt
         envFrom:
           - secretRef:
               name: audiomuse-secret
@@ -101,3 +157,10 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /app/plugin/installed
+  ca:
+    type: secret
+    name: audiomuse-postgresql-15-ca
+    defaultMode: 0444
+    globalMounts:
+      - path: /run/secrets/ca
+        readOnly: true
