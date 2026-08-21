@@ -4,6 +4,19 @@ controllers:
   navidrome:
     annotations:
       reloader.stakater.com/auto: "true"
+    initContainers:
+      download-plugins:
+        image:
+          repository: alpine/curl
+          tag: 8.12.1
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - curl -sSL -o /config/plugins/audiomuseai.ndp https://github.com/NeptuneHub/AudioMuse-AI-NV-plugin/releases/download/v9/audiomuseai.ndp && echo "Plugin downloaded successfully"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {drop: ["ALL"]}
     pod:
       securityContext:
         runAsUser: 1012
@@ -29,6 +42,11 @@ controllers:
           ND_REVERSEPROXYUSERHEADER: Remote-User
           ND_REVERSEPROXYWHITELIST: 10.0.0.0/8
           ND_SCANSCHEDULE: "@every 1h"
+          ND_PLUGINS_ENABLED: "true"
+          ND_PLUGINS_AUTORELOAD: "true"
+          ND_AGENTS: "audiomuseai"
+          ND_DEVARTISTINFOTIMETOLIVE: "1s"
+          ND_PLUGINSFOLDER: /plugins
         probes:
           liveness: &probes
             enabled: true
@@ -78,3 +96,7 @@ persistence:
     existingClaim: local-navidrome-library-pvc
     globalMounts:
       - path: /data/music
+  plugins:
+    type: emptyDir
+    globalMounts:
+      - path: /plugins
