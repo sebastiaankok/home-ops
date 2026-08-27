@@ -44,7 +44,7 @@ in
             "--no-collector.schedstat"
             "--no-collector.cooling_device"
             "--collector.netdev.device-include=^(eth0|lo|bond.+)$"
-            "--collector.filesystem.mount-allowlist=^(/|/storage)$"
+            "--collector.filesystem.mount-points-include=^(/|/storage)$"
           ];
         };
         smartctl = {
