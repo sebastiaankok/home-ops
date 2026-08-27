@@ -61,7 +61,7 @@ alloy:
 
       prometheus.scrape "kubelet_cadvisor" {
       	targets           = discovery.relabel.kubelet.output
-      	forward_to        = [prometheus.remote_write.grafana_cloud.receiver]
+      	forward_to        = [prometheus.relabel.cadvisor_filter.receiver]
       	job_name          = "integrations/kubernetes/kubelet"
       	scrape_interval   = "30s"
       	bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
@@ -70,12 +70,16 @@ alloy:
       		ca_file              = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
       		insecure_skip_verify = true
       	}
+      }
 
-      	metric_relabel_rules {
+      prometheus.relabel "cadvisor_filter" {
+      	rule {
       		source_labels = ["__name__"]
       		regex         = "container_(network_tcp_usage_seen_bytes|memory_mapped_file|spec_memory_reservation_limit_bytes|spec_memory_swap_limit_bytes|spec_memory_swappiness|spec_cpu_quota|spec_cpu_period|spec_cpu_shares|spec_cpu_limit|spec_memory_limit|spec_oom_kill_disable)"
       		action        = "drop"
       	}
+
+      	forward_to = [prometheus.remote_write.grafana_cloud.receiver]
       }
 
       prometheus.scrape "kube_state_metrics" {
