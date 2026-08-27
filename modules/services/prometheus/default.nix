@@ -42,7 +42,6 @@ in
           extraFlags = [
             "--no-collector.softnet"
             "--no-collector.schedstat"
-            "--no-collector.cooling_device"
             "--collector.netdev.device-include=^(eth0|lo|bond.+)$"
             "--collector.filesystem.mount-points-include=^(/|/storage)$"
           ];
