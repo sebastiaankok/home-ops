@@ -107,12 +107,17 @@ alloy:
       		source_labels = ["__meta_kubernetes_service_name"]
       		target_label  = "service"
       	}
+
+      	rule {
+      		target_label = "instance"
+      		replacement  = "b660-i5-13600"
+      	}
       }
 
       prometheus.scrape "node_exporter" {
       	targets         = discovery.relabel.node_exporter.output
       	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
-      	job_name        = "node"
+      	job_name        = "b660-i5-13600-node"
       	scrape_interval = "30s"
       }
 
@@ -134,12 +139,17 @@ alloy:
       		source_labels = ["__meta_kubernetes_service_name"]
       		target_label  = "service"
       	}
+
+      	rule {
+      		target_label = "instance"
+      		replacement  = "b660-i5-13600"
+      	}
       }
 
       prometheus.scrape "smartctl_exporter" {
       	targets         = discovery.relabel.smartctl_exporter.output
       	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
-      	job_name        = "smartctl"
+      	job_name        = "b660-i5-13600-smartctl"
       	scrape_interval = "60s"
       }
 
