@@ -16,7 +16,7 @@ controllers:
       app:
         image:
           repository: prometheuscommunity/smartctl-exporter
-          tag: 0.13.0
+          tag: v0.13.0
         args:
           - --smartctl.device=/dev/sda
           - --smartctl.device=/dev/nvme0n1
