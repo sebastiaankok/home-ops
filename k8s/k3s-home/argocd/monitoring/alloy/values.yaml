@@ -35,6 +35,29 @@ alloy:
       	}
       }
 
+      prometheus.scrape "kubelet_cadvisor" {
+      	targets           = discovery.relabel.kubelet.output
+      	forward_to        = [prometheus.relabel.container_filter.receiver]
+      	job_name          = "integrations/kubernetes/kubelet"
+      	scrape_interval   = "30s"
+      	bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+
+      	tls_config {
+      		ca_file              = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+      		insecure_skip_verify = true
+      	}
+      }
+
+      prometheus.relabel "container_filter" {
+      	rule {
+      		source_labels = ["__name__"]
+      		regex         = "container_(cpu_usage_seconds_total|memory_usage_bytes)"
+      		action        = "keep"
+      	}
+
+      	forward_to = [prometheus.remote_write.grafana_cloud.receiver]
+      }
+
       discovery.kubernetes "services" {
       	role = "service"
       }
@@ -57,29 +80,6 @@ alloy:
       		source_labels = ["__meta_kubernetes_service_name"]
       		target_label  = "service"
       	}
-      }
-
-      prometheus.scrape "kubelet_cadvisor" {
-      	targets           = discovery.relabel.kubelet.output
-      	forward_to        = [prometheus.relabel.cadvisor_filter.receiver]
-      	job_name          = "integrations/kubernetes/kubelet"
-      	scrape_interval   = "30s"
-      	bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
-
-      	tls_config {
-      		ca_file              = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-      		insecure_skip_verify = true
-      	}
-      }
-
-      prometheus.relabel "cadvisor_filter" {
-      	rule {
-      		source_labels = ["__name__"]
-      		regex         = "container_(network_.*|fs_.*|spec_.*|cpu_load_average.*|cpu_system_seconds_total|cpu_user_seconds_total|memory_failcnt|memory_failures_total|memory_mapped_file|memory_swap|memory_kernel_usage|memory_rss|memory_max_usage_bytes|memory_total_active_file_.*|memory_total_inactive_file_.*|tasks_state|threads.*|sockets|ulimits_soft|file_descriptors|pressure_.*|llc_.*|psi_.*|blkio_device_usage_total|last_seen|memory_cache|oom_events_total)"
-      		action        = "drop"
-      	}
-
-      	forward_to = [prometheus.remote_write.grafana_cloud.receiver]
       }
 
       prometheus.scrape "kube_state_metrics" {
