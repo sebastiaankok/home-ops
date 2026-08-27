@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  smartctl-exporter:
+    type: daemonset
+    pod:
+      nodeSelector:
+        kubernetes.io/hostname: b660-i5-13600
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        seccompProfile:
+          type: RuntimeDefault
+    containers:
+      app:
+        image:
+          repository: prometheuscommunity/smartctl-exporter
+          tag: 0.13.0
+        args:
+          - --smartctl.device=/dev/sda
+          - --smartctl.device=/dev/nvme0n1
+          - --web.listen-address=:9633
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                port: &port 9633
+                path: /metrics
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              timeoutSeconds: 3
+              failureThreshold: 5
+          readiness: *probes
+          startup:
+            enabled: false
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+
+service:
+  app:
+    controller: smartctl-exporter
+    ports:
+      http:
+        port: *port

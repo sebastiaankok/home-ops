@@ -8,7 +8,8 @@
       sshPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTvwNAE0ZUIgEZRlZqw48o5Sw8gZuCPaYUPUHEp/vtg sebastiaan@linux.com";
       services = {
         # system
-        prometheus.enable = true;
+        # prometheus is now deployed via ArgoCD (k8s/k3s-home/argocd/monitoring/prometheus/)
+        prometheus.enable = false;
       };
     };
 

@@ -89,6 +89,60 @@ alloy:
       	scrape_interval = "30s"
       }
 
+      discovery.relabel "node_exporter" {
+      	targets = discovery.kubernetes.services.targets
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_service_name"]
+      		regex         = "monitoring;node-exporter"
+      		action        = "keep"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace"]
+      		target_label  = "namespace"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_service_name"]
+      		target_label  = "service"
+      	}
+      }
+
+      prometheus.scrape "node_exporter" {
+      	targets         = discovery.relabel.node_exporter.output
+      	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+      	job_name        = "node"
+      	scrape_interval = "30s"
+      }
+
+      discovery.relabel "smartctl_exporter" {
+      	targets = discovery.kubernetes.services.targets
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_service_name"]
+      		regex         = "monitoring;smartctl-exporter"
+      		action        = "keep"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace"]
+      		target_label  = "namespace"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_service_name"]
+      		target_label  = "service"
+      	}
+      }
+
+      prometheus.scrape "smartctl_exporter" {
+      	targets         = discovery.relabel.smartctl_exporter.output
+      	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+      	job_name        = "smartctl"
+      	scrape_interval = "60s"
+      }
+
       prometheus.remote_write "grafana_cloud" {
       	endpoint {
       		url = "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"
