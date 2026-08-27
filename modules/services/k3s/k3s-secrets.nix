@@ -41,5 +41,8 @@
     secrets."k3s-home/gateway-media.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/openmuse-ai.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
