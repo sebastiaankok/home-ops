@@ -94,7 +94,7 @@ alloy:
 
       	rule {
       		source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_service_name"]
-      		regex         = "monitoring;node-exporter"
+      		regex         = "monitoring;node-exporter-prometheus-node-exporter"
       		action        = "keep"
       	}
 
