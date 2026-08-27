@@ -10,9 +10,6 @@ collectors:
   - deployments
   - statefulsets
   - daemonsets
-  - replicasets
-  - jobs
-  - cronjobs
 resources:
   requests:
     cpu: 10m

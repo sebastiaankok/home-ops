@@ -75,7 +75,7 @@ alloy:
       prometheus.relabel "cadvisor_filter" {
       	rule {
       		source_labels = ["__name__"]
-      		regex         = "container_(network_tcp_usage_seen_bytes|memory_mapped_file|spec_memory_reservation_limit_bytes|spec_memory_swap_limit_bytes|spec_memory_swappiness|spec_cpu_quota|spec_cpu_period|spec_cpu_shares|spec_cpu_limit|spec_memory_limit|spec_oom_kill_disable)"
+      		regex         = "container_(network_.*|fs_.*|spec_.*|cpu_load_average.*|cpu_system_seconds_total|cpu_user_seconds_total|memory_failcnt|memory_failures_total|memory_mapped_file|memory_swap|memory_kernel_usage|memory_rss|memory_max_usage_bytes|memory_total_active_file_.*|memory_total_inactive_file_.*|tasks_state|threads.*|sockets|ulimits_soft|file_descriptors|pressure_.*|llc_.*|psi_.*)"
       		action        = "drop"
       	}
 
