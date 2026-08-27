@@ -1,0 +1,139 @@
+crds:
+  create: false
+
+alloy:
+  configMap:
+    create: true
+    name: alloy-config
+    content: |-
+      discovery.kubernetes "kubelet" {
+      	role = "node"
+      }
+
+      discovery.relabel "kubelet" {
+      	targets = discovery.kubernetes.kubelet.targets
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_node_address_InternalIP"]
+      		replacement   = "${1}:10250"
+      		target_label  = "__address__"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_node_name"]
+      		target_label  = "node"
+      	}
+
+      	rule {
+      		target_label = "__scheme__"
+      		replacement  = "https"
+      	}
+
+      	rule {
+      		target_label = "__metrics_path__"
+      		replacement  = "/metrics/cadvisor"
+      	}
+      }
+
+      discovery.kubernetes "services" {
+      	role = "service"
+      }
+
+      discovery.relabel "kube_state_metrics" {
+      	targets = discovery.kubernetes.services.targets
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_service_name"]
+      		regex         = "monitoring;kube-state-metrics"
+      		action        = "keep"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_namespace"]
+      		target_label  = "namespace"
+      	}
+
+      	rule {
+      		source_labels = ["__meta_kubernetes_service_name"]
+      		target_label  = "service"
+      	}
+      }
+
+      prometheus.scrape "kubelet_cadvisor" {
+      	targets           = discovery.relabel.kubelet.output
+      	forward_to        = [prometheus.remote_write.grafana_cloud.receiver]
+      	job               = "integrations/kubernetes/kubelet"
+      	scrape_interval   = "30s"
+      	bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+
+      	tls_config {
+      		ca_file              = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+      		insecure_skip_verify = true
+      	}
+
+      	metric_relabel_rules {
+      		source_labels = ["__name__"]
+      		regex         = "container_(network_tcp_usage_seen_bytes|memory_mapped_file|spec_memory_reservation_limit_bytes|spec_memory_swap_limit_bytes|spec_memory_swappiness|spec_cpu_quota|spec_cpu_period|spec_cpu_shares|spec_cpu_limit|spec_memory_limit|spec_oom_kill_disable)"
+      		action        = "drop"
+      	}
+      }
+
+      prometheus.scrape "kube_state_metrics" {
+      	targets         = discovery.relabel.kube_state_metrics.output
+      	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+      	job             = "integrations/kubernetes/kube-state-metrics"
+      	scrape_interval = "30s"
+      }
+
+      prometheus.remote_write "grafana_cloud" {
+      	endpoint {
+      		url = "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"
+
+      		basic_auth {
+      			username      = "1680587"
+      			password_file = "/var/run/alloy/secrets/basic-auth-password"
+      		}
+
+      		queue_config {
+      			capacity             = 10000
+      			max_samples_per_send = 5000
+      			max_shards           = 10
+      		}
+      	}
+      }
+
+  enableReporting: false
+  storagePath: /var/lib/alloy/data
+
+  mounts:
+    extra:
+      - name: grafana-cloud
+        mountPath: /var/run/alloy/secrets
+        readOnly: true
+      - name: alloy-data
+        mountPath: /var/lib/alloy/data
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+
+controller:
+  type: daemonset
+  volumes:
+    extra:
+      - name: grafana-cloud
+        secret:
+          secretName: grafana-cloud
+      - name: alloy-data
+        emptyDir: {}
+
+serviceAccount:
+  create: true
+  name: alloy
+  automountServiceAccountToken: true
+
+rbac:
+  create: true

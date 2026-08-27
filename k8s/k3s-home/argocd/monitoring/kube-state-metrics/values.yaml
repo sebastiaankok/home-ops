@@ -1,0 +1,21 @@
+namespaceOverride: monitoring
+replicas: 1
+automountServiceAccountToken: true
+service:
+  port: 8080
+collectors:
+  - pods
+  - nodes
+  - namespaces
+  - deployments
+  - statefulsets
+  - daemonsets
+  - replicasets
+  - jobs
+  - cronjobs
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    memory: 256Mi

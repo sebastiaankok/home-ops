@@ -44,5 +44,8 @@
     secrets."k3s-home/openmuse-ai.yaml" = {
       sopsFile = ./secrets.sops.yaml;
     };
+    secrets."k3s-home/alloy.yaml" = {
+      sopsFile = ./secrets.sops.yaml;
+    };
   };
 }
