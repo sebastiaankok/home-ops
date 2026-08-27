@@ -62,7 +62,7 @@ alloy:
       prometheus.scrape "kubelet_cadvisor" {
       	targets           = discovery.relabel.kubelet.output
       	forward_to        = [prometheus.remote_write.grafana_cloud.receiver]
-      	job               = "integrations/kubernetes/kubelet"
+      	job_name          = "integrations/kubernetes/kubelet"
       	scrape_interval   = "30s"
       	bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
 
@@ -81,7 +81,7 @@ alloy:
       prometheus.scrape "kube_state_metrics" {
       	targets         = discovery.relabel.kube_state_metrics.output
       	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
-      	job             = "integrations/kubernetes/kube-state-metrics"
+      	job_name        = "integrations/kubernetes/kube-state-metrics"
       	scrape_interval = "30s"
       }
 
