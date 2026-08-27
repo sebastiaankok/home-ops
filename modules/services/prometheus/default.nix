@@ -42,7 +42,7 @@ in
           extraFlags = [
             "--no-collector.softnet"
             "--no-collector.schedstat"
-            "--collector.netdev.device-include=^(eth0|lo|bond.+)$"
+            "--collector.netclass.ignored-devices=^(cilium_|lxc|cali|veth|dummy|tunl|kube|vxlan|cbr|docker|flannel|geneve)"
             "--collector.filesystem.mount-points-include=^(/|/storage)$"
           ];
         };
