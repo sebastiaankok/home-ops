@@ -10,6 +10,12 @@ extraArgs:
   - --no-collector.schedstat
   - --collector.netclass.ignored-devices=^(cilium_|lxc|cali|veth|dummy|tunl|kube|vxlan|cbr|docker|flannel|geneve)
   - --collector.filesystem.mount-points-include=^(/|/storage)$
+  - --collector.systemd.unit-include=dailyBackup|restic-backups-data-b2
+extraHostVolumeMounts:
+  - name: dbus
+    hostPath: /var/run/dbus
+    mountPath: /var/run/dbus
+    readOnly: true
 service:
   port: 9100
 resources:
