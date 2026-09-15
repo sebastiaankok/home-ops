@@ -7,7 +7,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/mbround18/valheim
-          tag: 3.7.0@sha256:c14b968bab17a79e9fd28eb787a89b82d40e47188e6d066bfefd9d506c6360ed
+          tag: 3.8.4@sha256:51569530f7e6b345546958e255fed77c1ccb48624c7af1117455a7b4e0e794f2
         probes:
           liveness:
             enabled: false
