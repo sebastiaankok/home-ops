@@ -27,7 +27,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - repoURL: 'ghcr.io/actions/actions-runner-controller-charts'
       chart: 'gha-runner-scale-set'
-      targetRevision: 0.15.0
+      targetRevision: 0.15.1
       helm:
         releaseName: "gha-runner-scale-set-wodplanner"
         valueFiles:
