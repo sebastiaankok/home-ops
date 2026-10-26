@@ -27,7 +27,7 @@ spec:
         exclude: "{application.yaml,values.yaml}"
     - chart: kube-state-metrics
       repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 8.4.2
+      targetRevision: 8.7.1
       helm:
         releaseName: kube-state-metrics
         valueFiles:
