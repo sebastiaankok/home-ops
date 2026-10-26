@@ -28,7 +28,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: argo-cd
       repoURL: 'https://argoproj.github.io/argo-helm'
-      targetRevision: 10.8.4
+      targetRevision: 10.11.6
       helm:
         valueFiles:
           - $values/k8s/k3s-home/argocd/system/argocd/values.yaml
