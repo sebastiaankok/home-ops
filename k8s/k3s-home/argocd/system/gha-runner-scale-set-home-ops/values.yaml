@@ -3,8 +3,8 @@ nameOverride: &name gha-runner-scale-set-home-ops
 runnerScaleSetName: gha-runner-scale-set-home-ops
 githubConfigUrl: https://github.com/sebastiaankok/home-ops
 githubConfigSecret: pre-defined-secret
-minRunners: 1
-maxRunners: 10
+minRunners: 0
+maxRunners: 0
 containerMode:
   type: kubernetes
   kubernetesModeWorkVolumeClaim:
