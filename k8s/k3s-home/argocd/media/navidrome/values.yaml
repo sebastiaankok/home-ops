@@ -2,6 +2,7 @@
 ---
 controllers:
   navidrome:
+    replicas: 0
     annotations:
       reloader.stakater.com/auto: "true"
     initContainers:
