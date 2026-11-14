@@ -9,7 +9,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/neptunehub/audiomuse-ai
-          tag: 3.6.4
+          tag: 3.7.1
         env:
           SERVICE_TYPE: flask
           TZ: Europe/Amsterdam
@@ -70,7 +70,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/neptunehub/audiomuse-ai
-          tag: 3.6.4
+          tag: 3.7.1
         env:
           SERVICE_TYPE: worker
           TZ: Europe/Amsterdam
