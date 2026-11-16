@@ -4,6 +4,14 @@ global:
 configs:
   params:
     server.insecure: "true"
+    # Extra namespaces ArgoCD reconciles Applications from, on top of its own
+    # `argocd` namespace, which is always included and keeps hosting every
+    # platform Application (alloy, immich, ...). `yaaabk` hosts the Application
+    # resource for each YAAABK Project; those Projects' workloads still land in
+    # their own `yaaabk-<id>` namespace. The `yaaabk` AppProject must also list
+    # `yaaabk` in its `spec.sourceNamespaces`, or ArgoCD rejects them as a
+    # permission violation.
+    application.namespaces: "yaaabk"
   cm:
     accounts.readonly: apiKey
     accounts.wodplanner: apiKey
