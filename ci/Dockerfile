@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ghcr.io/home-operations/actions-runner:2.338.1
+FROM ghcr.io/home-operations/actions-runner:2.338.2
 USER root
 RUN \
     apt-get -qq update && \
