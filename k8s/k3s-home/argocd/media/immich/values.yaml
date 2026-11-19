@@ -99,7 +99,7 @@ controllers:
       app:
         image:
           repository: valkey/valkey
-          tag: 9.1.2
+          tag: 9.2.0
 
 service:
   server:
